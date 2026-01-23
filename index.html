@@ -1,186 +1,309 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FinanPro - Gestão</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
 
-      <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/10149/10149458.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinanPro - Gestão</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
 
-    />
-    <style>
-      body {
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-size: 14px;
-      }
-      .sidebar-item.active {
-        background: #4f46e5 !important;
-        color: white !important;
-      }
-      .tab-content {
-        display: none;
-      }
-      .tab-content.active {
-        display: block;
-      }
-      input,
-      select,
-      button {
-        font-size: 13px !important;
-        padding: 10px 12px !important;
-        border-radius: 10px !important;
-        height: 42px;
-      }
-      th {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #64748b;
-        padding: 12px 8px !important;
-      }
-      td {
-        padding: 10px 8px !important;
-        border-bottom: 1px solid #f1f5f9;
-      }
-      .card-valor {
-        font-size: 1.6rem !important;
-        font-weight: 800;
-        line-height: 1;
-      }
-      .atrasado {
-        color: #ef4444 !important;
-        font-weight: 700;
-      }
-      .text-pequeno {
-        font-size: 11px;
-      }
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/10149/10149458.png">
 
-@media (max-width: 768px) {
-    main {
-        padding-bottom: 80px !important; /* Espaço para não cobrir o último botão */
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">/>
+
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 14px;
     }
+
+    .sidebar-item.active {
+      background: #4f46e5 !important;
+      color: white !important;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    input,
+    select,
+    button {
+      font-size: 13px !important;
+      padding: 10px 12px !important;
+      border-radius: 10px !important;
+      height: 42px;
+    }
+
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      padding: 12px 8px !important;
+    }
+
+    td {
+      padding: 10px 8px !important;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
     .card-valor {
-        font-size: 1.3rem !important; /* Diminui um pouco o texto no celular */
+      font-size: 1.6rem !important;
+      font-weight: 800;
+      line-height: 1;
     }
-}
 
-    </style>
-  </head>
-  <body class="bg-[#f8fafc] text-slate-800">
-    <div
-      id="telaLogin"
-      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900 p-4"
-    >
-      <div
-        class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center"
-      >
-        <h2 class="text-xl font-bold mb-6">Acesso ao Sistema</h2>
-        <input
-          type="password"
-          id="inputSenha"
-          placeholder="Digite a senha"
-          class="w-full bg-slate-100 border-none text-center mb-4 outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <button
-          onclick="verificarSenha()"
-          class="w-full bg-indigo-600 text-white font-bold h-12 hover:bg-indigo-700 transition-all"
-        >
-          Entrar
+    .atrasado {
+      color: #ef4444 !important;
+      font-weight: 700;
+    }
+
+    .text-pequeno {
+      font-size: 11px;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding-bottom: 80px !important;
+        /* Espaço para não cobrir o último botão */
+      }
+
+      .card-valor {
+        font-size: 1.3rem !important;
+        /* Diminui um pouco o texto no celular */
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-[#f8fafc] text-slate-800">
+  <div id="telaLogin" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900 p-4">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center">
+      <h2 class="text-xl font-bold mb-6">Acesso ao Sistema</h2>
+      <input type="password" id="inputSenha" placeholder="Digite a senha"
+        class="w-full bg-slate-100 border-none text-center mb-4 outline-none focus:ring-2 focus:ring-indigo-500" />
+      <button onclick="verificarSenha()"
+        class="w-full bg-indigo-600 text-white font-bold h-12 hover:bg-indigo-700 transition-all">
+        Entrar
+      </button>
+    </div>
+  </div>
+
+  <div id="app" class="hidden min-h-screen flex flex-col md:flex-row">
+    <aside class="w-full md:w-60 bg-white border-r border-slate-200 p-5 flex flex-col">
+      <div class="font-extrabold italic mb-10 text-lg tracking-tight">
+        FINAN<span class="text-indigo-600">WF</span>
+      </div>
+      <nav class="space-y-2 flex-1">
+        <button onclick="mudarTab('dash', this)"
+          class="sidebar-item active w-full text-left px-4 py-3 rounded-xl font-semibold">
+          Dashboard
+        </button>
+        <button onclick="mudarTab('lancar', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
+          Lançar
+        </button>
+        <button onclick="mudarTab('vencimentos', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
+          Vencimentos
+        </button>
+        <button onclick="mudarTab('config', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
+          Config
+        </button>
+      </nav>
+
+      <div class="mt-auto pt-10">
+        <button onclick="fazerLogout()"
+          class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-rose-500 hover:bg-rose-50 transition-all border border-rose-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Sair do Sistema
         </button>
       </div>
-    </div>
+    </aside>
 
-    <div id="app" class="hidden min-h-screen flex flex-col md:flex-row">
-      <aside
-        class="w-full md:w-60 bg-white border-r border-slate-200 p-5 flex flex-col"
-      >
-        <div class="font-extrabold italic mb-10 text-lg tracking-tight">
-          FINAN<span class="text-indigo-600">WF</span>
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto h-screen">
+      <header class="flex justify-between items-center mb-8">
+        <h1 class="text-xl font-extrabold">Controle de Gastos 👋</h1>
+        <div class="flex gap-2">
+          <select id="filtroCategoria" onchange="filtrarERenderizar()"
+            class="bg-white border border-slate-200 shadow-sm outline-none px-4">
+            <option value="todos">Todas Categorias</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Aluguel/Fixo</option>
+            <option>Mercado</option>
+            <option>Outros</option>
+          </select>
+
+          <select id="filtroMes" onchange="atualizarTabela()"
+            class="bg-white border border-slate-200 shadow-sm outline-none px-4">
+            <option value="todos">Todos os Meses</option>
+            <option value="01">Jan</option>
+            <option value="02">Fev</option>
+            <option value="03">Mar</option>
+            <option value="04">Abr</option>
+            <option value="05">Mai</option>
+            <option value="06">Jun</option>
+            <option value="07">Jul</option>
+            <option value="08">Ago</option>
+            <option value="09">Set</option>
+            <option value="10">Out</option>
+            <option value="11">Nov</option>
+            <option value="12">Dez</option>
+          </select>
         </div>
-        <nav class="space-y-2 flex-1">
-          <button
-            onclick="mudarTab('dash', this)"
-            class="sidebar-item active w-full text-left px-4 py-3 rounded-xl font-semibold"
-          >
-            Dashboard
-          </button>
-          <button
-            onclick="mudarTab('lancar', this)"
-            class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50"
-          >
-            Lançar
-          </button>
-          <button
-            onclick="mudarTab('vencimentos', this)"
-            class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50"
-          >
-            Vencimentos
-          </button>
-          <button
-            onclick="mudarTab('config', this)"
-            class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50"
-          >
-            Config
-          </button>
-        </nav>
+      </header>
 
-        <div class="mt-auto pt-10">
-          <button
-            onclick="fazerLogout()"
-            class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-rose-500 hover:bg-rose-50 transition-all border border-rose-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
-            Sair do Sistema
-          </button>
+      <div id="tab-dash" class="tab-content active space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm border-l-4 border-l-emerald-400">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
+              Receitas
+            </p>
+            <h3 id="cardReceitas" class="card-valor text-emerald-600">
+              R$ 0,00
+            </h3>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
+              Total Pago
+            </p>
+            <h3 id="cardPago" class="card-valor text-emerald-600">R$ 0,00</h3>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-l-4 border-l-amber-400 shadow-sm">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
+              Pendente
+            </p>
+            <h3 id="cardPendente" class="card-valor text-slate-800">
+              R$ 0,00
+            </h3>
+          </div>
+
+          <div class="bg-indigo-600 p-6 rounded-2xl text-white shadow-lg">
+            <p class="text-pequeno font-bold text-indigo-200 uppercase mb-2">
+              Saldo Livre
+            </p>
+            <h3 id="cardSaldoRestante" class="card-valor">R$ 0,00</h3>
+          </div>
         </div>
-      </aside>
+        <div class="bg-white p-4 rounded-2xl border border-slate-100 h-48 shadow-sm">
+          <canvas id="meuGrafico"></canvas>
+        </div>
 
-      <main class="flex-1 p-6 md:p-10 overflow-y-auto h-screen">
-        <header class="flex justify-between items-center mb-8">
-          <h1 class="text-xl font-extrabold">Controle de Gastos 👋</h1>
-          <div class="flex gap-2">
-            <select
-              id="filtroCategoria"
-              onchange="filtrarERenderizar()"
-              class="bg-white border border-slate-200 shadow-sm outline-none px-4"
-            >
-              <option value="todos">Todas Categorias</option>
-              <option>Lazer</option>
-              <option>Saúde</option>
-              <option>Educação</option>
-              <option>Aluguel/Fixo</option>
-              <option>Mercado</option>
-              <option>Outros</option>
-            </select>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden italic">
+          <table class="w-full text-left">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="pl-6">Gasto / Categoria</th>
+                <th class="text-center">Vencimento</th>
+                <th class="text-right">Valor</th>
+                <th class="text-center pr-6">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="corpoTabela"></tbody>
+          </table>
+        </div>
+      </div>
 
-            <select
-              id="filtroMes"
-              onchange="atualizarTabela()"
-              class="bg-white border border-slate-200 shadow-sm outline-none px-4"
-            >
-              <option value="todos">Todos os Meses</option>
+      <div id="tab-lancar" class="tab-content">
+        <div class="max-w-2xl mx-auto">
+          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl relative overflow-hidden">
+            <input type="hidden" id="editId" value="" />
+            <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
+
+            <div class="mb-8">
+              <h3 class="text-2xl font-extrabold text-slate-800">
+                Novo Registro
+              </h3>
+              <p class="text-slate-500 text-sm">
+                Preencha todos os campos para organizar suas finanças.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">Descrição do Gasto</label>
+                <input type="text" id="desc" placeholder="Ex: Compras Supermercado"
+                  class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">Valor (R$)</label>
+                <input type="number" id="valor" placeholder="0,00"
+                  class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50 font-bold text-indigo-600" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">Nº de Parcelas</label>
+                <input type="number" id="parcelas" value="1" min="1"
+                  class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">Categoria</label>
+                <select id="categoria"
+                  class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50">
+                  <option value="">Selecione...</option>
+                  <option>Lazer</option>
+                  <option>Saúde</option>
+                  <option>Educação</option>
+                  <option>Aluguel/Fixo</option>
+                  <option>Mercado</option>
+                  <option>Outros</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">Data da Compra</label>
+                <input type="date" id="data"
+                  class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50" />
+              </div>
+            </div>
+
+            <div class="mt-10">
+              <button onclick="lancar()" id="btnLancar"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold h-14 rounded-2xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 text-base">
+                <span>Confirmar Lançamento</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-vencimentos" class="tab-content space-y-6">
+        <div class="bg-white p-6 rounded-2xl border shadow-sm italic">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">Contas Pendentes</h3>
+            <div class="text-indigo-600 font-bold bg-indigo-50 px-4 py-2 rounded-xl">
+              Total Filtro: <span id="totalVencimentoFiltro">R$ 0,00</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 items-end">
+            <select id="filtroMesVenc" class="border">
+              <option value="todos">Todos Meses</option>
               <option value="01">Jan</option>
               <option value="02">Fev</option>
               <option value="03">Mar</option>
@@ -194,475 +317,245 @@
               <option value="11">Nov</option>
               <option value="12">Dez</option>
             </select>
+            <input type="date" id="buscaInicio" class="border" />
+            <input type="date" id="buscaFim" class="border" />
+            <button onclick="renderizarAbaVencimentos()" class="bg-indigo-600 text-white font-bold">
+              Filtrar
+            </button>
           </div>
-        </header>
+          <table class="w-full text-left">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="pl-6">Gasto</th>
+                <th class="text-center">Vencimento</th>
+                <th class="text-right">Valor</th>
+                <th class="text-center pr-6">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="corpoTabelaVencimentos"></tbody>
+          </table>
+        </div>
+      </div>
 
-        <div id="tab-dash" class="tab-content active space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div
-              class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm border-l-4 border-l-emerald-400"
-            >
-              <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
-                Receitas
-              </p>
-              <h3 id="cardReceitas" class="card-valor text-emerald-600">
-                R$ 0,00
-              </h3>
+      <div id="tab-config" class="tab-content">
+        <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
+          <h3 class="text-lg font-bold mb-6">Ajustes</h3>
+          <div class="space-y-4">
+            <label class="text-pequeno font-bold uppercase text-indigo-500">Salário</label>
+            <input type="number" id="inputSalario" class="w-full border font-bold text-lg" />
+            <div class="grid grid-cols-2 gap-4">
+              <input type="number" id="inputFechamento" placeholder="Fechamento" class="border" />
+              <input type="number" id="inputVencimento" placeholder="Vencimento" class="border" />
             </div>
-
-            <div
-              class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm"
-            >
-              <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
-                Total Pago
-              </p>
-              <h3 id="cardPago" class="card-valor text-emerald-600">R$ 0,00</h3>
-            </div>
-
-            <div
-              class="bg-white p-6 rounded-2xl border border-l-4 border-l-amber-400 shadow-sm"
-            >
-              <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
-                Pendente
-              </p>
-              <h3 id="cardPendente" class="card-valor text-slate-800">
-                R$ 0,00
-              </h3>
-            </div>
-
-            <div class="bg-indigo-600 p-6 rounded-2xl text-white shadow-lg">
-              <p class="text-pequeno font-bold text-indigo-200 uppercase mb-2">
-                Saldo Livre
-              </p>
-              <h3 id="cardSaldoRestante" class="card-valor">R$ 0,00</h3>
-            </div>
-          </div>
-          <div
-            class="bg-white p-4 rounded-2xl border border-slate-100 h-48 shadow-sm"
-          >
-            <canvas id="meuGrafico"></canvas>
-          </div>
-
-          <div
-            class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden italic"
-          >
-            <table class="w-full text-left">
-              <thead class="bg-slate-50">
-                <tr>
-                  <th class="pl-6">Gasto / Categoria</th>
-                  <th class="text-center">Vencimento</th>
-                  <th class="text-right">Valor</th>
-                  <th class="text-center pr-6">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="corpoTabela"></tbody>
-            </table>
+            <button onclick="salvarConfig()" class="w-full bg-slate-800 text-white font-bold h-12">
+              Salvar
+            </button>
           </div>
         </div>
+      </div>
+    </main>
+  </div>
 
-        <div id="tab-lancar" class="tab-content">
-          <div class="max-w-2xl mx-auto">
-            <div
-              class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl relative overflow-hidden"
-            >
-              <input type="hidden" id="editId" value="" />
-              <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
+  <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbyHq7VPY7B_M5mzymBqP6IZibzpV5VuPm8xtzz4aMqecEAwE8XjDopOAmGuLqUpLMbo/exec";
+    const SENHA_MESTRA = "1234";
+    let chartInstance = null,
+      todosOsDados = [];
 
-              <div class="mb-8">
-                <h3 class="text-2xl font-extrabold text-slate-800">
-                  Novo Registro
-                </h3>
-                <p class="text-slate-500 text-sm">
-                  Preencha todos os campos para organizar suas finanças.
-                </p>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="md:col-span-2">
-                  <label
-                    class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1"
-                    >Descrição do Gasto</label
-                  >
-                  <input
-                    type="text"
-                    id="desc"
-                    placeholder="Ex: Compras Supermercado"
-                    class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1"
-                    >Valor (R$)</label
-                  >
-                  <input
-                    type="number"
-                    id="valor"
-                    placeholder="0,00"
-                    class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50 font-bold text-indigo-600"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1"
-                    >Nº de Parcelas</label
-                  >
-                  <input
-                    type="number"
-                    id="parcelas"
-                    value="1"
-                    min="1"
-                    class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1"
-                    >Categoria</label
-                  >
-                  <select
-                    id="categoria"
-                    class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50"
-                  >
-                    <option value="">Selecione...</option>
-                    <option>Lazer</option>
-                    <option>Saúde</option>
-                    <option>Educação</option>
-                    <option>Aluguel/Fixo</option>
-                    <option>Mercado</option>
-                    <option>Outros</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1"
-                    >Data da Compra</label
-                  >
-                  <input
-                    type="date"
-                    id="data"
-                    class="w-full border-2 border-slate-100 focus:border-indigo-500 focus:ring-0 transition-all outline-none px-4 bg-slate-50"
-                  />
-                </div>
-              </div>
-
-              <div class="mt-10">
-                <button
-                  onclick="lancar()"
-                  id="btnLancar"
-                  class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold h-14 rounded-2xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 text-base"
-                >
-                  <span>Confirmar Lançamento</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="tab-vencimentos" class="tab-content space-y-6">
-          <div class="bg-white p-6 rounded-2xl border shadow-sm italic">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="text-lg font-bold">Contas Pendentes</h3>
-              <div
-                class="text-indigo-600 font-bold bg-indigo-50 px-4 py-2 rounded-xl"
-              >
-                Total Filtro: <span id="totalVencimentoFiltro">R$ 0,00</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 items-end">
-              <select id="filtroMesVenc" class="border">
-                <option value="todos">Todos Meses</option>
-                <option value="01">Jan</option>
-                <option value="02">Fev</option>
-                <option value="03">Mar</option>
-                <option value="04">Abr</option>
-                <option value="05">Mai</option>
-                <option value="06">Jun</option>
-                <option value="07">Jul</option>
-                <option value="08">Ago</option>
-                <option value="09">Set</option>
-                <option value="10">Out</option>
-                <option value="11">Nov</option>
-                <option value="12">Dez</option>
-              </select>
-              <input type="date" id="buscaInicio" class="border" />
-              <input type="date" id="buscaFim" class="border" />
-              <button
-                onclick="renderizarAbaVencimentos()"
-                class="bg-indigo-600 text-white font-bold"
-              >
-                Filtrar
-              </button>
-            </div>
-            <table class="w-full text-left">
-              <thead class="bg-slate-50">
-                <tr>
-                  <th class="pl-6">Gasto</th>
-                  <th class="text-center">Vencimento</th>
-                  <th class="text-right">Valor</th>
-                  <th class="text-center pr-6">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="corpoTabelaVencimentos"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="tab-config" class="tab-content">
-          <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
-            <h3 class="text-lg font-bold mb-6">Ajustes</h3>
-            <div class="space-y-4">
-              <label class="text-pequeno font-bold uppercase text-indigo-500"
-                >Salário</label
-              >
-              <input
-                type="number"
-                id="inputSalario"
-                class="w-full border font-bold text-lg"
-              />
-              <div class="grid grid-cols-2 gap-4">
-                <input
-                  type="number"
-                  id="inputFechamento"
-                  placeholder="Fechamento"
-                  class="border"
-                />
-                <input
-                  type="number"
-                  id="inputVencimento"
-                  placeholder="Vencimento"
-                  class="border"
-                />
-              </div>
-              <button
-                onclick="salvarConfig()"
-                class="w-full bg-slate-800 text-white font-bold h-12"
-              >
-                Salvar
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-
-    <script>
-      const API_URL =
-        "https://script.google.com/macros/s/AKfycbzTV_JdE39qHWn2wwuQOKJmJxADe85Ejji82XgZwCJrtwr8AYwz1WcLgOUJmC3TZ9ve/exec";
-      const SENHA_MESTRA = "1234";
-      let chartInstance = null,
-        todosOsDados = [];
-
-      // Verifica se já existe uma sessão ativa ao carregar a página
-      window.onload = function () {
-        if (localStorage.getItem("logadoFinan") === "true") {
-          mostrarApp();
-        }
-      };
-
-      function verificarSenha() {
-        const senhaDigitada = document.getElementById("inputSenha").value;
-        if (senhaDigitada === SENHA_MESTRA) {
-          localStorage.setItem("logadoFinan", "true"); // Salva que você está logado
-          mostrarApp();
-        } else {
-          alert("Senha incorreta!");
-        }
+    // Verifica se já existe uma sessão ativa ao carregar a página
+    window.onload = function () {
+      if (localStorage.getItem("logadoFinan") === "true") {
+        mostrarApp();
       }
+    };
 
-      function mostrarApp() {
-        document.getElementById("telaLogin").classList.add("hidden");
-        document.getElementById("app").classList.remove("hidden");
-        atualizarTabela();
+    function verificarSenha() {
+      const senhaDigitada = document.getElementById("inputSenha").value;
+      if (senhaDigitada === SENHA_MESTRA) {
+        localStorage.setItem("logadoFinan", "true"); // Salva que você está logado
+        mostrarApp();
+      } else {
+        alert("Senha incorreta!");
       }
-
-      function fazerLogout() {
-        if (confirm("Deseja realmente sair do sistema?")) {
-          localStorage.removeItem("logadoFinan"); // Remove a lembrança da senha
-          location.reload(); // Recarrega a página para voltar à tela de login
-        }
-      }
-
-      // FUNÇÃO PARA LIMPAR DATA (ISO PARA PT-BR)
-      function formatarData(dataRaw) {
-        if (!dataRaw) return "-";
-        if (typeof dataRaw === "string" && dataRaw.includes("T")) {
-          const d = new Date(dataRaw);
-          return d.toLocaleDateString("pt-BR", { timeZone: "UTC" });
-        }
-        return dataRaw;
-      }
-
-      async function atualizarTabela() {
-        try {
-          const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}`);
-          const d = await r.json();
-          todosOsDados = d.lista;
-
-          // Define o valor do salário no input invisível para cálculos
-          document.getElementById("inputSalario").value = d.salario;
-          document.getElementById("cardReceitas").innerText = parseFloat(
-            d.salario || 0,
-          ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-          // Em vez de renderizar fixo, chama a função de filtro que já faz tudo
-          filtrarERenderizar();
-        } catch (e) {
-          console.error("Erro ao atualizar", e);
-        }
-      }
-
-      function renderizarLinhas(lista, idTabela) {
-        const hoje = new Date();
-        hoje.setHours(0, 0, 0, 0);
-        const tbody = document.getElementById(idTabela);
-
-        tbody.innerHTML = lista
-          .map((l) => {
-            let vencFormatado = formatarData(l[5]); // Vencimento agora é índice 5
-            const partes = vencFormatado.split("/");
-            const dataVencObj = new Date(partes[2], partes[1] - 1, partes[0]);
-            const isAtrasado = dataVencObj <= hoje && l[6] !== "Pago";
-
-            return `
-        <tr class="hover:bg-slate-50 transition-colors">
-          <td class="pl-6 py-4">
-            <div class="font-bold text-slate-800">${l[3]}</div> <div class="text-pequeno text-indigo-500 font-semibold uppercase">${l[7]} | ${l[2]}</div> </td>
-          <td class="text-center font-medium ${isAtrasado ? "atrasado" : "text-slate-500"}">${vencFormatado}</td>
-          <td class="text-right font-extrabold text-slate-900">R$ ${parseFloat(l[4]).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
-          <td class="text-center pr-6">
-           
-<div class="flex justify-center gap-2">
-  ${l[6] !== "Pago" ? `<button onclick="acao('baixar','${l[0]}')" class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-xs font-bold">Pagar</button>` : `<span class="text-emerald-500 font-bold text-xs">PAGO</span>`}
-  
-  <button onclick="prepararEdicao('${l[0]}')" class="text-indigo-500 hover:text-indigo-700 p-2 transition-all">✏️</button>
-  
-  <button onclick="acao('excluir','${l[0]}')" class="text-slate-300 hover:text-rose-500 p-2 transition-all">🗑</button>
-</div>
-          </td>
-        </tr>`;
-          })
-          .reverse()
-          .join("");
-      }
-
-      // 1. Puxa os dados da tabela para o formulário
-      function prepararEdicao(id) {
-        const item = todosOsDados.find((l) => l[0] == id);
-        if (!item) return;
-
-        document.getElementById("editId").value = item[0];
-        document.getElementById("desc").value = item[3];
-        document.getElementById("valor").value = item[4];
-        document.getElementById("categoria").value = item[7];
-
-        // Formata a data para o padrão do input date (YYYY-MM-DD)
-        const dataIso = new Date(item[5]).toISOString().split("T")[0];
-        document.getElementById("data").value = dataIso;
-
-        document.getElementById("btnLancar").innerHTML =
-          "<span>Salvar Alterações</span>";
-        mudarTab("lancar", document.querySelectorAll(".sidebar-item")[1]);
-      }
-
-      function filtrarERenderizar() {
-        const mesSelecionado = document.getElementById("filtroMes").value;
-        const catSelecionada = document.getElementById("filtroCategoria").value;
-        const sal = parseFloat(
-          document.getElementById("inputSalario").value || 0,
-        );
-
-        let dadosFiltrados = todosOsDados;
-
-        // 1. Aplicar Filtro de Mês
-        if (mesSelecionado !== "todos") {
-          dadosFiltrados = dadosFiltrados.filter(
-            (l) => formatarData(l[5]).split("/")[1] === mesSelecionado,
-          );
-        }
-
-        // 2. Aplicar Filtro de Categoria
-        if (catSelecionada !== "todos") {
-          dadosFiltrados = dadosFiltrados.filter(
-            (l) => l[7] === catSelecionada,
-          );
-        }
-
-        // 3. RECALCULAR TOTAIS DOS CARDS (Baseado no Filtro)
-        let vPago = 0;
-        let vPendente = 0;
-        let resumoCategoria = {};
-
-        dadosFiltrados.forEach((l) => {
-          const valor = parseFloat(l[4]) || 0;
-          const status = l[6];
-          const cat = l[7] || "Outros";
-
-          if (status === "Pago") vPago += valor;
-          else vPendente += valor;
-
-          // Prepara dados para o gráfico filtrado
-          resumoCategoria[cat] = (resumoCategoria[cat] || 0) + valor;
-        });
-
-        // 4. ATUALIZAR INTERFACE (Cards e Gráfico)
-        document.getElementById("cardPago").innerText = vPago.toLocaleString(
-          "pt-BR",
-          { style: "currency", currency: "BRL" },
-        );
-        document.getElementById("cardPendente").innerText =
-          vPendente.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          });
-
-        // O saldo livre aqui considera: Salário (total) - Gastos Filtrados
-        const saldoLivre = sal - (vPago + vPendente);
-        document.getElementById("cardSaldoRestante").innerText =
-          saldoLivre.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          });
-
-        // Renderiza a tabela e o gráfico com os dados filtrados
-        renderizarLinhas(dadosFiltrados, "corpoTabela");
-        renderizarGrafico(resumoCategoria);
-      }
-      async function lancar() {
-    const editId = document.getElementById("editId").value;
-    const desc = document.getElementById("desc").value.trim();
-    const valor = document.getElementById("valor").value;
-    const categoria = document.getElementById("categoria").value;
-    const data = document.getElementById("data").value;
-    const parcelas = document.getElementById("parcelas").value;
-    const btn = document.getElementById("btnLancar");
-
-    if (!desc || !valor || !categoria || !data || !parcelas) {
-        alert("⚠️ Por favor, preencha todos os campos!");
-        return;
     }
 
-    btn.disabled = true;
-    btn.innerHTML = "<span>Processando...</span>";
+    function mostrarApp() {
+      document.getElementById("telaLogin").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
+      atualizarTabela();
+    }
 
-    // MONTANDO O OBJETO DE ENVIO
-    const p = {
+    function fazerLogout() {
+      if (confirm("Deseja realmente sair do sistema?")) {
+        localStorage.removeItem("logadoFinan"); // Remove a lembrança da senha
+        location.reload(); // Recarrega a página para voltar à tela de login
+      }
+    }
+
+    // FUNÇÃO PARA LIMPAR DATA (ISO PARA PT-BR)
+    function formatarData(dataRaw) {
+      if (!dataRaw) return "-";
+      if (typeof dataRaw === "string" && dataRaw.includes("T")) {
+        const d = new Date(dataRaw);
+        return d.toLocaleDateString("pt-BR", { timeZone: "UTC" });
+      }
+      return dataRaw;
+    }
+
+    async function atualizarTabela() {
+      try {
+        const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}`);
+        const d = await r.json();
+        todosOsDados = d.lista;
+
+        // Define o valor do salário no input invisível para cálculos
+        document.getElementById("inputSalario").value = d.salario;
+        document.getElementById("cardReceitas").innerText = parseFloat(
+          d.salario || 0,
+        ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+        // Em vez de renderizar fixo, chama a função de filtro que já faz tudo
+        filtrarERenderizar();
+      } catch (e) {
+        console.error("Erro ao atualizar", e);
+      }
+    }
+
+    function renderizarLinhas(lista, idTabela) {
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const tbody = document.getElementById(idTabela);
+
+  tbody.innerHTML = lista.map((l) => {
+    // MAPEAMENTO: 0:ID, 2:Parcela, 3:Desc, 4:Valor, 5:Venc, 6:Status, 7:Cat
+    const valorNum = parseFloat(String(l[4]).replace(',', '.')) || 0;
+    const isPago = l[6] === "Pago";
+    
+    // Formata data para comparação de atraso
+    const p = l[5].split("/");
+    const dataVenc = new Date(p[2], p[1]-1, p[0]);
+    const isAtrasado = dataVenc < hoje && !isPago;
+
+    return `
+      <tr class="hover:bg-slate-50">
+        <td class="pl-6 py-4">
+          <div class="font-bold">${l[3]}</div>
+          <div class="text-[10px] text-indigo-500 font-bold uppercase">${l[7]} | ${l[2]}</div>
+        </td>
+        <td class="text-center ${isAtrasado ? 'text-red-500 font-bold' : 'text-slate-500'}">${l[5]}</td>
+        <td class="text-right font-bold">R$ ${valorNum.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+        <td class="text-center pr-6">
+          <div class="flex gap-2 justify-center">
+            ${!isPago ? `<button onclick="acao('baixar','${l[0]}')" class="bg-emerald-500 text-white px-2 py-1 rounded text-[10px]">PAGAR</button>` : `<span class="text-emerald-500 font-bold text-[10px]">PAGO</span>`}
+            <button onclick="prepararEdicao('${l[0]}')" class="text-indigo-500">✏️</button>
+            <button onclick="acao('excluir','${l[0]}')" class="text-slate-300">🗑</button>
+          </div>
+        </td>
+      </tr>`;
+  }).reverse().join("");
+}
+
+    // 1. Puxa os dados da tabela para o formulário
+    function prepararEdicao(id) {
+      const item = todosOsDados.find((l) => l[0] == id);
+      if (!item) return;
+
+      document.getElementById("editId").value = item[0];
+      document.getElementById("desc").value = item[3];
+      document.getElementById("valor").value = item[4];
+      document.getElementById("categoria").value = item[7];
+
+      // Formata a data para o padrão do input date (YYYY-MM-DD)
+      const dataIso = new Date(item[5]).toISOString().split("T")[0];
+      document.getElementById("data").value = dataIso;
+
+      document.getElementById("btnLancar").innerHTML =
+        "<span>Salvar Alterações</span>";
+      mudarTab("lancar", document.querySelectorAll(".sidebar-item")[1]);
+    }
+
+    function filtrarERenderizar() {
+      const mesSelecionado = document.getElementById("filtroMes").value;
+      const catSelecionada = document.getElementById("filtroCategoria").value;
+      const sal = parseFloat(
+        document.getElementById("inputSalario").value || 0,
+      );
+
+      let dadosFiltrados = todosOsDados;
+
+      // 1. Aplicar Filtro de Mês
+      if (mesSelecionado !== "todos") {
+        dadosFiltrados = dadosFiltrados.filter(
+          (l) => formatarData(l[5]).split("/")[1] === mesSelecionado,
+        );
+      }
+
+      // 2. Aplicar Filtro de Categoria
+      if (catSelecionada !== "todos") {
+        dadosFiltrados = dadosFiltrados.filter(
+          (l) => l[7] === catSelecionada,
+        );
+      }
+
+      // 3. RECALCULAR TOTAIS DOS CARDS (Baseado no Filtro)
+      let vPago = 0;
+      let vPendente = 0;
+      let resumoCategoria = {};
+
+      dadosFiltrados.forEach((l) => {
+        const valor = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        const status = l[6];
+        const cat = l[7] || "Outros";
+
+        if (status === "Pago") vPago += valor;
+        else vPendente += valor;
+
+        resumoCategoria[cat] = (resumoCategoria[cat] || 0) + valor;
+      });
+
+      // 4. ATUALIZAR INTERFACE (Cards e Gráfico)
+      document.getElementById("cardPago").innerText = vPago.toLocaleString(
+        "pt-BR",
+        { style: "currency", currency: "BRL" },
+      );
+      document.getElementById("cardPendente").innerText =
+        vPendente.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+      // O saldo livre aqui considera: Salário (total) - Gastos Filtrados
+      const saldoLivre = sal - (vPago + vPendente);
+      document.getElementById("cardSaldoRestante").innerText =
+        saldoLivre.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+      // Renderiza a tabela e o gráfico com os dados filtrados
+      renderizarLinhas(dadosFiltrados, "corpoTabela");
+      renderizarGrafico(resumoCategoria);
+    }
+    async function lancar() {
+      const editId = document.getElementById("editId").value;
+      const desc = document.getElementById("desc").value.trim();
+      const valor = document.getElementById("valor").value;
+      const categoria = document.getElementById("categoria").value;
+      const data = document.getElementById("data").value;
+      const parcelas = document.getElementById("parcelas").value;
+      const btn = document.getElementById("btnLancar");
+
+      if (!desc || !valor || !categoria || !data || !parcelas) {
+        alert("⚠️ Por favor, preencha todos os campos!");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = "<span>Processando...</span>";
+
+      // MONTANDO O OBJETO DE ENVIO
+      const p = {
         senha: SENHA_MESTRA,
         action: editId ? "editar" : "lancar", // Se tem ID, a ação é EDITAR
         id: editId, // Envia o ID para o Google saber qual linha alterar
@@ -671,140 +564,141 @@
         categoria: categoria,
         data: data,
         parcelas: parcelas,
-    };
+      };
 
-    try {
-        const response = await fetch(API_URL, { 
-            method: "POST", 
-            body: JSON.stringify(p) 
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(p)
         });
 
         if (response.ok) {
-            alert(editId ? "✅ Alterado com sucesso!" : "✅ Lançado com sucesso!");
-            
-            // LIMPEZA DOS CAMPOS E RESET DO FORMULÁRIO
-            document.getElementById("editId").value = "";
-            document.getElementById("desc").value = "";
-            document.getElementById("valor").value = "";
-            document.getElementById("categoria").value = "";
-            document.getElementById("data").value = "";
-            document.getElementById("parcelas").value = "1";
-            btn.innerHTML = "<span>Confirmar Lançamento</span>";
-            
-            mudarTab("dash", document.querySelector(".sidebar-item"));
-            atualizarTabela();
+          alert(editId ? "✅ Alterado com sucesso!" : "✅ Lançado com sucesso!");
+
+          // LIMPEZA DOS CAMPOS E RESET DO FORMULÁRIO
+          document.getElementById("editId").value = "";
+          document.getElementById("desc").value = "";
+          document.getElementById("valor").value = "";
+          document.getElementById("categoria").value = "";
+          document.getElementById("data").value = "";
+          document.getElementById("parcelas").value = "1";
+          btn.innerHTML = "<span>Confirmar Lançamento</span>";
+
+          mudarTab("dash", document.querySelector(".sidebar-item"));
+          atualizarTabela();
         }
-    } catch (error) {
+      } catch (error) {
         alert("❌ Erro na conexão.");
-    } finally {
+      } finally {
         btn.disabled = false;
+      }
     }
-}
 
-      async function acao(tipo, id) {
-        if (!confirm("Confirmar?")) return;
-        await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}`);
-        atualizarTabela();
-        if (
-          document
-            .getElementById("tab-vencimentos")
-            .classList.contains("active")
-        )
-          renderizarAbaVencimentos();
-      }
-
-      async function salvarConfig() {
-        const f = document.getElementById("inputFechamento").value;
-        const v = document.getElementById("inputVencimento").value;
-        const s = document.getElementById("inputSalario").value;
-        await fetch(
-          `${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&fechamento=${f}&vencimento=${v}&salario=${s}`,
-        );
-        alert("Salvo!");
-        atualizarTabela();
-      }
-
-      function mudarTab(id, el) {
+    async function acao(tipo, id) {
+      if (!confirm("Confirmar?")) return;
+      await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}`);
+      atualizarTabela();
+      if (
         document
-          .querySelectorAll(".tab-content")
-          .forEach((t) => t.classList.remove("active"));
-        document.getElementById("tab-" + id).classList.add("active");
-        document.querySelectorAll(".sidebar-item").forEach((b) => {
-          b.classList.remove("active");
-          b.classList.add("text-slate-500");
-        });
-        el.classList.add("active");
-        el.classList.remove("text-slate-500");
-        if (id === "vencimentos") renderizarAbaVencimentos();
-      }
+          .getElementById("tab-vencimentos")
+          .classList.contains("active")
+      )
+        renderizarAbaVencimentos();
+    }
 
-      function renderizarGrafico(cat) {
-        const ctx = document.getElementById("meuGrafico").getContext("2d");
-        if (chartInstance) chartInstance.destroy();
-        chartInstance = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: Object.keys(cat),
-            datasets: [
-              {
-                data: Object.values(cat),
-                backgroundColor: "#4f46e5",
-                borderRadius: 8,
-              },
-            ],
-          },
-          options: {
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-          },
-        });
-      }
+    async function salvarConfig() {
+      const f = document.getElementById("inputFechamento").value;
+      const v = document.getElementById("inputVencimento").value;
+      const s = document.getElementById("inputSalario").value;
+      await fetch(
+        `${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&fechamento=${f}&vencimento=${v}&salario=${s}`,
+      );
+      alert("Salvo!");
+      atualizarTabela();
+    }
 
-      function renderizarAbaVencimentos() {
-        const mesSelec = document.getElementById("filtroMesVenc").value;
-        const inicio = document.getElementById("buscaInicio").value;
-        const fim = document.getElementById("buscaFim").value;
+    function mudarTab(id, el) {
+      document
+        .querySelectorAll(".tab-content")
+        .forEach((t) => t.classList.remove("active"));
+      document.getElementById("tab-" + id).classList.add("active");
+      document.querySelectorAll(".sidebar-item").forEach((b) => {
+        b.classList.remove("active");
+        b.classList.add("text-slate-500");
+      });
+      el.classList.add("active");
+      el.classList.remove("text-slate-500");
+      if (id === "vencimentos") renderizarAbaVencimentos();
+    }
 
-        let filtrados = todosOsDados.filter((l) => l[6] !== "Pago"); // Apenas o que não está pago
+    function renderizarGrafico(cat) {
+      const ctx = document.getElementById("meuGrafico").getContext("2d");
+      if (chartInstance) chartInstance.destroy();
+      chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: Object.keys(cat),
+          datasets: [
+            {
+              data: Object.values(cat),
+              backgroundColor: "#4f46e5",
+              borderRadius: 8,
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+        },
+      });
+    }
 
-        // Filtro por Mês
-        if (mesSelec !== "todos") {
-          filtrados = filtrados.filter(
-            (l) => formatarData(l[5]).split("/")[1] === mesSelec,
-          );
-        }
+    function renderizarAbaVencimentos() {
+      const mesSelec = document.getElementById("filtroMesVenc").value;
+      const inicio = document.getElementById("buscaInicio").value;
+      const fim = document.getElementById("buscaFim").value;
 
-        // Filtro por Intervalo de Data
-        if (inicio && fim) {
-          const dIni = new Date(inicio);
-          const dFim = new Date(fim);
-          filtrados = filtrados.filter((l) => {
-            const dVenc = new Date(l[5]);
-            return dVenc >= dIni && dVenc <= dFim;
-          });
-        }
+      let filtrados = todosOsDados.filter((l) => l[6] !== "Pago"); // Apenas o que não está pago
 
-        // Calcular total do que está filtrado
-        const total = filtrados.reduce(
-          (acc, curr) => acc + (parseFloat(curr[4]) || 0),
-          0,
+      // Filtro por Mês
+      if (mesSelec !== "todos") {
+        filtrados = filtrados.filter(
+          (l) => formatarData(l[5]).split("/")[1] === mesSelec,
         );
-        document.getElementById("totalVencimentoFiltro").innerText =
-          total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-        // Renderizar na tabela de vencimentos
-        renderizarLinhas(filtrados, "corpoTabelaVencimentos");
       }
 
+      // Filtro por Intervalo de Data
+      if (inicio && fim) {
+        const dIni = new Date(inicio);
+        const dFim = new Date(fim);
+        filtrados = filtrados.filter((l) => {
+          const dVenc = new Date(l[5]);
+          return dVenc >= dIni && dVenc <= dFim;
+        });
+      }
 
-      // Ativador do Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log("App Pronto!"))
-    .catch(err => console.log("Erro no App:", err));
-}
-    </script>
+      // Calcular total do que está filtrado
+      const total = filtrados.reduce(
+        (acc, curr) => acc + (parseFloat(curr[4]) || 0),
+        0,
+      );
+      document.getElementById("totalVencimentoFiltro").innerText =
+        total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-   
-  </body>
+      // Renderizar na tabela de vencimentos
+      renderizarLinhas(filtrados, "corpoTabelaVencimentos");
+    }
+
+
+    // Ativador do Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("App Pronto!"))
+        .catch(err => console.log("Erro no App:", err));
+    }
+  </script>
+
+
+</body>
+
 </html>
