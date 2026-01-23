@@ -1,12 +1,12 @@
-const CACHE_NAME = 'finanwf-v1';
+const CACHE_NAME = 'finanpro-v1';
 const assets = [
   './',
   './index.html',
-  './manifest.json',
-  'https://cdn.tailwindcss.com'
+  'https://cdn.tailwindcss.com',
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
-// Instala o Service Worker e guarda os arquivos básicos no cache
+// Instalação do Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -15,7 +15,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Faz o app funcionar mesmo se a internet oscilar
+// Resposta com Cache
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
