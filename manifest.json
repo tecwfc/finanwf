@@ -1,21 +1,17 @@
 {
-  "name": "FinanWF Pro",
+  "name": "FinanWF Gestão",
   "short_name": "FinanWF",
-  "description": "Gestão Financeira Pessoal",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#f8fafc",
+  "background_color": "#4f46e5",
   "theme_color": "#4f46e5",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/10149/10149458.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/10149/10149458.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
