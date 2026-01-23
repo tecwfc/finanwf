@@ -8,14 +8,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
-    rel="stylesheet"
+    rel="stylesheet" />
 
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/10149/10149458.png">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4f46e5">/>
+  <meta name="theme-color" content="#4f46e5">
+
 
   <style>
     body {
@@ -118,10 +119,40 @@
           class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
           Vencimentos
         </button>
+
+        <button onclick="mudarTab('historico', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
+          Histórico (Pagos)
+        </button>
         <button onclick="mudarTab('config', this)"
           class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500 hover:bg-slate-50">
           Config
         </button>
+
+        <!-- <div class="mt-8 border-t pt-6">
+          <h4 class="text-sm font-bold text-slate-700 mb-4">Exportar Relatório</h4>
+          <div class="flex gap-2">
+            <select id="mesRelatorio" class="flex-1 border border-slate-200">
+              <option value="01">Janeiro</option>
+              <option value="02">Fevereiro</option>
+              <option value="03">Março</option>
+              <option value="04">Abril</option>
+              <option value="05">maio</option>
+              <option value="06">Junho</option>
+              <option value="07">Julho</option>
+              <option value="08">Agosto</option>
+              <option value="09">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+            <button onclick="baixarPDF()" class="bg-emerald-600 text-white px-4 font-bold rounded-x1">
+              Gerar PDF
+            </button>
+          </div>
+        </div> -->
+
+
       </nav>
 
       <div class="mt-auto pt-10">
@@ -170,7 +201,48 @@
         </div>
       </header>
 
+
+
+
       <div id="tab-dash" class="tab-content active space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm border-l-4 border-l-emerald-400">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">Receitas</p>
+            <h3 id="cardReceitas" class="card-valor text-emerald-600 text-xl font-extrabold">R$ 0,00</h3>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">Total Pago</p>
+            <h3 id="cardPago" class="card-valor text-emerald-600 text-xl font-extrabold">R$ 0,00</h3>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border border-l-4 border-l-amber-400 shadow-sm">
+            <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">Pendente</p>
+            <h3 id="cardPendente" class="card-valor text-slate-800 text-xl font-extrabold">R$ 0,00</h3>
+          </div>
+          <div class="bg-indigo-600 p-6 rounded-2xl text-white shadow-lg">
+            <p class="text-pequeno font-bold text-indigo-200 uppercase mb-2">Saldo Livre</p>
+            <h3 id="cardSaldoRestante" class="card-valor text-xl font-extrabold">R$ 0,00</h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm h-80">
+            <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">Distribuição por Categoria</h4>
+            <canvas id="graficoPizza"></canvas>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm h-80">
+            <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">Gastos Totais por Mês</h4>
+            <canvas id="graficoBarras"></canvas>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      <!-- <div id="tab-dash" class="tab-content active space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm border-l-4 border-l-emerald-400">
             <p class="text-pequeno font-bold text-slate-400 uppercase mb-2">
@@ -221,7 +293,7 @@
             <tbody id="corpoTabela"></tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
       <div id="tab-lancar" class="tab-content">
         <div class="max-w-2xl mx-auto">
@@ -301,6 +373,7 @@
               Total Filtro: <span id="totalVencimentoFiltro">R$ 0,00</span>
             </div>
           </div>
+
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 items-end">
             <select id="filtroMesVenc" class="border">
               <option value="todos">Todos Meses</option>
@@ -322,6 +395,9 @@
             <button onclick="renderizarAbaVencimentos()" class="bg-indigo-600 text-white font-bold">
               Filtrar
             </button>
+            <button onclick="gerarPdfVencimentos()"
+              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition shadow-sm">
+              <span>📄 Exportar PDF do Período</span></button>
           </div>
           <table class="w-full text-left">
             <thead class="bg-slate-50">
@@ -353,17 +429,43 @@
           </div>
         </div>
       </div>
+
+      <div id="tab-historico" class="tab-content space-y-6">
+        <div class="bg-white p-6 rounded-2xl border shadow-sm italic">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-emerald-600">Registros Pagos</h3>
+            <div class="text-emerald-600 font-bold bg-emerald-50 px-4 py-2 rounded-xl">
+              Total Pago: <span id="totalPagoHistorico">R$ 0,00</span>
+            </div>
+          </div>
+
+          <div class="overflow-hidden rounded-xl border border-slate-100">
+            <table class="w-full text-left">
+              <thead class="bg-emerald-50 text-emerald-700">
+                <tr>
+                  <th class="pl-6">Gasto</th>
+                  <th class="text-center">Data Venc.</th>
+                  <th class="text-right">Valor</th>
+                  <th class="text-center pr-6">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="corpoTabelaPagos"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
   <script>
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbyHq7VPY7B_M5mzymBqP6IZibzpV5VuPm8xtzz4aMqecEAwE8XjDopOAmGuLqUpLMbo/exec";
-    const SENHA_MESTRA = "1234";
-    let chartInstance = null,
-      todosOsDados = [];
 
-    // Verifica se já existe uma sessão ativa ao carregar a página
+    const API_URL = "https://script.google.com/macros/s/AKfycbyHq7VPY7B_M5mzymBqP6IZibzpV5VuPm8xtzz4aMqecEAwE8XjDopOAmGuLqUpLMbo/exec";
+    const SENHA_MESTRA = "1234";
+    let chartInstance = null;
+    let todosOsDados = [];   // Pendentes
+    let todosOsPagos = [];   // Pagos
+    let configuracoesGlobais = { fechamento: 5, salario: 0 };
+
     window.onload = function () {
       if (localStorage.getItem("logadoFinan") === "true") {
         mostrarApp();
@@ -373,7 +475,7 @@
     function verificarSenha() {
       const senhaDigitada = document.getElementById("inputSenha").value;
       if (senhaDigitada === SENHA_MESTRA) {
-        localStorage.setItem("logadoFinan", "true"); // Salva que você está logado
+        localStorage.setItem("logadoFinan", "true");
         mostrarApp();
       } else {
         alert("Senha incorreta!");
@@ -388,38 +490,76 @@
 
     function fazerLogout() {
       if (confirm("Deseja realmente sair do sistema?")) {
-        localStorage.removeItem("logadoFinan"); // Remove a lembrança da senha
-        location.reload(); // Recarrega a página para voltar à tela de login
+        localStorage.removeItem("logadoFinan");
+        location.reload();
       }
-    }
-
-    // FUNÇÃO PARA LIMPAR DATA (ISO PARA PT-BR)
-    function formatarData(dataRaw) {
-      if (!dataRaw) return "-";
-      if (typeof dataRaw === "string" && dataRaw.includes("T")) {
-        const d = new Date(dataRaw);
-        return d.toLocaleDateString("pt-BR", { timeZone: "UTC" });
-      }
-      return dataRaw;
     }
 
     async function atualizarTabela() {
       try {
         const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}`);
         const d = await r.json();
-        todosOsDados = d.lista;
 
-        // Define o valor do salário no input invisível para cálculos
-        document.getElementById("inputSalario").value = d.salario;
-        document.getElementById("cardReceitas").innerText = parseFloat(
-          d.salario || 0,
-        ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        todosOsDados = d.lista || [];
+        todosOsPagos = d.listaPagos || [];
+        configuracoesGlobais.fechamento = parseInt(d.fechamento) || 5;
+        configuracoesGlobais.salario = parseFloat(d.salario) || 0;
 
-        // Em vez de renderizar fixo, chama a função de filtro que já faz tudo
+        document.getElementById("cardReceitas").innerText = configuracoesGlobais.salario.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+        // Aqui recarrega as duas abas
         filtrarERenderizar();
+        renderizarAbaVencimentos();
       } catch (e) {
-        console.error("Erro ao atualizar", e);
+        console.error("Erro ao carregar dados:", e);
       }
+    }
+
+    function filtrarERenderizar() {
+      const mesSelec = document.getElementById("filtroMes").value;
+      const catSelec = document.getElementById("filtroCategoria").value;
+
+      // 1. Filtra os Pendentes
+      let pendentesFiltrados = todosOsDados.filter(l => {
+        const mesVenc = l[5].split("/")[1];
+        return (mesSelec === "todos" || mesVenc === mesSelec) && (catSelec === "todos" || l[7] === catSelec);
+      });
+
+      // 2. Filtra os Pagos
+      let pagosFiltrados = todosOsPagos.filter(l => {
+        const mesVenc = l[5].split("/")[1];
+        return (mesSelec === "todos" || mesVenc === mesSelec) && (catSelec === "todos" || l[7] === catSelec);
+      });
+
+      let vPendente = 0;
+      let vPago = 0;
+      let resumoCategoria = {};
+
+      // Soma valores e prepara dados do gráfico de pizza
+      pendentesFiltrados.forEach(l => {
+        const valor = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        vPendente += valor;
+        resumoCategoria[l[7]] = (resumoCategoria[l[7]] || 0) + valor;
+      });
+
+      pagosFiltrados.forEach(l => {
+        const valor = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        vPago += valor;
+        resumoCategoria[l[7]] = (resumoCategoria[l[7]] || 0) + valor;
+      });
+
+      // 3. Atualiza os Cards do Dashboard
+      document.getElementById("cardPendente").innerText = vPendente.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      document.getElementById("cardPago").innerText = vPago.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+      const saldoLivre = configuracoesGlobais.salario - (vPendente + vPago);
+      document.getElementById("cardSaldoRestante").innerText = saldoLivre.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      // 4. Renderiza as Tabelas (Vencimentos e Histórico)
+      renderizarLinhasPagos(pagosFiltrados, "corpoTabelaPagos");
+      // 5. CHAMA OS GRÁFICOS (Onde você estava com dúvida)
+      const tudo = todosOsDados.concat(todosOsPagos);
+      renderizarGrafico(resumoCategoria, tudo);
+
     }
 
     function renderizarLinhas(lista, idTabela) {
@@ -428,115 +568,162 @@
   const tbody = document.getElementById(idTabela);
 
   tbody.innerHTML = lista.map((l) => {
-    // MAPEAMENTO: 0:ID, 2:Parcela, 3:Desc, 4:Valor, 5:Venc, 6:Status, 7:Cat
+    // 1. Tratamos o número (convertendo ponto em vírgula se necessário para o cálculo)
     const valorNum = parseFloat(String(l[4]).replace(',', '.')) || 0;
-    const isPago = l[6] === "Pago";
     
-    // Formata data para comparação de atraso
+    // 2. Criamos a string formatada no padrão brasileiro (ex: 200,00)
+    const valorFormatado = valorNum.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    
     const p = l[5].split("/");
-    const dataVenc = new Date(p[2], p[1]-1, p[0]);
-    const isAtrasado = dataVenc < hoje && !isPago;
+    const dataVenc = new Date(p[2], p[1] - 1, p[0]);
+    const isAtrasado = dataVenc < hoje;
 
     return `
-      <tr class="hover:bg-slate-50">
-        <td class="pl-6 py-4">
-          <div class="font-bold">${l[3]}</div>
-          <div class="text-[10px] text-indigo-500 font-bold uppercase">${l[7]} | ${l[2]}</div>
-        </td>
-        <td class="text-center ${isAtrasado ? 'text-red-500 font-bold' : 'text-slate-500'}">${l[5]}</td>
-        <td class="text-right font-bold">R$ ${valorNum.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-        <td class="text-center pr-6">
-          <div class="flex gap-2 justify-center">
-            ${!isPago ? `<button onclick="acao('baixar','${l[0]}')" class="bg-emerald-500 text-white px-2 py-1 rounded text-[10px]">PAGAR</button>` : `<span class="text-emerald-500 font-bold text-[10px]">PAGO</span>`}
-            <button onclick="prepararEdicao('${l[0]}')" class="text-indigo-500">✏️</button>
-            <button onclick="acao('excluir','${l[0]}')" class="text-slate-300">🗑</button>
-          </div>
-        </td>
-      </tr>`;
+    <tr class="hover:bg-slate-50">
+      <td class="pl-6 py-4">
+        <div class="font-bold">${l[3]}</div>
+        <div class="text-[10px] text-indigo-500 font-bold uppercase">${l[7]} | ${l[2]}</div>
+      </td>
+      <td class="text-center ${isAtrasado ? 'text-red-500 font-bold' : 'text-slate-500'}">${l[5]}</td>
+      
+      <td class="text-right font-bold">R$ ${valorFormatado}</td>
+      
+      <td class="text-center pr-6">
+        <div class="flex gap-2 justify-center">
+          <button onclick="acao('baixar','${l[0]}')" class="bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold">PAGAR</button>
+          <button onclick="prepararEdicao('${l[0]}')" class="text-indigo-500">✏️</button>
+          <button onclick="acao('excluir','${l[0]}')" class="text-slate-300">🗑</button>
+        </div>
+      </td>
+    </tr>`;
   }).reverse().join("");
 }
 
-    // 1. Puxa os dados da tabela para o formulário
-    function prepararEdicao(id) {
-      const item = todosOsDados.find((l) => l[0] == id);
-      if (!item) return;
+    function renderizarAbaVencimentos() {
+      const mesSelec = document.getElementById("filtroMesVenc").value;
+      const dataInicio = document.getElementById("buscaInicio").value;
+      const dataFim = document.getElementById("buscaFim").value;
 
-      document.getElementById("editId").value = item[0];
-      document.getElementById("desc").value = item[3];
-      document.getElementById("valor").value = item[4];
-      document.getElementById("categoria").value = item[7];
+      let filtrados = todosOsDados.filter(l => {
+        // Filtro por Mês
+        const mesVenc = l[5].split("/")[1];
+        const matchMes = (mesSelec === "todos" || mesVenc === mesSelec);
 
-      // Formata a data para o padrão do input date (YYYY-MM-DD)
-      const dataIso = new Date(item[5]).toISOString().split("T")[0];
-      document.getElementById("data").value = dataIso;
-
-      document.getElementById("btnLancar").innerHTML =
-        "<span>Salvar Alterações</span>";
-      mudarTab("lancar", document.querySelectorAll(".sidebar-item")[1]);
-    }
-
-    function filtrarERenderizar() {
-      const mesSelecionado = document.getElementById("filtroMes").value;
-      const catSelecionada = document.getElementById("filtroCategoria").value;
-      const sal = parseFloat(
-        document.getElementById("inputSalario").value || 0,
-      );
-
-      let dadosFiltrados = todosOsDados;
-
-      // 1. Aplicar Filtro de Mês
-      if (mesSelecionado !== "todos") {
-        dadosFiltrados = dadosFiltrados.filter(
-          (l) => formatarData(l[5]).split("/")[1] === mesSelecionado,
-        );
-      }
-
-      // 2. Aplicar Filtro de Categoria
-      if (catSelecionada !== "todos") {
-        dadosFiltrados = dadosFiltrados.filter(
-          (l) => l[7] === catSelecionada,
-        );
-      }
-
-      // 3. RECALCULAR TOTAIS DOS CARDS (Baseado no Filtro)
-      let vPago = 0;
-      let vPendente = 0;
-      let resumoCategoria = {};
-
-      dadosFiltrados.forEach((l) => {
-        const valor = parseFloat(String(l[4]).replace(',', '.')) || 0;
-        const status = l[6];
-        const cat = l[7] || "Outros";
-
-        if (status === "Pago") vPago += valor;
-        else vPendente += valor;
-
-        resumoCategoria[cat] = (resumoCategoria[cat] || 0) + valor;
+        // Filtro por Intervalo de Datas
+        let matchData = true;
+        if (dataInicio && dataFim) {
+          const partes = l[5].split("/");
+          const dataItem = new Date(partes[2], partes[1] - 1, partes[0]);
+          const dInicio = new Date(dataInicio + "T00:00:00");
+          const dFim = new Date(dataFim + "T23:59:59");
+          matchData = (dataItem >= dInicio && dataItem <= dFim);
+        }
+        return matchMes && matchData;
       });
 
-      // 4. ATUALIZAR INTERFACE (Cards e Gráfico)
-      document.getElementById("cardPago").innerText = vPago.toLocaleString(
-        "pt-BR",
-        { style: "currency", currency: "BRL" },
-      );
-      document.getElementById("cardPendente").innerText =
-        vPendente.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
+      const total = filtrados.reduce((acc, l) => acc + (parseFloat(String(l[4]).replace(',', '.')) || 0), 0);
+      document.getElementById("totalVencimentoFiltro").innerText = total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-      // O saldo livre aqui considera: Salário (total) - Gastos Filtrados
-      const saldoLivre = sal - (vPago + vPendente);
-      document.getElementById("cardSaldoRestante").innerText =
-        saldoLivre.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-
-      // Renderiza a tabela e o gráfico com os dados filtrados
-      renderizarLinhas(dadosFiltrados, "corpoTabela");
-      renderizarGrafico(resumoCategoria);
+      renderizarLinhas(filtrados, "corpoTabelaVencimentos");
     }
+    function renderizarLinhasPagos(lista, idTabela) {
+      const tbody = document.getElementById(idTabela);
+      let total = 0;
+
+      tbody.innerHTML = lista.map(l => {
+        const valorNum = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        total += valorNum;
+        return `
+        <tr class="hover:bg-slate-50">
+          <td class="pl-6 py-4">
+            <div class="font-bold text-slate-600">${l[3]}</div>
+            <div class="text-[10px] text-emerald-600 font-bold uppercase">${l[7]}</div>
+          </td>
+          <td class="text-center text-slate-400 text-xs">${l[5]}</td>
+          <td class="text-right font-bold text-slate-600">R$ ${valorNum.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+          <td class="text-center pr-6">
+            <button onclick="acao('estornar','${l[0]}')" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg text-[10px] font-bold hover:bg-amber-200">ESTORNAR</button>
+          </td>
+        </tr>`;
+      }).reverse().join("");
+
+      const elTotal = document.getElementById("totalPagoHistorico");
+      if (elTotal) elTotal.innerText = total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    async function acao(tipo, id) {
+      if (!confirm("Confirmar esta ação?")) return;
+      try {
+        await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}`);
+        await atualizarTabela();
+        alert("Operação realizada!");
+      } catch (e) {
+        alert("Erro ao processar ação.");
+      }
+    }
+
+    function mudarTab(id, el) {
+      document.querySelectorAll(".tab-content").forEach((t) => t.classList.remove("active"));
+      const target = document.getElementById("tab-" + id);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".sidebar-item").forEach((b) => {
+        b.classList.remove("active");
+        b.classList.add("text-slate-500");
+      });
+      el.classList.add("active");
+      el.classList.remove("text-slate-500");
+
+      if (id === "historico" || id === "dash") filtrarERenderizar();
+    }
+
+    let chartPizza = null;
+    let chartBarras = null;
+
+    function renderizarGrafico(cat, listaTotal) {
+      // --- GRÁFICO 1: PIZZA (CATEGORIAS) ---
+      const ctxPizza = document.getElementById("graficoPizza").getContext("2d");
+      if (chartPizza) chartPizza.destroy();
+      chartPizza = new Chart(ctxPizza, {
+        type: "doughnut",
+        data: {
+          labels: Object.keys(cat),
+          datasets: [{
+            data: Object.values(cat),
+            backgroundColor: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#64748b"],
+            borderWidth: 2
+          }]
+        },
+        options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      // --- GRÁFICO 2: BARRAS (POR MÊS) ---
+      const gastosPorMes = { "01": 0, "02": 0, "03": 0, "04": 0, "05": 0, "06": 0, "07": 0, "08": 0, "09": 0, "10": 0, "11": 0, "12": 0 };
+
+      // Soma tudo (pagos e pendentes) para o gráfico de meses
+      listaTotal.forEach(l => {
+        const mes = l[5].split("/")[1];
+        const valor = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        if (gastosPorMes[mes] !== undefined) gastosPorMes[mes] += valor;
+      });
+
+      const ctxBarras = document.getElementById("graficoBarras").getContext("2d");
+      if (chartBarras) chartBarras.destroy();
+      chartBarras = new Chart(ctxBarras, {
+        type: "bar",
+        data: {
+          labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+          datasets: [{
+            label: "Gasto Total R$",
+            data: Object.values(gastosPorMes),
+            backgroundColor: "#4f46e5",
+            borderRadius: 5
+          }]
+        },
+        options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+      });
+    }
+
     async function lancar() {
       const editId = document.getElementById("editId").value;
       const desc = document.getElementById("desc").value.trim();
@@ -546,160 +733,153 @@
       const parcelas = document.getElementById("parcelas").value;
       const btn = document.getElementById("btnLancar");
 
-      if (!desc || !valor || !categoria || !data || !parcelas) {
-        alert("⚠️ Por favor, preencha todos os campos!");
+      if (!desc || !valor || !categoria || !data) {
+        alert("Preencha os campos obrigatórios!");
         return;
       }
 
       btn.disabled = true;
-      btn.innerHTML = "<span>Processando...</span>";
+      btn.innerText = "Processando...";
 
-      // MONTANDO O OBJETO DE ENVIO
       const p = {
-        senha: SENHA_MESTRA,
-        action: editId ? "editar" : "lancar", // Se tem ID, a ação é EDITAR
-        id: editId, // Envia o ID para o Google saber qual linha alterar
-        desc: desc,
-        valor: valor,
-        categoria: categoria,
-        data: data,
-        parcelas: parcelas,
+        action: editId ? "editar" : "lancar",
+        id: editId,
+        desc, valor, categoria, data, parcelas
       };
 
       try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify(p)
-        });
-
-        if (response.ok) {
-          alert(editId ? "✅ Alterado com sucesso!" : "✅ Lançado com sucesso!");
-
-          // LIMPEZA DOS CAMPOS E RESET DO FORMULÁRIO
-          document.getElementById("editId").value = "";
-          document.getElementById("desc").value = "";
-          document.getElementById("valor").value = "";
-          document.getElementById("categoria").value = "";
-          document.getElementById("data").value = "";
-          document.getElementById("parcelas").value = "1";
-          btn.innerHTML = "<span>Confirmar Lançamento</span>";
-
-          mudarTab("dash", document.querySelector(".sidebar-item"));
-          atualizarTabela();
-        }
-      } catch (error) {
-        alert("❌ Erro na conexão.");
+        await fetch(API_URL, { method: "POST", body: JSON.stringify(p) });
+        document.getElementById("editId").value = "";
+        document.getElementById("desc").value = "";
+        document.getElementById("valor").value = "";
+        alert("Sucesso!");
+        mudarTab("dash", document.querySelector(".sidebar-item"));
+        atualizarTabela();
+      } catch (e) {
+        alert("Erro ao salvar.");
       } finally {
         btn.disabled = false;
+        btn.innerText = "Confirmar Lançamento";
       }
-    }
-
-    async function acao(tipo, id) {
-      if (!confirm("Confirmar?")) return;
-      await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}`);
-      atualizarTabela();
-      if (
-        document
-          .getElementById("tab-vencimentos")
-          .classList.contains("active")
-      )
-        renderizarAbaVencimentos();
     }
 
     async function salvarConfig() {
       const f = document.getElementById("inputFechamento").value;
-      const v = document.getElementById("inputVencimento").value;
       const s = document.getElementById("inputSalario").value;
-      await fetch(
-        `${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&fechamento=${f}&vencimento=${v}&salario=${s}`,
-      );
-      alert("Salvo!");
+      await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&fechamento=${f}&salario=${s}`);
+      alert("Configurações salvas!");
       atualizarTabela();
     }
 
-    function mudarTab(id, el) {
-      document
-        .querySelectorAll(".tab-content")
-        .forEach((t) => t.classList.remove("active"));
-      document.getElementById("tab-" + id).classList.add("active");
-      document.querySelectorAll(".sidebar-item").forEach((b) => {
-        b.classList.remove("active");
-        b.classList.add("text-slate-500");
-      });
-      el.classList.add("active");
-      el.classList.remove("text-slate-500");
-      if (id === "vencimentos") renderizarAbaVencimentos();
-    }
+    async function baixarPDF() {
+      const mes = document.getElementById("mesRelatorio").value;
+      const btn = event.target; // Pega o botão clicado
 
-    function renderizarGrafico(cat) {
-      const ctx = document.getElementById("meuGrafico").getContext("2d");
-      if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: Object.keys(cat),
-          datasets: [
-            {
-              data: Object.values(cat),
-              backgroundColor: "#4f46e5",
-              borderRadius: 8,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-        },
-      });
-    }
+      const originalText = btn.innerText;
+      btn.innerText = "Gerando...";
+      btn.disabled = true;
 
-    function renderizarAbaVencimentos() {
-      const mesSelec = document.getElementById("filtroMesVenc").value;
-      const inicio = document.getElementById("buscaInicio").value;
-      const fim = document.getElementById("buscaFim").value;
+      try {
+        const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=gerarPDF&mes=${mes}`);
+        const d = await r.json();
 
-      let filtrados = todosOsDados.filter((l) => l[6] !== "Pago"); // Apenas o que não está pago
-
-      // Filtro por Mês
-      if (mesSelec !== "todos") {
-        filtrados = filtrados.filter(
-          (l) => formatarData(l[5]).split("/")[1] === mesSelec,
-        );
+        if (d.url) {
+          // Abre o PDF em uma nova aba
+          const novaAba = window.open();
+          novaAba.document.write(`<iframe src="${d.url}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
+        } else {
+          alert("Erro ao gerar PDF: " + (d.erro || "Desconhecido"));
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Erro na conexão com o servidor.");
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
       }
+    }
 
-      // Filtro por Intervalo de Data
-      if (inicio && fim) {
-        const dIni = new Date(inicio);
-        const dFim = new Date(fim);
-        filtrados = filtrados.filter((l) => {
-          const dVenc = new Date(l[5]);
-          return dVenc >= dIni && dVenc <= dFim;
-        });
+
+    // Variável global para sabermos o que está filtrado no momento
+// Adicione esta variável no topo do seu <script> junto com as outras
+let dadosFiltradosAtuais = []; 
+
+async function gerarPdfVencimentos() {
+  if (dadosFiltradosAtuais.length === 0) {
+    alert("Não há dados filtrados na tabela para gerar o PDF.");
+    return;
+  }
+
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerText = "⏳ Gerando...";
+
+  try {
+    // IMPORTANTE: Enviamos via POST para o Google Script
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'gerarPDF',
+        senha: SENHA_MESTRA,
+        dados: dadosFiltradosAtuais
+      })
+    });
+    
+    const d = await response.json();
+    
+    if (d.url) {
+      // Abre o PDF em uma nova aba de forma segura
+      const novaAba = window.open();
+      if (novaAba) {
+        novaAba.document.write(`<iframe src="${d.url}" frameborder="0" style="border:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+      } else {
+        // Fallback caso o popup seja bloqueado
+        const link = document.createElement('a');
+        link.href = d.url;
+        link.download = "Relatorio_Financeiro.pdf";
+        link.click();
       }
-
-      // Calcular total do que está filtrado
-      const total = filtrados.reduce(
-        (acc, curr) => acc + (parseFloat(curr[4]) || 0),
-        0,
-      );
-      document.getElementById("totalVencimentoFiltro").innerText =
-        total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-      // Renderizar na tabela de vencimentos
-      renderizarLinhas(filtrados, "corpoTabelaVencimentos");
+    } else {
+      alert("Erro do servidor: " + (d.erro || "Falha ao gerar URL"));
     }
+  } catch (e) {
+    console.error(e);
+    alert("Erro de conexão ao gerar PDF.");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
 
+// Atualize também a função que filtra para alimentar a variável global
+function renderizarAbaVencimentos() {
+  const mesSelec = document.getElementById("filtroMesVenc").value;
+  const dataInicio = document.getElementById("buscaInicio").value;
+  const dataFim = document.getElementById("buscaFim").value;
 
-    // Ativador do Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("App Pronto!"))
-        .catch(err => console.log("Erro no App:", err));
+  // Filtramos e guardamos na global para o PDF usar
+  dadosFiltradosAtuais = todosOsDados.filter(l => {
+    const mesVenc = l[5].split("/")[1];
+    const matchMes = (mesSelec === "todos" || mesVenc === mesSelec);
+
+    let matchData = true;
+    if (dataInicio && dataFim) {
+      const partes = l[5].split("/");
+      const dataItem = new Date(partes[2], partes[1] - 1, partes[0]);
+      const dInicio = new Date(dataInicio + "T00:00:00");
+      const dFim = new Date(dataFim + "T23:59:59");
+      matchData = (dataItem >= dInicio && dataItem <= dFim);
     }
+    return matchMes && matchData;
+  });
+
+  const total = dadosFiltradosAtuais.reduce((acc, l) => acc + (parseFloat(String(l[4]).replace(',', '.')) || 0), 0);
+  document.getElementById("totalVencimentoFiltro").innerText = total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+  renderizarLinhas(dadosFiltradosAtuais, "corpoTabelaVencimentos");
+}
   </script>
-
-
 </body>
 
 </html>
-
