@@ -1,70 +1,283 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinanWF - Gestão Profissional</title>
+  <title>FinanWF - Gestão Profissional Multiusuário</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
   <style>
-    body { font-family: "Plus Jakarta Sans", sans-serif; transition: all 0.3s; }
-    .dark { background-color: #0f172a !important; color: #f1f5f9 !important; }
-    .dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
-    .dark input, .dark select { background-color: #334155 !important; border-color: #475569 !important; color: white !important; }
-    .sidebar-item.active { background: #4f46e5 !important; color: white !important; transform: translateX(5px); }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .removing { animation: slideOut 0.4s forwards; }
-    @keyframes slideOut { to { opacity: 0; transform: translateX(50px); } }
-    .progress-bar { transition: width 1s ease-in-out; }
+    /* FORÇAR COR DO TÍTULO EM AMBOS OS MODOS - VERSÃO DEFINITIVA */
+main header h1, 
+main h1 {
+    color: #1e293b !important; /* Chumbo quase preto no modo claro */
+}
+
+.dark main header h1, 
+.dark main h1 {
+    color: #ffffff !important; /* Branco absoluto no modo escuro */
+}
+    /* FORÇAR COR DO TÍTULO EM AMBOS OS MODOS */
+    #app h1,
+    .titulo-principal {
+      color: #1e293b !important;
+      /* Preto/Chumbo para fundo claro */
+    }
+
+    .dark #app h1,
+    .dark .titulo-principal {
+      color: #ffffff !important;
+      /* Branco absoluto para fundo escuro */
+    }
+
+    /* Cor do Logotipo FINAN */
+    .brand-text {
+      color: #000000 !important;
+      /* Preto absoluto no modo claro */
+    }
+
+    .dark .brand-text {
+      color: #ffffff !important;
+      /* Branco absoluto no modo escuro */
+    }
+
+    /* Transições suaves */
+    * {
+      transition: background-color 0.2s ease, color 0.1s ease;
+    }
+
+    /* --- MODO CLARO (Suave e Profissional) --- */
+    body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      /* Cinza chumbo profundo, melhor que preto puro */
+    }
+
+    /* Texto principal em modo claro */
+    input,
+    select,
+    textarea,
+    label,
+    h1,
+    h2,
+    h3,
+    td,
+    th {
+      color: #1e293b !important;
+    }
+
+    /* --- MODO ESCURO (Conforto Visual) --- */
+    .dark {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      /* Branco acinzentado, não agride os olhos */
+    }
+
+    /* Cards e Elementos no Dark Mode */
+    .dark .bg-white {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Inputs no Dark Mode */
+    .dark input,
+    .dark select,
+    .dark textarea {
+      background-color: #334155 !important;
+      color: #ffffff !important;
+      border-color: #475569 !important;
+    }
+
+    /* Labels e Títulos no Dark Mode */
+    .dark label,
+    .dark h1,
+    .dark h2,
+    .dark h3,
+    .dark td,
+    .dark th {
+      color: #f1f5f9 !important;
+    }
+
+    .dark input::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Ajustes de tabelas e bordas */
+    .dark .text-slate-500,
+    .dark .text-slate-400 {
+      color: #94a3b8 !important;
+    }
+
+    .dark .bg-slate-50 {
+      background-color: #1e293b !important;
+    }
+
+    .dark .border-slate-100,
+    .dark .border-slate-200 {
+      border-color: #334155 !important;
+    }
+
+    /* Cores de destaque que não mudam */
+    #cardPendente {
+      color: #334155;
+    }
+
+    .dark #cardPendente {
+      color: #f1f5f9 !important;
+    }
+
+    .sidebar-item.active {
+      background: #4f46e5 !important;
+      color: white !important;
+      transform: translateX(5px);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .removing {
+      animation: slideOut 0.4s forwards;
+    }
+
+    @keyframes slideOut {
+      to {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+    }
+
+    .progress-bar {
+      transition: width 1s ease-in-out;
+    }
+
+    /* --- COR DO CABEÇALHO DA TABELA --- */
+
+    /* 1. Modo Claro (Texto Preto/Chumbo) */
+    thead th {
+      color: #1e293b !important;
+      /* Cor firme mas não agressiva */
+      background-color: #f1f5f9;
+      /* Um cinza bem clarinho para destacar o topo */
+      font-weight: 800;
+      /* Deixa o texto mais "gordinho" e visível */
+    }
+
+    /* 2. Modo Escuro (Texto Branco) */
+    .dark thead th {
+      color: #ffffff !important;
+      /* Branco puro para contraste no fundo escuro */
+      background-color: #334155 !important;
+      /* Fundo levemente mais claro que o da página */
+    }
+
+    /* Garante que o fundo da linha de cabeçalho acompanhe o tema */
+    .dark thead {
+      background-color: #1e293b !important;
+    }
   </style>
 </head>
 
-<body class="bg-[#f8fafc] text-slate-800" id="bodyTag">
+<body class="bg-[#f8fafc]" id="bodyTag">
   <div id="telaLogin" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900 p-4">
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center border-t-4 border-indigo-600">
-      <h2 class="text-xl font-bold mb-6">Acesso FinanWF</h2>
-      <input type="password" id="inputSenha" placeholder="Senha" class="w-full bg-slate-100 border-none text-center mb-4 p-3 outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl" />
-      <button onclick="verificarSenha()" class="w-full bg-indigo-600 text-white font-bold h-12 rounded-xl hover:bg-indigo-700 shadow-lg">Entrar</button>
+      <h2 class="text-xl font-bold mb-2">Acesso FinanWF</h2>
+      <p class="text-slate-400 text-sm mb-6">Entre com seu identificador e senha</p>
+      <input type="text" id="inputUsuario" placeholder="Seu Nome ou E-mail"
+        class="w-full bg-slate-100 border-none text-center mb-3 p-3 outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl" />
+      <input type="password" id="inputSenha" placeholder="Senha"
+        class="w-full bg-slate-100 border-none text-center mb-4 p-3 outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl" />
+      <button onclick="verificarSenha()"
+        class="w-full bg-indigo-600 text-white font-bold h-12 rounded-xl hover:bg-indigo-700 shadow-lg">Entrar</button>
     </div>
   </div>
 
   <div id="app" class="hidden min-h-screen flex flex-col md:flex-row">
     <aside class="w-full md:w-60 bg-white border-r border-slate-200 p-5 flex flex-col">
       <div class="font-extrabold italic mb-10 text-lg tracking-tight px-4 flex justify-between items-center">
-        <span>FINAN<span class="text-indigo-600">WF</span></span>
+        <span>
+          <span class="brand-text">FINAN</span><span class="text-indigo-600">WF</span>
+        </span>
         <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">🌙</button>
       </div>
       <nav class="space-y-2 flex-1">
-        <button onclick="mudarTab('dash', this)" class="sidebar-item active w-full text-left px-4 py-3 rounded-xl font-semibold">Dashboard</button>
-        <button onclick="mudarTab('lancar', this)" class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Lançar</button>
-        <button onclick="mudarTab('vencimentos', this)" class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Vencimentos</button>
-        <button onclick="mudarTab('historico', this)" class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Histórico</button>
-        <button onclick="mudarTab('config', this)" class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Config</button>
+        <button onclick="mudarTab('dash', this)"
+          class="sidebar-item active w-full text-left px-4 py-3 rounded-xl font-semibold">Dashboard</button>
+        <button onclick="mudarTab('lancar', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Lançar</button>
+        <button onclick="mudarTab('vencimentos', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Vencimentos</button>
+        <button onclick="mudarTab('historico', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Histórico</button>
+        <button onclick="mudarTab('config', this)"
+          class="sidebar-item w-full text-left px-4 py-3 rounded-xl font-semibold text-slate-500">Config</button>
       </nav>
-      <button onclick="fazerLogout()" class="mt-auto flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-rose-500 border border-rose-100 hover:bg-rose-50 transition-all">Sair</button>
+      <div
+        class="px-4 py-2 mb-4 bg-indigo-50 rounded-xl border border-indigo-100 dark:bg-indigo-900/20 dark:border-indigo-800">
+        <p class="text-[10px] uppercase font-bold text-indigo-400">Usuário Ativo</p>
+        <p id="nomeUsuarioLogado" class="text-sm font-bold text-indigo-700 dark:text-indigo-300 truncate">---</p>
+      </div>
+      <button onclick="fazerLogout()"
+        class="mt-auto flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-rose-500 border border-rose-100 hover:bg-rose-50 transition-all dark:border-rose-900/30">Sair</button>
     </aside>
 
     <main class="flex-1 p-6 md:p-10 overflow-y-auto h-screen">
       <header class="flex flex-wrap justify-between items-center gap-4 mb-8">
-        <h1 class="text-xl font-extrabold">Controle de Gastos 👋</h1>
+       <h1 class="text-xl font-extrabold">Controle de Gastos 👋</h1>
         <div class="flex flex-wrap gap-2 w-full md:w-auto">
           <div id="containerBusca" class="hidden">
-            <input type="text" id="buscaGeral" onkeyup="filtrarERenderizar()" placeholder="🔍 Buscar..." class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 w-40">
+            <input type="text" id="buscaGeral" onkeyup="filtrarERenderizar()" placeholder="🔍 Buscar..."
+              class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 w-40">
           </div>
-          <select id="filtroCategoria" onchange="filtrarERenderizar()" class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl">
+          <select id="filtroCategoria" onchange="filtrarERenderizar()"
+            class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl">
             <option value="todos">Categorias</option>
-            <option>Lazer</option><option>Saúde</option><option>Educação</option><option>Aluguel/Fixo</option><option>Mercado</option><option>Outros</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Aluguel/Fixo</option>
+            <option>Mercado</option>
+            <option>Outros</option>
           </select>
-          <select id="filtroMes" onchange="atualizarTabela()" class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl">
+          <select id="filtroMes" onchange="atualizarTabela()"
+            class="bg-white border border-slate-200 shadow-sm px-4 py-2 rounded-xl">
             <option value="todos">Mês Atual</option>
-            <option value="01">Jan</option><option value="02">Fev</option><option value="03">Mar</option><option value="04">Abr</option>
-            <option value="05">Mai</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Ago</option>
-            <option value="09">Set</option><option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+            <option value="01">Jan</option>
+            <option value="02">Fev</option>
+            <option value="03">Mar</option>
+            <option value="04">Abr</option>
+            <option value="05">Mai</option>
+            <option value="06">Jun</option>
+            <option value="07">Jul</option>
+            <option value="08">Ago</option>
+            <option value="09">Set</option>
+            <option value="10">Out</option>
+            <option value="11">Nov</option>
+            <option value="12">Dez</option>
           </select>
-          <button id="btnPDFGlobal" onclick="gerarPDF(event)" class="bg-rose-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-rose-700 shadow-sm flex items-center gap-2">
+          <button id="btnPDFGlobal" onclick="gerarPDF(event)"
+            class="bg-rose-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-rose-700 shadow-sm flex items-center gap-2">
             <span>📄 Gerar PDF</span>
           </button>
         </div>
@@ -76,26 +289,28 @@
             <span class="text-xs font-bold text-slate-500 uppercase">Status do Orçamento</span>
             <span id="txtPorcentagem" class="text-xs font-bold text-indigo-600">0%</span>
           </div>
-          <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="w-full bg-slate-100 dark:bg-slate-700 h-3 rounded-full overflow-hidden">
             <div id="barraProgresso" class="progress-bar bg-indigo-600 h-full w-0"></div>
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div class="bg-white p-6 rounded-2xl border-l-4 border-l-emerald-400 shadow-sm">
             <p class="text-[11px] font-bold text-slate-400 uppercase mb-2">Receitas</p>
-            <h3 id="cardReceitas" class="text-emerald-600 font-extrabold text-2xl">R$ 0,00</h3>
+            <h3 id="cardReceitas" class="text-emerald-600 font-extrabold text-2xl" style="color:#10b981 !important">R$
+              0,00</h3>
           </div>
           <div class="bg-white p-6 rounded-2xl border-l-4 border-l-indigo-400 shadow-sm">
             <p class="text-[11px] font-bold text-slate-400 uppercase mb-2">Total Pago</p>
-            <h3 id="cardPago" class="text-indigo-600 font-extrabold text-2xl">R$ 0,00</h3>
+            <h3 id="cardPago" class="text-indigo-600 font-extrabold text-2xl" style="color:#4f46e5 !important">R$ 0,00
+            </h3>
           </div>
           <div class="bg-white p-6 rounded-2xl border-l-4 border-l-amber-400 shadow-sm">
             <p class="text-[11px] font-bold text-slate-400 uppercase mb-2">Pendente</p>
-            <h3 id="cardPendente" class="text-2xl font-extrabold text-slate-700 dark:text-slate-100">R$ 0,00</h3>
+            <h3 id="cardPendente" class="text-2xl font-extrabold">R$ 0,00</h3>
           </div>
           <div class="bg-indigo-600 p-6 rounded-2xl text-white shadow-lg">
             <p class="text-[11px] font-bold text-indigo-200 uppercase mb-2">Saldo Livre</p>
-            <h3 id="cardSaldoRestante" class="font-extrabold text-2xl">R$ 0,00</h3>
+            <h3 id="cardSaldoRestante" class="font-extrabold text-2xl" style="color:#ffffff !important">R$ 0,00</h3>
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,50 +321,71 @@
 
       <div id="tab-lancar" class="tab-content">
         <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border shadow-xl">
-          <h3 id="tituloLancar" class="text-2xl font-extrabold text-slate-800 mb-6">Novo Registro</h3>
+          <h3 id="tituloLancar" class="text-2xl font-extrabold mb-6">Novo Registro</h3>
           <input type="hidden" id="editId" value="" />
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="md:col-span-2">
-              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-2">Descrição *</label>
-              <input type="text" id="desc" required class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
+              <label class="block text-[11px] font-bold uppercase mb-2">Descrição *</label>
+              <input type="text" id="desc" required
+                class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-2">Valor Total (R$) *</label>
-              <input type="number" step="0.01" id="valor" required class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 font-bold text-indigo-600 rounded-xl" />
+              <label class="block text-[11px] font-bold uppercase mb-2">Valor Total (R$) *</label>
+              <input type="number" step="0.01" id="valor" required
+                class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 font-bold rounded-xl" />
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-2">Categoria *</label>
-              <select id="categoria" required class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl">
+              <label class="block text-[11px] font-bold uppercase mb-2">Categoria *</label>
+              <select id="categoria" required
+                class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl">
                 <option value="">Selecione...</option>
-                <option>Lazer</option><option>Saúde</option><option>Educação</option><option>Aluguel/Fixo</option><option>Mercado</option><option>Outros</option>
+                <option>Lazer</option>
+                <option>Saúde</option>
+                <option>Educação</option>
+                <option>Aluguel/Fixo</option>
+                <option>Mercado</option>
+                <option>Outros</option>
               </select>
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-2">Data *</label>
-              <input type="date" id="data" required class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
+              <label class="block text-[11px] font-bold uppercase mb-2">Data *</label>
+              <input type="date" id="data" required
+                class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-2">Parcelas *</label>
-              <input type="number" id="parcelas" value="1" min="1" required class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
+              <label class="block text-[11px] font-bold uppercase mb-2">Parcelas *</label>
+              <input type="number" id="parcelas" value="1" min="1" required
+                class="w-full border-2 border-slate-100 p-3 outline-none focus:border-indigo-500 bg-slate-50 rounded-xl" />
             </div>
           </div>
-          <button onclick="lancar()" id="btnLancar" class="w-full mt-8 bg-indigo-600 text-white font-extrabold h-14 rounded-2xl shadow-lg hover:bg-indigo-700 transition-all">Confirmar Lançamento</button>
+          <button onclick="lancar()" id="btnLancar"
+            class="w-full mt-8 bg-indigo-600 text-white font-extrabold h-14 rounded-2xl shadow-lg hover:bg-indigo-700 transition-all">Confirmar
+            Lançamento</button>
         </div>
       </div>
 
       <div id="tab-vencimentos" class="tab-content">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm italic">
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
           <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
             <h3 class="text-lg font-bold">Contas Pendentes</h3>
             <div class="flex gap-2">
-              <input type="date" id="filtroDataInicio" onchange="filtrarERenderizar()" class="border p-2 rounded-lg text-[10px]">
-              <input type="date" id="filtroDataFim" onchange="filtrarERenderizar()" class="border p-2 rounded-lg text-[10px]">
+              <input type="date" id="filtroDataInicio" onchange="filtrarERenderizar()"
+                class="border p-2 rounded-lg text-[10px]">
+              <input type="date" id="filtroDataFim" onchange="filtrarERenderizar()"
+                class="border p-2 rounded-lg text-[10px]">
             </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left">
-              <thead class="bg-slate-50 font-bold uppercase text-[10px] text-slate-500">
-                <tr><th class="p-4">Parcela</th><th>Gasto</th><th>Categoria</th><th class="text-center">Vencimento</th><th class="text-right">Valor</th><th class="text-center">Ações</th></tr>
+              <thead class="bg-slate-50 font-bold uppercase text-[10px]">
+                <tr>
+                  <th class="p-4">Parcela</th>
+                  <th>Gasto</th>
+                  <th>Categoria</th>
+                  <th class="text-center">Vencimento</th>
+                  <th class="text-right">Valor</th>
+                  <th class="text-center">Ações</th>
+                </tr>
               </thead>
               <tbody id="corpoTabelaVencimentos"></tbody>
             </table>
@@ -158,12 +394,20 @@
       </div>
 
       <div id="tab-historico" class="tab-content">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm italic">
-          <h3 class="text-lg font-bold text-emerald-600 mb-6 uppercase">Registros Pagos</h3>
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+          <h3 class="text-lg font-bold text-emerald-600 mb-6 uppercase" style="color:#10b981 !important">Registros Pagos
+          </h3>
           <div class="overflow-x-auto rounded-xl border border-slate-100">
             <table class="w-full text-left">
-              <thead class="bg-emerald-50 text-emerald-700 font-bold text-[10px] uppercase">
-                <tr><th class="p-4">Parcela</th><th>Gasto</th><th>Categoria</th><th class="text-center">Vencimento</th><th class="text-right">Valor</th><th class="text-center">Ações</th></tr>
+              <thead class="bg-emerald-50 font-bold text-[10px] uppercase">
+                <tr>
+                  <th class="p-4">Parcela</th>
+                  <th>Gasto</th>
+                  <th>Categoria</th>
+                  <th class="text-center">Vencimento</th>
+                  <th class="text-right">Valor</th>
+                  <th class="text-center">Ações</th>
+                </tr>
               </thead>
               <tbody id="corpoTabelaPagos"></tbody>
             </table>
@@ -175,12 +419,16 @@
         <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm mx-auto">
           <h3 class="text-lg font-bold mb-6">Ajustes do Sistema</h3>
           <div class="space-y-4">
-            <div><label class="text-[11px] font-bold uppercase text-indigo-500">Meu Salário (R$)</label><input type="number" id="inputSalario" class="w-full border-2 p-3 font-bold text-lg rounded-xl" /></div>
+            <div><label class="text-[11px] font-bold uppercase">Meu Salário (R$)</label><input type="number"
+                id="inputSalario" class="w-full border-2 p-3 font-bold text-lg rounded-xl" /></div>
             <div class="grid grid-cols-2 gap-4">
-              <div><label class="text-[10px] font-bold uppercase">Dia Fechamento</label><input type="number" id="inputFechamento" class="w-full border p-3 rounded-xl" /></div>
-              <div><label class="text-[10px] font-bold uppercase">Dia Vencimento</label><input type="number" id="inputVencimento" class="w-full border p-3 rounded-xl" /></div>
+              <div><label class="text-[10px] font-bold uppercase">Dia Fechamento</label><input type="number"
+                  id="inputFechamento" class="w-full border p-3 rounded-xl" /></div>
+              <div><label class="text-[10px] font-bold uppercase">Dia Vencimento</label><input type="number"
+                  id="inputVencimento" class="w-full border p-3 rounded-xl" /></div>
             </div>
-            <button onclick="salvarConfiguracoes(event)" class="w-full bg-slate-800 text-white font-bold h-12 rounded-xl mt-4">Salvar Configurações</button>
+            <button onclick="salvarConfiguracoes(event)"
+              class="w-full bg-slate-800 text-white font-bold h-12 rounded-xl mt-4">Salvar Configurações</button>
           </div>
         </div>
       </div>
@@ -188,26 +436,54 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyHq7VPY7B_M5mzymBqP6IZibzpV5VuPm8xtzz4aMqecEAwE8XjDopOAmGuLqUpLMbo/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbyHq7VPY7B_M5mzymBqP6IZibzpV5VuPm8xtzz4aMqecEAwE8XjDopOAmGuLqUpLMbo/exec";
     const SENHA_MESTRA = "1234";
+    let usuarioLogado = localStorage.getItem("userFinan") || "";
     let chartPizza = null, chartBarras = null, todosOsDados = [], todosOsPagos = [], configuracoesGlobais = { salario: 0 };
 
-    const CORES_CAT = { 'Lazer': 'bg-orange-100 text-orange-700', 'Saúde': 'bg-red-100 text-red-700', 'Educação': 'bg-blue-100 text-blue-700', 'Aluguel/Fixo': 'bg-purple-100 text-purple-700', 'Mercado': 'bg-emerald-100 text-emerald-700', 'Outros': 'bg-slate-100 text-slate-700' };
+    const CORES_CAT = {
+      'Lazer': 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
+      'Saúde': 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
+      'Educação': 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+      'Aluguel/Fixo': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
+      'Mercado': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300',
+      'Outros': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+    };
 
     window.onload = () => {
       if (localStorage.getItem("logadoFinan") === "true") mostrarApp();
       if (localStorage.getItem("darkMode") === "true") document.getElementById("bodyTag").classList.add("dark");
     };
 
-    function toggleDarkMode() { const isDark = document.getElementById("bodyTag").classList.toggle("dark"); localStorage.setItem("darkMode", isDark); }
-    function verificarSenha() { if (document.getElementById("inputSenha").value === SENHA_MESTRA) { localStorage.setItem("logadoFinan", "true"); mostrarApp(); } else alert("Senha incorreta!"); }
-    function mostrarApp() { document.getElementById("telaLogin").classList.add("hidden"); document.getElementById("app").classList.remove("hidden"); atualizarTabela(); }
+    function toggleDarkMode() {
+      const body = document.getElementById("bodyTag");
+      const isDark = body.classList.toggle("dark");
+      localStorage.setItem("darkMode", isDark);
+    }
+
+    function verificarSenha() {
+      const user = document.getElementById("inputUsuario").value.trim();
+      const pass = document.getElementById("inputSenha").value;
+      if (user && pass === SENHA_MESTRA) {
+        localStorage.setItem("logadoFinan", "true");
+        localStorage.setItem("userFinan", user);
+        usuarioLogado = user;
+        mostrarApp();
+      } else { alert("Usuário ou senha incorretos!"); }
+    }
+
+    function mostrarApp() {
+      document.getElementById("nomeUsuarioLogado").innerText = usuarioLogado;
+      document.getElementById("telaLogin").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
+      atualizarTabela();
+    }
 
     async function atualizarTabela() {
       try {
-        const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}`);
+        const r = await fetch(`${API_URL}?senha=${SENHA_MESTRA}&usuario=${usuarioLogado}`);
         const d = await r.json();
-        todosOsDados = d.lista || []; 
+        todosOsDados = d.lista || [];
         todosOsPagos = d.listaPagos || [];
         configuracoesGlobais.salario = parseFloat(d.salario) || 0;
         document.getElementById("inputSalario").value = configuracoesGlobais.salario;
@@ -226,33 +502,33 @@
       const dFim = document.getElementById("filtroDataFim").value;
 
       const filtrar = (lista) => lista.filter(l => {
-        const p = l[5].split("/"); const dV = new Date(p[2], p[1]-1, p[0]);
+        const p = l[5].split("/"); const dV = new Date(p[2], p[1] - 1, p[0]);
         const mMes = (mesSelec === "todos" || p[1] === mesSelec);
         const mCat = (catSelec === "todos" || l[7] === catSelec);
         const mBusca = l[3].toLowerCase().includes(busca);
         let mPeriodo = true;
-        if(dIni && dFim) mPeriodo = dV >= new Date(dIni) && dV <= new Date(dFim);
+        if (dIni && dFim) mPeriodo = dV >= new Date(dIni) && dV <= new Date(dFim);
         return mMes && mCat && mBusca && mPeriodo;
       });
 
-      const pFiltrados = filtrar(todosOsDados); 
+      const pFiltrados = filtrar(todosOsDados);
       const hFiltrados = filtrar(todosOsPagos);
       let vP = 0, vPag = 0, resumo = {};
 
-      pFiltrados.forEach(l => { 
-        const v = parseFloat(String(l[4]).replace(',','.')) || 0; 
-        vP += v; resumo[l[7]] = (resumo[l[7]] || 0) + v; 
+      pFiltrados.forEach(l => {
+        const v = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        vP += v; resumo[l[7]] = (resumo[l[7]] || 0) + v;
       });
-      hFiltrados.forEach(l => { 
-        const v = parseFloat(String(l[4]).replace(',','.')) || 0; 
-        vPag += v; resumo[l[7]] = (resumo[l[7]] || 0) + v; 
+      hFiltrados.forEach(l => {
+        const v = parseFloat(String(l[4]).replace(',', '.')) || 0;
+        vPag += v; resumo[l[7]] = (resumo[l[7]] || 0) + v;
       });
 
       document.getElementById("cardPendente").innerText = vP.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
       document.getElementById("cardPago").innerText = vPag.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
       const total = vP + vPag;
       document.getElementById("cardSaldoRestante").innerText = (configuracoesGlobais.salario - total).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-      
+
       const perc = (total / configuracoesGlobais.salario) * 100 || 0;
       document.getElementById("barraProgresso").style.width = Math.min(perc, 100) + "%";
       document.getElementById("txtPorcentagem").innerText = perc.toFixed(1) + "%";
@@ -263,18 +539,19 @@
     }
 
     function renderizarLinhas(lista, id) {
-      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
       document.getElementById(id).innerHTML = lista.map(l => {
-        const p = l[5].split("/"); const dV = new Date(p[2], p[1]-1, p[0]);
+        const p = l[5].split("/"); const dV = new Date(p[2], p[1] - 1, p[0]);
         return `<tr id="row-${l[0]}" class="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
           <td class="p-4 font-mono text-[10px] text-slate-400">#${l[2]}</td>
           <td class="font-bold">${l[3]}</td>
-          <td><span class="${CORES_CAT[l[7]]} text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">${l[7]}</span></td>
+          <td><span class="${CORES_CAT[l[7]]} text-[10px] px-2 py-0.5 rounded-full font-bold uppercase no-dark">${l[7]}</span></td>
           <td class="text-center font-mono text-xs ${dV < hoje ? 'text-red-500 font-bold' : ''}">${l[5]}</td>
-          <td class="text-right font-bold">R$ ${parseFloat(l[4]).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+          <td class="text-right font-bold">R$ ${parseFloat(l[4]).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
           <td class="p-4 text-center">
             <button onclick="animarPagamento('${l[0]}')" class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-[10px] font-bold">PAGAR</button>
-            <button onclick="prepararEdicao('${l[0]}')" class="ml-2 text-indigo-500">✏️</button>
+            <button onclick="prepararEdicao('${l[0]}')" class="ml-2 text-indigo-500" title="Editar">✏️</button>
+            <button onclick="excluirRegistro('${l[0]}')" class="ml-2 text-rose-500" title="Excluir">🗑️</button>
           </td>
         </tr>`;
       }).reverse().join("");
@@ -283,9 +560,15 @@
     function renderizarLinhasPagos(lista, id) {
       document.getElementById(id).innerHTML = lista.map(l => `<tr class="border-b dark:border-slate-700 opacity-70">
           <td class="p-4 font-mono text-[10px] text-slate-400">#${l[2]}</td><td class="font-bold">${l[3]}</td><td><span class="text-[10px] text-slate-400 uppercase">${l[7]}</span></td>
-          <td class="text-center text-xs">${l[5]}</td><td class="text-right font-bold">R$ ${parseFloat(l[4]).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+          <td class="text-center text-xs">${l[5]}</td><td class="text-right font-bold">R$ ${parseFloat(l[4]).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
           <td class="p-4 text-center"><button onclick="acao('estornar','${l[0]}')" class="text-amber-600 font-bold text-[10px]">ESTORNAR</button></td>
         </tr>`).reverse().join("");
+    }
+
+    async function excluirRegistro(id) {
+      if (!confirm("Tem certeza que deseja excluir este registro permanentemente?")) return;
+      document.getElementById(`row-${id}`)?.classList.add("removing");
+      setTimeout(() => acao('excluir', id), 400);
     }
 
     async function lancar() {
@@ -296,11 +579,7 @@
       const data = document.getElementById("data").value;
       const parcelas = document.getElementById("parcelas").value;
 
-      // OBRIGATORIEDADE DOS CAMPOS
-      if (!desc || !valor || !categoria || !data || !parcelas) {
-        alert("Preencha todos os campos obrigatórios (*)");
-        return;
-      }
+      if (!desc || !valor || !categoria || !data || !parcelas) { alert("Preencha todos os campos!"); return; }
 
       btn.innerText = "Processando...";
       btn.disabled = true;
@@ -308,6 +587,7 @@
       const p = {
         action: document.getElementById("editId").value ? "editar" : "lancar",
         id: document.getElementById("editId").value,
+        usuario: usuarioLogado,
         desc, valor, categoria, data, parcelas
       };
 
@@ -354,15 +634,21 @@
           const idTabela = tabAtiva === 'tab-vencimentos' ? 'corpoTabelaVencimentos' : 'corpoTabelaPagos';
           const linhas = document.querySelectorAll(`#${idTabela} tr`);
           dadosParaEnvio.push(["Parcela", "Descrição", "Categoria", "Vencimento", "Valor"]);
+
+          let somaTotal = 0;
           linhas.forEach(tr => {
             const colunas = tr.querySelectorAll("td");
             if (colunas.length >= 5) {
+              const valorTexto = colunas[4].innerText.replace("R$", "").replace(".", "").replace(",", ".").trim();
+              somaTotal += parseFloat(valorTexto) || 0;
               dadosParaEnvio.push([colunas[0].innerText, colunas[1].innerText, colunas[2].innerText, colunas[3].innerText, colunas[4].innerText]);
             }
           });
+          dadosParaEnvio.push(["", "", "", "TOTAL:", somaTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })]);
         }
+
         if (dadosParaEnvio.length <= 1) { alert("Sem dados."); return; }
-        const r = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "gerarPDF", dados: dadosParaEnvio }) });
+        const r = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "gerarPDF", usuario: usuarioLogado, dados: dadosParaEnvio }) });
         const res = await r.json();
         if (res.url) {
           const win = window.open();
@@ -379,21 +665,49 @@
       document.getElementById("valor").value = String(r[4]).replace(',', '.');
       document.getElementById("categoria").value = r[7];
       const p = r[5].split("/"); document.getElementById("data").value = `${p[2]}-${p[1]}-${p[0]}`;
-      document.getElementById("parcelas").value = "1"; // Edição geralmente é pontual
+      document.getElementById("parcelas").value = "1";
       document.getElementById("tituloLancar").innerText = "Editar Registro";
       mudarTab('lancar', document.querySelector('[onclick*="lancar"]'));
     }
 
     function mudarTab(id, el) {
+      // 1. Alterna a visibilidade das abas
       document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
       document.getElementById("tab-" + id).classList.add("active");
+
+      // 2. Atualiza o menu lateral
       document.querySelectorAll(".sidebar-item").forEach(b => b.classList.remove("active"));
       el.classList.add("active");
-      document.getElementById("containerBusca").style.display = (id === 'vencimentos' || id === 'historico') ? 'block' : 'none';
+
+      // 3. Define quais abas são de "Gestão" (onde escondemos os filtros e PDF)
+      const abasGestao = ['dash', 'lancar', 'config'];
+      const escondeFiltros = abasGestao.includes(id);
+
+      // 4. Aplica a visibilidade nos elementos do topo
+      const btnPDF = document.getElementById("btnPDFGlobal");
+      const fCat = document.getElementById("filtroCategoria");
+      const fMes = document.getElementById("filtroMes");
+      const cBusca = document.getElementById("containerBusca");
+
+      // Esconde/Mostra PDF
+      if (btnPDF) btnPDF.style.display = escondeFiltros ? 'none' : 'flex';
+
+      // Esconde/Mostra Categoria e Mês
+      if (fCat) fCat.style.display = escondeFiltros ? 'none' : 'block';
+      if (fMes) fMes.style.display = escondeFiltros ? 'none' : 'block';
+
+      // O container de busca só aparece em tabelas (Vencimentos e Histórico)
+      if (cBusca) cBusca.style.display = (id === 'vencimentos' || id === 'historico') ? 'block' : 'none';
+    }
+    async function animarPagamento(id) {
+      document.getElementById(`row-${id}`)?.classList.add("removing");
+      setTimeout(() => acao('baixar', id), 400);
     }
 
-    async function animarPagamento(id) { document.getElementById(`row-${id}`)?.classList.add("removing"); setTimeout(() => acao('baixar', id), 400); }
-    async function acao(tipo, id) { await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}`); atualizarTabela(); }
+    async function acao(tipo, id) {
+      await fetch(`${API_URL}?senha=${SENHA_MESTRA}&action=${tipo}&id=${id}&usuario=${usuarioLogado}`);
+      atualizarTabela();
+    }
 
     async function salvarConfiguracoes(event) {
       const btn = event.currentTarget;
@@ -405,7 +719,7 @@
       btn.innerHTML = "<span>⏳ Salvando...</span>";
       btn.disabled = true;
       try {
-        const url = `${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&salario=${sal}&fechamento=${fec}&vencimento=${ven}`;
+        const url = `${API_URL}?senha=${SENHA_MESTRA}&action=salvarConfig&salario=${sal}&fechamento=${fec}&vencimento=${ven}&usuario=${usuarioLogado}`;
         const r = await fetch(url);
         const res = await r.json();
         if (res.status === "ok") { alert("Salvo!"); atualizarTabela(); }
@@ -421,7 +735,9 @@
       const ctxB = document.getElementById("graficoBarras").getContext("2d"); if (chartBarras) chartBarras.destroy();
       chartBarras = new Chart(ctxB, { type: "bar", data: { labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], datasets: [{ label: "R$", data: dadosMes, backgroundColor: "#4f46e5" }] }, options: { maintainAspectRatio: false } });
     }
-    function fazerLogout() { localStorage.removeItem("logadoFinan"); location.reload(); }
+
+    function fazerLogout() { localStorage.clear(); location.reload(); }
   </script>
 </body>
+
 </html>
