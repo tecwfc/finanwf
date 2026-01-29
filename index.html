@@ -728,14 +728,65 @@ main h1 {
     }
 
     function renderizarGraficos(cat) {
-      const ctxP = document.getElementById("graficoPizza").getContext("2d"); if (chartPizza) chartPizza.destroy();
-      chartPizza = new Chart(ctxP, { type: "doughnut", data: { labels: Object.keys(cat), datasets: [{ data: Object.values(cat), backgroundColor: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#64748b"] }] }, options: { maintainAspectRatio: false } });
-      const meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-      const dadosMes = meses.map(m => [...todosOsDados, ...todosOsPagos].filter(l => l[5].split("/")[1] === m).reduce((a, b) => a + (parseFloat(String(b[4]).replace(',', '.')) || 0), 0));
-      const ctxB = document.getElementById("graficoBarras").getContext("2d"); if (chartBarras) chartBarras.destroy();
-      chartBarras = new Chart(ctxB, { type: "bar", data: { labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], datasets: [{ label: "R$", data: dadosMes, backgroundColor: "#4f46e5" }] }, options: { maintainAspectRatio: false } });
-    }
+  // Detecta se o modo escuro está ativo para definir a cor do texto
+  const isDark = document.getElementById("bodyTag").classList.contains("dark");
+  const textColor = isDark ? '#e2e8f0' : '#1e293b';
 
+  // Configuração comum para legibilidade
+  const commonOptions = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: textColor, font: { weight: '600' } }
+      }
+    },
+    scales: {
+      y: { ticks: { color: textColor } },
+      x: { ticks: { color: textColor } }
+    }
+  };
+
+  // 1. Gráfico de Pizza (Categorias)
+  const ctxP = document.getElementById("graficoPizza").getContext("2d");
+  if (chartPizza) chartPizza.destroy();
+  chartPizza = new Chart(ctxP, {
+    type: "doughnut",
+    data: {
+      labels: Object.keys(cat),
+      datasets: [{
+        data: Object.values(cat),
+        backgroundColor: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#64748b"],
+        borderWidth: isDark ? 2 : 1,
+        borderColor: isDark ? '#1e293b' : '#ffffff'
+      }]
+    },
+    options: commonOptions
+  });
+
+  // 2. Gráfico de Barras (Meses)
+  const meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  const dadosMes = meses.map(m => [...todosOsDados, ...todosOsPagos]
+    .filter(l => l[5].split("/")[1] === m)
+    .reduce((a, b) => a + (parseFloat(String(b[4]).replace(',', '.')) || 0), 0)
+  );
+
+  const ctxB = document.getElementById("graficoBarras").getContext("2d");
+  if (chartBarras) chartBarras.destroy();
+  chartBarras = new Chart(ctxB, {
+    type: "bar",
+    data: {
+      labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+      datasets: [{
+        label: "Gastos Mensais",
+        data: dadosMes,
+        backgroundColor: "#4f46e5",
+        borderRadius: 6
+      }]
+    },
+    options: commonOptions
+  });
+}
+    
     function fazerLogout() { localStorage.clear(); location.reload(); }
   </script>
 </body>
