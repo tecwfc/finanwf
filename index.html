@@ -21,7 +21,253 @@
     <!-- Fonte Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-        <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .sidebar-item {
+            transition: all 0.2s;
+        }
+        
+        .gradient-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .pdf-option-btn {
+            transition: all 0.2s;
+        }
+        
+        .pdf-option-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .card-mobile {
+                border-radius: 1rem;
+                padding: 1rem;
+            }
+            
+            .table-mobile {
+                font-size: 0.7rem;
+            }
+            
+            .table-mobile td, .table-mobile th {
+                padding: 0.5rem 0.25rem;
+            }
+            
+            .hide-on-mobile {
+                display: none;
+            }
+            
+            .show-on-mobile {
+                display: block;
+            }
+            
+            .mobile-stack {
+                flex-direction: column;
+            }
+            
+            .mobile-full-width {
+                width: 100%;
+            }
+            
+            .mobile-text-sm {
+                font-size: 0.75rem;
+            }
+            
+            .mobile-p-2 {
+                padding: 0.5rem;
+            }
+            
+            .mobile-gap-2 {
+                gap: 0.5rem;
+            }
+            
+            .mobile-grid-cols-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+            }
+            
+            .desktop-menu {
+                display: none;
+            }
+            
+            /* Ajuste para cards no mobile ficarem mais compactos */
+            .stat-card {
+                padding: 0.5rem;
+            }
+            
+            .stat-card .value {
+                font-size: 0.9rem;
+            }
+            
+            /* Botões touch-friendly com tamanho adequado */
+            .touch-button {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* Barra de navegação inferior (mobile) */
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 1px solid #e2e8f0;
+                padding: 0.5rem 0.25rem;
+                z-index: 50;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            }
+            
+            .dark .mobile-bottom-nav {
+                background: #1e293b;
+                border-top-color: #334155;
+            }
+            
+            .mobile-bottom-nav-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0.35rem 0;
+                border-radius: 0.5rem;
+                font-size: 0.6rem;
+                color: #64748b;
+                transition: all 0.2s;
+            }
+            
+            .mobile-bottom-nav-item i {
+                font-size: 1.1rem;
+                margin-bottom: 0.15rem;
+            }
+            
+            .mobile-bottom-nav-item.active {
+                color: #4f46e5;
+                background: #eef2ff;
+            }
+            
+            .dark .mobile-bottom-nav-item.active {
+                background: #312e81;
+                color: #c7d2fe;
+            }
+            
+            /* Ajuste de padding inferior para não sobrepor conteúdo com a nav fixa */
+            main {
+                padding-bottom: 70px !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .desktop-menu {
+                display: block;
+            }
+            
+            .show-on-mobile {
+                display: none;
+            }
+            
+            .mobile-bottom-nav {
+                display: none;
+            }
+        }
+        
+        /* Sidebar mobile (mantida como fallback) */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: white;
+            z-index: 1000;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        
+        .dark .mobile-sidebar {
+            background-color: #1e293b;
+        }
+        
+        .mobile-sidebar.open {
+            left: 0;
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .sidebar-overlay.open {
+            display: block;
+        }
+        
+        /* Scroll horizontal para tabelas */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+        
+        .table-container table {
+            min-width: 600px;
+        }
+        
+        /* Modal mobile */
+        @media (max-width: 640px) {
+            .modal-content {
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                margin: 1rem auto;
+            }
+        }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
 
@@ -591,7 +837,2082 @@
     </div>
 </div>
 
- <script src="script.js"></script>
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbx99AdDg56QB6f1qTgKQeqxLNrgyVasTDNgDvf9XfCvt7NDIuUahSlv2Fs1L2UYI5Zy/exec";
+
+// Configurações Globais
+let usuarioLogado = "";
+let todosOsDados = [];
+let todosOsPagos = [];
+let configuracoesGlobais = {
+    salario: 5000,
+    cartoes: [
+        { nome: "Principal", fechamento: 10, vencimento: 15 },
+        { nome: "Secundário", fechamento: 5, vencimento: 10 },
+        { nome: "Outro", fechamento: 20, vencimento: 25 }
+    ]
+};
+
+// Variável para armazenar o tipo de PDF atual
+let tipoPDFAtual = "";
+let dadosPDFSelecionados = null;
+
+// Cores das Categorias
+const CORES_CAT = {
+    "Lazer": "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
+    "Saúde": "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+    "Educação": "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+    "Aluguel/Fixo": "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+    "Mercado": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    "Outros": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400"
+};
+
+// Cores dos Gráficos
+const CORES_GRAFICOS = {
+    categorias: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899"],
+    pagamentos: {
+        "Cartão de Crédito": "#8b5cf6",
+        "Cartão de Débito": "#10b981",
+        "Dinheiro": "#f59e0b",
+        "PIX": "#4f46e5"
+    }
+};
+
+// Variáveis dos Gráficos
+let chartPizza = null;
+let chartBarras = null;
+let chartFormasPagamento = null;
+
+// ============================================
+// FUNÇÕES DO SIDEBAR MOBILE
+// ============================================
+function abrirSidebar() {
+    document.getElementById("mobileSidebar").classList.add("open");
+    document.getElementById("sidebarOverlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+
+function fecharSidebar() {
+    document.getElementById("mobileSidebar").classList.remove("open");
+    document.getElementById("sidebarOverlay").classList.remove("open");
+    document.body.style.overflow = "";
+}
+
+function mudarTabMobile(tabId) {
+    mudarTab(tabId, null);
+    fecharSidebar();
+    
+    // Atualizar estilo dos botões do mobile
+    document.querySelectorAll(".sidebar-item-mobile").forEach(b => {
+        b.classList.remove("bg-indigo-50", "text-indigo-600");
+        b.classList.add("text-slate-500");
+    });
+    
+    const btnAtivo = Array.from(document.querySelectorAll(".sidebar-item-mobile")).find(
+        btn => btn.innerHTML.includes(tabId === "dash" ? "Dashboard" : 
+                                      tabId === "lancar" ? "Lançar" : 
+                                      tabId === "vencimentos" ? "Vencimentos" : 
+                                      tabId === "historico" ? "Histórico" : 
+                                      tabId === "cartao" ? "Cartão" : "Configurações")
+    );
+    
+    if (btnAtivo) {
+        btnAtivo.classList.add("bg-indigo-50", "text-indigo-600");
+        btnAtivo.classList.remove("text-slate-500");
+    }
+    
+    // Atualizar navegação inferior
+    document.querySelectorAll('.mobile-bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tabId || 
+            (tabId === 'dash' && item.dataset.tab === 'dash') ||
+            (tabId === 'lancar' && item.dataset.tab === 'lancar') ||
+            (tabId === 'vencimentos' && item.dataset.tab === 'vencimentos') ||
+            (tabId === 'historico' && item.dataset.tab === 'historico') ||
+            (tabId === 'cartao' && item.dataset.tab === 'cartao') ||
+            (tabId === 'configuracoes' && item.dataset.tab === 'configuracoes')) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// ============================================
+// INICIALIZAÇÃO
+// ============================================
+window.onload = function() {
+    // Verificar tema salvo
+    if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+    
+    // Preencher data atual
+    const hoje = new Date().toISOString().split("T")[0];
+    if (document.getElementById("data")) {
+        document.getElementById("data").value = hoje;
+    }
+    if (document.getElementById("modalDataPagamento")) {
+        document.getElementById("modalDataPagamento").value = hoje;
+    }
+    
+    // Verificar login
+    if (localStorage.getItem("logadoFinan") === "true") {
+        usuarioLogado = localStorage.getItem("userFinan") || "";
+        mostrarApp();
+    }
+    
+    // Carregar configurações
+    carregarConfiguracoes();
+    
+    // Fechar sidebar ao redimensionar para desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            fecharSidebar();
+        }
+    });
+    
+    // Configurar evento para os botões da navegação inferior
+    document.querySelectorAll('.mobile-bottom-nav-item').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.dataset.tab;
+            mudarTabMobile(tabId);
+        });
+    });
+};
+
+// ============================================
+// CONTROLE DE TABS
+// ============================================
+function mudarTab(tabId, btn) {
+    document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+    
+    const tabElement = document.getElementById("tab-" + tabId);
+    if (tabElement) {
+        tabElement.classList.add("active");
+    }
+    
+    // Atualizar botões do desktop
+    document.querySelectorAll(".sidebar-item").forEach(b => {
+        b.classList.remove("active", "bg-indigo-50", "text-indigo-600");
+        b.classList.add("text-slate-500");
+    });
+    
+    if (btn) {
+        btn.classList.add("active", "bg-indigo-50", "text-indigo-600");
+        btn.classList.remove("text-slate-500");
+    }
+    
+    // Atualizar navegação inferior
+    document.querySelectorAll('.mobile-bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tabId) {
+            item.classList.add('active');
+        }
+    });
+    
+    if (tabId === "dash" || tabId === "vencimentos" || tabId === "historico" || tabId === "cartao") {
+        atualizarTabela();
+    }
+}
+
+// ============================================
+// DARK MODE
+// ============================================
+function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    
+    if (todosOsDados && todosOsDados.length > 0) {
+        setTimeout(() => renderizarGraficosComDados(todosOsDados), 100);
+    }
+}
+
+// ============================================
+// LOGIN
+// ============================================
+async function verificarSenha() {
+    const user = document.getElementById("inputUsuario").value.trim();
+    const pass = document.getElementById("inputSenha").value.trim();
+    const btn = document.querySelector("#telaLogin button");
+
+    if (!user || !pass) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    btn.innerText = "Verificando...";
+    btn.disabled = true;
+
+    try {
+        const url = `${API_URL}?usuario=${encodeURIComponent(user)}&senha=${encodeURIComponent(pass)}&acao=login&_=${Date.now()}`;
+        const response = await fetch(url);
+        const resultado = await response.json();
+
+        if (resultado.logado) {
+            localStorage.setItem("logadoFinan", "true");
+            localStorage.setItem("userFinan", user);
+            usuarioLogado = user;
+            mostrarApp();
+        } else {
+            alert("Usuário ou senha incorretos!");
+            btn.innerText = "Entrar";
+            btn.disabled = false;
+        }
+    } catch (error) {
+        console.error("Erro no login:", error);
+        alert("Erro de conexão. Verifique se o Script foi publicado como 'Qualquer pessoa'.");
+        btn.innerText = "Entrar";
+        btn.disabled = false;
+    }
+}
+
+async function mostrarApp() {
+    if (document.getElementById("nomeUsuarioLogado")) {
+        document.getElementById("nomeUsuarioLogado").innerText = usuarioLogado;
+    }
+    document.getElementById("telaLogin").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    
+    await carregarConfiguracoes();
+    atualizarTabela();
+}
+
+function fazerLogout() {
+    localStorage.clear();
+    usuarioLogado = "";
+    todosOsDados = [];
+    todosOsPagos = [];
+    location.reload();
+}
+
+// ============================================
+// ATUALIZAR DADOS DA PLANILHA
+// ============================================
+async function atualizarTabela() {
+    if (!usuarioLogado) return;
+    
+    try {
+        const response = await fetch(`${API_URL}?usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`);
+        const dados = await response.json();
+        
+        if (dados.erro) {
+            console.error("Erro:", dados.erro);
+            return;
+        }
+        
+        todosOsDados = Array.isArray(dados) ? dados : [];
+        
+        const pendentes = todosOsDados.filter(item => 
+            item.Status === "Pendente" || !item.Status || item.Status === ""
+        );
+        const pagos = todosOsDados.filter(item => 
+            item.Status === "Pago"
+        );
+        todosOsPagos = pagos;
+        
+        renderizarLinhas(pendentes, "corpoTabelaVencimentos");
+        renderizarLinhasPagos(pagos, "corpoTabelaPagos");
+        atualizarCardsFinanceiros(pendentes, pagos);
+        renderizarGraficosComDados(todosOsDados);
+        
+        renderizarFaturasCartao();
+        renderizarResumoCartoes();
+        renderizarTabelaCartao();
+        
+        atualizarBarraProgressoVencimentos();
+        
+        // Atualizar contador mobile
+        const qtdMobile = document.getElementById("qtdPendentesMobile");
+        if (qtdMobile) {
+            qtdMobile.innerText = pendentes.length;
+        }
+        
+        // Atualizar contador da navegação inferior
+        const qtdNav = document.getElementById("qtdPendentesNav");
+        if (qtdNav) {
+            qtdNav.innerText = pendentes.length;
+        }
+        
+    } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+    }
+}
+
+// ============================================
+// RENDERIZAR TABELAS
+// ============================================
+function renderizarLinhas(lista, id) {
+    const corpo = document.getElementById(id);
+    if (!corpo) return;
+    
+    corpo.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        corpo.innerHTML = `<tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Nenhuma conta pendente</td></tr>`;
+        return;
+    }
+
+    lista.forEach((item) => {
+        const idItem = item.ID || item.id || "";
+        const descricao = item.Descrição || item.Descricao || item.descricao || "Sem descrição";
+        const categoria = item.Categoria || item.categoria || "Outros";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const dataOriginal = item.Data || item.data || item.Vencimento || "";
+        const formaPagamento = item.FormaPagamento || item["Forma Pagamento"] || item.formaPagamento || "N/A";
+        
+        let parcela = "1";
+        let totalParcelas = "1";
+        
+        if (item.ParcelaAtual) parcela = item.ParcelaAtual;
+        else if (item.parcelaAtual) parcela = item.parcelaAtual;
+        else if (item.Parcela) parcela = item.Parcela;
+        else if (item.parcela) parcela = item.parcela;
+        
+        if (item.TotalParcelas) totalParcelas = item.TotalParcelas;
+        else if (item.totalParcelas) totalParcelas = item.totalParcelas;
+        else if (item.Parcelas) totalParcelas = item.Parcelas;
+        else if (item.parcelas) totalParcelas = item.parcelas;
+        else if (item.Parcelamento) {
+            const partes = item.Parcelamento.toString().split(/[_\/]/);
+            if (partes.length === 2) {
+                parcela = partes[0];
+                totalParcelas = partes[1];
+            }
+        }
+
+        let dataFormatada = "---";
+        if (dataOriginal) {
+            try {
+                const dataStr = dataOriginal.toString().split("T")[0];
+                if (dataStr.includes("-")) {
+                    const [ano, mes, dia] = dataStr.split("-");
+                    dataFormatada = `${dia}/${mes}/${ano}`;
+                }
+            } catch (e) {}
+        }
+
+        const valorFormatado = valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        const corCategoria = CORES_CAT[categoria] || CORES_CAT["Outros"];
+
+        corpo.innerHTML += `
+            <tr class="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <td class="p-2 sm:p-4 text-[10px] sm:text-xs font-mono text-slate-400">${parcela}/${totalParcelas}</td>
+                <td class="p-2 sm:p-4 font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200">${descricao.substring(0, 15)}${descricao.length > 15 ? '...' : ''}</td>
+                <td class="p-2 sm:p-4 hide-on-mobile">
+                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+                        ${formaPagamento.substring(0, 8)}${formaPagamento.length > 8 ? '...' : ''}
+                    </span>
+                </td>
+                <td class="p-2 sm:p-4">
+                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase ${corCategoria}">
+                        ${categoria.substring(0, 8)}${categoria.length > 8 ? '...' : ''}
+                    </span>
+                </td>
+                <td class="p-2 sm:p-4 text-center font-mono text-[10px] sm:text-xs text-slate-500">${dataFormatada}</td>
+                <td class="p-2 sm:p-4 text-right font-bold text-[11px] sm:text-sm ${valor >= 0 ? 'text-emerald-600' : 'text-rose-600'}">
+                    ${valorFormatado}
+                </td>
+                <td class="p-2 sm:p-4 text-center">
+                    <button onclick="marcarComoPago('${idItem}', event)" 
+                            class="bg-indigo-600 text-white px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg text-[8px] sm:text-[10px] font-bold hover:bg-indigo-700 transition-all active:scale-95 shadow-sm touch-button">
+                        Pagar
+                    </button>
+                </td>
+            </tr>`;
+    });
+}
+
+function renderizarLinhasPagos(lista, id) {
+    const corpo = document.getElementById(id);
+    if (!corpo) return;
+    
+    corpo.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        corpo.innerHTML = `<tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Nenhum registro pago</td></tr>`;
+        return;
+    }
+
+    lista.forEach((item) => {
+        const idItem = item.ID || item.id || "";
+        const descricao = item.Descrição || item.Descricao || item.descricao || "Sem descrição";
+        const categoria = item.Categoria || item.categoria || "Outros";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const dataOriginal = item.Data || item.data || item.Vencimento || "";
+        const formaPagamento = item.FormaPagamento || item["Forma Pagamento"] || item.formaPagamento || "N/A";
+        
+        let parcela = "1";
+        let totalParcelas = "1";
+        
+        if (item.ParcelaAtual) parcela = item.ParcelaAtual;
+        else if (item.parcelaAtual) parcela = item.parcelaAtual;
+        else if (item.Parcela) parcela = item.Parcela;
+        else if (item.parcela) parcela = item.parcela;
+        
+        if (item.TotalParcelas) totalParcelas = item.TotalParcelas;
+        else if (item.totalParcelas) totalParcelas = item.totalParcelas;
+        else if (item.Parcelas) totalParcelas = item.Parcelas;
+        else if (item.parcelas) totalParcelas = item.parcelas;
+        else if (item.Parcelamento) {
+            const partes = item.Parcelamento.toString().split(/[_\/]/);
+            if (partes.length === 2) {
+                parcela = partes[0];
+                totalParcelas = partes[1];
+            }
+        }
+
+        let dataFormatada = "---";
+        if (dataOriginal) {
+            try {
+                const dataStr = dataOriginal.toString().split("T")[0];
+                if (dataStr.includes("-")) {
+                    const [ano, mes, dia] = dataStr.split("-");
+                    dataFormatada = `${dia}/${mes}/${ano}`;
+                }
+            } catch (e) {}
+        }
+
+        const valorFormatado = valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        const corCategoria = CORES_CAT[categoria] || CORES_CAT["Outros"];
+
+        corpo.innerHTML += `
+            <tr class="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <td class="p-2 sm:p-4 text-[10px] sm:text-xs font-mono text-slate-400">${parcela}/${totalParcelas}</td>
+                <td class="p-2 sm:p-4 font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200">${descricao.substring(0, 15)}${descricao.length > 15 ? '...' : ''}</td>
+                <td class="p-2 sm:p-4 hide-on-mobile">
+                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+                        ${formaPagamento.substring(0, 8)}${formaPagamento.length > 8 ? '...' : ''}
+                    </span>
+                </td>
+                <td class="p-2 sm:p-4">
+                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase ${corCategoria}">
+                        ${categoria.substring(0, 8)}${categoria.length > 8 ? '...' : ''}
+                    </span>
+                </td>
+                <td class="p-2 sm:p-4 text-center font-mono text-[10px] sm:text-xs text-slate-500">${dataFormatada}</td>
+                <td class="p-2 sm:p-4 text-right font-bold text-[11px] sm:text-sm text-emerald-600">
+                    ${valorFormatado}
+                </td>
+                <td class="p-2 sm:p-4 text-center">
+                    <button onclick="estornarRegistro('${idItem}', event)" 
+                            class="text-amber-600 font-bold text-[8px] sm:text-[10px] hover:text-amber-700 transition-all hover:underline touch-button">
+                        Estornar
+                    </button>
+                </td>
+            </tr>`;
+    });
+}
+
+// ============================================
+// CARDS FINANCEIROS
+// ============================================
+function atualizarCardsFinanceiros(pendentes, pagos) {
+    const totalPendente = pendentes.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
+    const totalPago = pagos.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
+    const receitas = configuracoesGlobais.salario || 5000;
+    const saldoLivre = receitas - totalPendente - totalPago;
+
+    const cardPendente = document.getElementById("cardPendente");
+    if (cardPendente) {
+        cardPendente.innerText = totalPendente.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    const cardPago = document.getElementById("cardPago");
+    if (cardPago) {
+        cardPago.innerText = totalPago.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    const cardReceitas = document.getElementById("cardReceitas");
+    if (cardReceitas) {
+        cardReceitas.innerText = receitas.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    const cardSaldoRestante = document.getElementById("cardSaldoRestante");
+    if (cardSaldoRestante) {
+        cardSaldoRestante.innerText = saldoLivre.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    const totalGasto = totalPendente + totalPago;
+    const porcentagem = receitas > 0 ? (totalGasto / receitas) * 100 : 0;
+    
+    const barraProgresso = document.getElementById("barraProgresso");
+    if (barraProgresso) {
+        barraProgresso.style.width = `${Math.min(porcentagem, 100)}%`;
+    }
+    
+    const txtPorcentagem = document.getElementById("txtPorcentagem");
+    if (txtPorcentagem) {
+        txtPorcentagem.innerText = `${porcentagem.toFixed(1)}%`;
+    }
+}
+
+// ============================================
+// GRÁFICOS
+// ============================================
+function renderizarGraficosComDados(dados) {
+    if (!dados || dados.length === 0) return;
+
+    const resumoCategorias = {};
+    const resumoPagamentos = {};
+
+    dados.forEach((item) => {
+        const cat = item.Categoria || item.categoria || "Outros";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const forma = item.FormaPagamento || item["Forma Pagamento"] || item.formaPagamento || "Outros";
+
+        resumoCategorias[cat] = (resumoCategorias[cat] || 0) + valor;
+        resumoPagamentos[forma] = (resumoPagamentos[forma] || 0) + valor;
+    });
+
+    renderizarPizza(resumoCategorias);
+    renderizarBarras(resumoCategorias);
+    renderizarGraficoPagamentos(resumoPagamentos);
+}
+
+function renderizarPizza(dados) {
+    const canvas = document.getElementById("graficoPizza");
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext("2d");
+    if (chartPizza) chartPizza.destroy();
+
+    const labels = Object.keys(dados);
+    const valores = Object.values(dados);
+    
+    if (labels.length === 0) {
+        labels.push("Sem dados");
+        valores.push(1);
+    }
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const textColor = isDark ? "#e2e8f0" : "#1e293b";
+
+    chartPizza = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: CORES_GRAFICOS.categorias,
+                borderWidth: 2,
+                borderColor: isDark ? "#1e293b" : "#ffffff"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: { 
+                        color: textColor, 
+                        font: { size: window.innerWidth < 640 ? 8 : 11, family: "'Plus Jakarta Sans', sans-serif" }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const valor = context.raw;
+                            return ` ${context.label}: ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+                        }
+                    }
+                }
+            },
+            cutout: "70%"
+        }
+    });
+}
+
+function renderizarBarras(dados) {
+    const canvas = document.getElementById("graficoBarras");
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext("2d");
+    if (chartBarras) chartBarras.destroy();
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const textColor = isDark ? "#e2e8f0" : "#1e293b";
+    const gridColor = isDark ? "#334155" : "#e2e8f0";
+
+    const dadosMensais = {};
+    
+    todosOsDados.forEach(item => {
+        const dataStr = item.Data || item.data || "";
+        if (dataStr) {
+            try {
+                const data = new Date(dataStr + "T12:00:00");
+                const mesAno = `${data.getMonth() + 1}/${data.getFullYear()}`;
+                const valor = parseFloat(item.Valor || item.valor || 0);
+                dadosMensais[mesAno] = (dadosMensais[mesAno] || 0) + valor;
+            } catch (e) {}
+        }
+    });
+
+    const mesesOrdenados = Object.keys(dadosMensais).sort((a, b) => {
+        const [mesA, anoA] = a.split("/").map(Number);
+        const [mesB, anoB] = b.split("/").map(Number);
+        return anoA - anoB || mesA - mesB;
+    });
+
+    const labels = mesesOrdenados.map(mes => {
+        const [mesNum, ano] = mes.split("/");
+        const nomesMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        return window.innerWidth < 640 ? `${nomesMeses[parseInt(mesNum) - 1]}` : `${nomesMeses[parseInt(mesNum) - 1]}/${ano.toString().slice(-2)}`;
+    });
+
+    const valores = mesesOrdenados.map(mes => dadosMensais[mes]);
+
+    chartBarras = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Gastos Mensais",
+                data: valores,
+                backgroundColor: "#4f46e5",
+                borderRadius: 6,
+                borderWidth: 1,
+                borderColor: "#3730a3"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            return `${context.dataset.label}: ${context.parsed.y.toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL"
+                            })}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColor,
+                        font: { size: window.innerWidth < 640 ? 8 : 10 },
+                        callback: (value) => window.innerWidth < 640 ? `R$ ${value}` : `R$ ${value.toLocaleString("pt-BR")}`
+                    },
+                    grid: { color: gridColor, drawBorder: false }
+                },
+                x: {
+                    ticks: { 
+                        color: textColor, 
+                        maxRotation: 45,
+                        font: { size: window.innerWidth < 640 ? 8 : 10 }
+                    },
+                    grid: { color: gridColor, drawBorder: false }
+                }
+            }
+        }
+    });
+}
+
+function renderizarGraficoPagamentos(dados) {
+    const canvas = document.getElementById("graficoFormasPagamento");
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext("2d");
+    if (chartFormasPagamento) chartFormasPagamento.destroy();
+
+    const labels = Object.keys(dados);
+    const valores = Object.values(dados);
+    
+    if (labels.length === 0) {
+        labels.push("Sem dados");
+        valores.push(1);
+    }
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const textColor = isDark ? "#e2e8f0" : "#1e293b";
+
+    const cores = labels.map(label => {
+        return CORES_GRAFICOS.pagamentos[label] || "#64748b";
+    });
+
+    chartFormasPagamento = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: cores,
+                borderWidth: isDark ? 2 : 1,
+                borderColor: isDark ? "#1e293b" : "#ffffff"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: { 
+                        color: textColor, 
+                        font: { size: window.innerWidth < 640 ? 8 : 11, family: "'Plus Jakarta Sans', sans-serif" }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const valor = context.raw;
+                            return ` ${context.label}: ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ============================================
+// LANÇAMENTO DE DESPESAS
+// ============================================
+async function lancar() {
+    const btn = document.getElementById("btnLancar");
+    const desc = document.getElementById("desc").value.trim();
+    const valor = document.getElementById("valor").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const data = document.getElementById("data").value;
+    const formaPagamento = document.getElementById("formaPagamento").value;
+    const parcelas = document.getElementById("parcelas")?.value || "1";
+    const cartao = document.getElementById("cartaoSelecionado")?.value || "";
+
+    if (!desc || !valor || !categoria || !data) {
+        alert("Preencha todos os campos obrigatórios.");
+        return;
+    }
+
+    const valorNum = parseFloat(valor);
+    const parcelasNum = parseInt(parcelas);
+    
+    if (isNaN(valorNum) || valorNum <= 0) {
+        alert("Valor inválido!");
+        return;
+    }
+    
+    if (isNaN(parcelasNum) || parcelasNum < 1) {
+        alert("Número de parcelas inválido!");
+        return;
+    }
+
+    if (parcelasNum > 1) {
+        const valorParcela = valorNum / parcelasNum;
+        const confirmacao = confirm(
+            `📋 RESUMO DO PARCELAMENTO\n\n` +
+            `Total: R$ ${valorNum.toFixed(2)}\n` +
+            `Parcelas: ${parcelasNum}x\n` +
+            `Valor por parcela: R$ ${valorParcela.toFixed(2)}\n\n` +
+            `Deseja continuar?`
+        );
+        
+        if (!confirmacao) return;
+    }
+
+    btn.innerText = "Enviando...";
+    btn.disabled = true;
+
+    try {
+        const dados = {
+            acao: "lancar",
+            usuario: usuarioLogado,
+            desc: desc,
+            valor: valorNum.toFixed(2),
+            categoria: categoria,
+            formaPagamento: formaPagamento,
+            data: data,
+            parcelas: parcelasNum,
+            cartao: cartao
+        };
+
+        await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
+        });
+
+        alert(`✅ ${parcelasNum > 1 ? parcelasNum + ' parcelas' : 'Lançamento'} realizado com sucesso!`);
+        limparFormLancar();
+        await atualizarTabela();
+        
+    } catch (err) {
+        console.error("Erro ao lançar:", err);
+        alert("❌ Erro ao salvar. Verifique o console.");
+    } finally {
+        btn.innerText = "Confirmar Lançamento";
+        btn.disabled = false;
+    }
+}
+
+function limparFormLancar() {
+    document.getElementById("desc").value = "";
+    document.getElementById("valor").value = "";
+    document.getElementById("categoria").value = "Aluguel/Fixo";
+    document.getElementById("formaPagamento").value = "Cartão de Crédito";
+    
+    const hoje = new Date().toISOString().split("T")[0];
+    document.getElementById("data").value = hoje;
+    
+    if (document.getElementById("parcelas")) {
+        document.getElementById("parcelas").value = "1";
+    }
+    
+    toggleCamposCartao();
+}
+
+// ============================================
+// PAGAMENTO E ESTORNO
+// ============================================
+async function marcarComoPago(id, event) {
+    if (!id) {
+        alert("ID do registro não encontrado");
+        return;
+    }
+    
+    if (!confirm("Confirmar pagamento desta conta?")) return;
+    
+    const btn = event?.target;
+    if (btn) {
+        btn.innerText = "Pagando...";
+        btn.disabled = true;
+    }
+    
+    try {
+        await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                acao: "pagar",
+                id: id,
+                usuario: usuarioLogado
+            })
+        });
+        
+        alert("Pagamento registrado!");
+        await atualizarTabela();
+        
+    } catch (error) {
+        console.error("Erro no pagamento:", error);
+        alert("Erro ao registrar pagamento.");
+    } finally {
+        if (btn) {
+            btn.innerText = "Pagar";
+            btn.disabled = false;
+        }
+    }
+}
+
+async function estornarRegistro(id, event) {
+    if (!id) {
+        alert("ID do registro não encontrado");
+        return;
+    }
+    
+    if (!confirm("Tem certeza que deseja estornar este pagamento?")) return;
+    
+    const btn = event?.target;
+    if (btn) {
+        btn.innerText = "Estornando...";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+    }
+    
+    try {
+        await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                acao: "estornar",
+                id: id,
+                usuario: usuarioLogado
+            })
+        });
+        
+        alert("Pagamento estornado com sucesso!");
+        await atualizarTabela();
+        
+    } catch (error) {
+        console.error("Erro no estorno:", error);
+        alert("Erro ao estornar pagamento.");
+    } finally {
+        if (btn) {
+            btn.innerText = "Estornar";
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    }
+}
+
+// ============================================
+// CONTROLE DE CARTÃO DE CRÉDITO
+// ============================================
+function toggleCamposCartao() {
+    const formaPagamento = document.getElementById("formaPagamento")?.value;
+    const divCartaoInfo = document.getElementById("divCartaoInfo");
+    const infoFaturaAtual = document.getElementById("infoFaturaAtual");
+    
+    if (!divCartaoInfo) return;
+
+    if (formaPagamento === "Cartão de Crédito") {
+        divCartaoInfo.style.display = "block";
+        atualizarInfoCartao();
+    } else {
+        divCartaoInfo.style.display = "none";
+        if (infoFaturaAtual) infoFaturaAtual.innerHTML = "💰 Pagamento à vista";
+    }
+}
+
+function atualizarInfoCartao() {
+    const formaPagamento = document.getElementById("formaPagamento")?.value;
+    const infoFaturaAtual = document.getElementById("infoFaturaAtual");
+    
+    if (!infoFaturaAtual) return;
+
+    if (formaPagamento === "Cartão de Crédito") {
+        const parcelas = parseInt(document.getElementById("parcelas")?.value) || 1;
+        const dataCompra = document.getElementById("data")?.value;
+        const cartao = document.getElementById("cartaoSelecionado")?.value || "Principal";
+        const valor = parseFloat(document.getElementById("valor")?.value) || 0;
+        
+        if (dataCompra && valor > 0) {
+            const faturas = calcularFaturasCartao(dataCompra, parcelas, cartao);
+            const mesesNomes = [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ];
+
+            if (faturas.length > 0) {
+                const prim = faturas[0];
+                const valorParcela = valor / parcelas;
+                
+                let html = `
+                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-2 sm:p-3 rounded-lg mt-2">
+                        <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm">
+                            <span>📅</span>
+                            <span>1ª parcela em <strong>${mesesNomes[prim.mes - 1]}</strong></span>
+                        </div>`;
+
+                if (parcelas > 1) {
+                    html += `<div class="text-[10px] sm:text-xs text-slate-500 mt-2">`;
+                    for (let i = 0; i < Math.min(parcelas, 2); i++) {
+                        const fat = faturas[i];
+                        html += `<div class="flex justify-between">
+                            <span>Parcela ${i+1}:</span>
+                            <span class="font-mono">${mesesNomes[fat.mes - 1]}</span>
+                            <span class="font-bold">R$ ${valorParcela.toFixed(2)}</span>
+                        </div>`;
+                    }
+                    if (parcelas > 2) {
+                        html += `<div class="text-center text-indigo-400 mt-1">+${parcelas - 2} parcelas</div>`;
+                    }
+                    html += `</div>`;
+                }
+
+                html += `</div>`;
+                infoFaturaAtual.innerHTML = html;
+            }
+        }
+    } else {
+        infoFaturaAtual.innerHTML = '<div class="text-slate-500 text-xs sm:text-sm mt-1">💰 Pagamento à vista</div>';
+    }
+}
+
+function calcularFaturasCartao(dataCompra, parcelas, nomeCartao) {
+    if (!dataCompra || dataCompra === "") {
+        return [];
+    }
+    
+    try {
+        const cartao = configuracoesGlobais.cartoes.find(c => c.nome === nomeCartao) || configuracoesGlobais.cartoes[0];
+        const data = new Date(dataCompra + "T12:00:00");
+        
+        if (isNaN(data.getTime())) {
+            return [];
+        }
+        
+        const parcelasNum = parseInt(parcelas) || 1;
+        const resultados = [];
+
+        let mesReferencia = data.getMonth();
+        let anoReferencia = data.getFullYear();
+
+        const diaFechamento = cartao?.fechamento || 10;
+        
+        if (data.getDate() >= diaFechamento) {
+            mesReferencia++;
+            if (mesReferencia > 11) {
+                mesReferencia = 0;
+                anoReferencia++;
+            }
+        }
+
+        for (let i = 0; i < parcelasNum; i++) {
+            let mes = mesReferencia + i;
+            let ano = anoReferencia;
+            
+            while (mes > 11) {
+                mes -= 12;
+                ano++;
+            }
+
+            resultados.push({
+                parcela: i + 1,
+                mes: mes + 1,
+                ano: ano,
+                vencimento: new Date(ano, mes, cartao?.vencimento || 15)
+            });
+        }
+        
+        return resultados;
+        
+    } catch (e) {
+        console.error("Erro ao calcular faturas:", e);
+        return [];
+    }
+}
+
+// ============================================
+// BARRA DE PROGRESSO
+// ============================================
+function atualizarBarraProgressoVencimentos() {
+    const pendentes = todosOsDados.filter(item => 
+        item.Status === "Pendente" || !item.Status || item.Status === ""
+    );
+    
+    const hoje = new Date();
+    const mesAtual = hoje.getMonth() + 1;
+    const anoAtual = hoje.getFullYear();
+    
+    const contasMesAtual = pendentes.filter(item => {
+        const dataStr = item.Data || item.data || item.Vencimento || "";
+        if (!dataStr) return false;
+        
+        try {
+            const data = new Date(dataStr + "T12:00:00");
+            if (isNaN(data.getTime())) return false;
+            return data.getMonth() + 1 === mesAtual && data.getFullYear() === anoAtual;
+        } catch (e) {
+            return false;
+        }
+    });
+    
+    const totalMesAtual = contasMesAtual.reduce((sum, item) => 
+        sum + (parseFloat(item.Valor || item.valor || 0)), 0
+    );
+    
+    const pagos = todosOsPagos || [];
+    const pagosMesAtual = pagos.filter(item => {
+        const dataStr = item.Data || item.data || item.Vencimento || "";
+        if (!dataStr) return false;
+        
+        try {
+            const data = new Date(dataStr + "T12:00:00");
+            if (isNaN(data.getTime())) return false;
+            return data.getMonth() + 1 === mesAtual && data.getFullYear() === anoAtual;
+        } catch (e) {
+            return false;
+        }
+    });
+    
+    const totalPagoMesAtual = pagosMesAtual.reduce((sum, item) => 
+        sum + (parseFloat(item.Valor || item.valor || 0)), 0
+    );
+    
+    const receitaMensal = configuracoesGlobais.salario || 5000;
+    const porcentagemGasto = receitaMensal > 0 ? (totalPagoMesAtual / receitaMensal) * 100 : 0;
+    const porcentagemExibida = Math.min(porcentagemGasto, 100);
+    
+    const elTotalPendente = document.getElementById("totalPendenteMes");
+    if (elTotalPendente) {
+        elTotalPendente.innerText = totalMesAtual.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+    
+    const elPorcentagem = document.getElementById("porcentagemPagaMes");
+    if (elPorcentagem) {
+        elPorcentagem.innerText = `${porcentagemExibida.toFixed(1)}%`;
+    }
+    
+    const elBarra = document.getElementById("barraProgressoVencimentos");
+    if (elBarra) {
+        elBarra.style.width = `${porcentagemExibida}%`;
+        
+        if (porcentagemGasto >= 90) {
+            elBarra.style.backgroundColor = "#ef4444";
+        } else if (porcentagemGasto >= 70) {
+            elBarra.style.backgroundColor = "#f59e0b";
+        } else {
+            elBarra.style.backgroundColor = "#4f46e5";
+        }
+    }
+    
+    const elQtd = document.getElementById("qtdPendentes");
+    if (elQtd) {
+        elQtd.innerText = pendentes.length;
+    }
+}
+
+// ============================================
+// RENDERIZAR FATURAS DO CARTÃO
+// ============================================
+function renderizarFaturasCartao() {
+    const container = document.getElementById("containerFaturas");
+    if (!container) return;
+
+    const comprasCartao = todosOsDados.filter(item => {
+        const formaPagamento = item.FormaPagamento || item.formaPagamento || "";
+        const status = item.Status || "";
+        return formaPagamento === "Cartão de Crédito" && status !== "Pago";
+    });
+
+    const faturasPorMes = {};
+
+    comprasCartao.forEach(item => {
+        const dataCompra = item.Data || item.data || "";
+        const cartao = item.Cartao || "Principal";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const parcelaAtual = parseInt(item.ParcelaAtual || 1);
+        const totalParcelas = parseInt(item.TotalParcelas || 1);
+        
+        if (dataCompra && dataCompra !== "" && !isNaN(parcelaAtual) && !isNaN(totalParcelas)) {
+            try {
+                const faturas = calcularFaturasCartao(dataCompra, totalParcelas, cartao);
+                
+                if (faturas && faturas.length > 0 && parcelaAtual <= faturas.length) {
+                    const faturaAtual = faturas[parcelaAtual - 1];
+                    
+                    if (faturaAtual) {
+                        const mes = faturaAtual.mes || 1;
+                        const ano = faturaAtual.ano || new Date().getFullYear();
+                        const chave = `${mes}/${ano}`;
+                        
+                        if (!faturasPorMes[chave]) {
+                            faturasPorMes[chave] = {};
+                        }
+                        if (!faturasPorMes[chave][cartao]) {
+                            faturasPorMes[chave][cartao] = 0;
+                        }
+                        faturasPorMes[chave][cartao] += valor;
+                    }
+                }
+            } catch (e) {
+                console.error("Erro ao processar fatura:", e);
+            }
+        }
+    });
+
+    const mesesNomes = [
+        "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+        "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+    ];
+
+    const chavesOrdenadas = Object.keys(faturasPorMes).sort((a, b) => {
+        const [mesA, anoA] = a.split("/").map(Number);
+        const [mesB, anoB] = b.split("/").map(Number);
+        return anoA - anoB || mesA - mesB;
+    });
+
+    let html = "";
+
+    if (chavesOrdenadas.length === 0) {
+        html = '<div class="p-4 sm:p-8 text-center text-slate-400">Nenhuma fatura pendente</div>';
+    } else {
+        chavesOrdenadas.forEach(chave => {
+            const [mes, ano] = chave.split("/").map(Number);
+            const cartoes = faturasPorMes[chave];
+            const totalFatura = Object.values(cartoes).reduce((sum, val) => sum + (val || 0), 0);
+            
+            const nomeMes = !isNaN(mes) && mes >= 1 && mes <= 12 ? mesesNomes[mes - 1] : "Mês";
+            
+            html += `
+                <div class="border rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 hover:shadow-md transition">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="font-bold text-indigo-600 text-sm sm:text-base">${nomeMes}/${ano}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-indigo-600 text-sm sm:text-base">${totalFatura.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                        </div>
+                    </div>`;
+
+            Object.entries(cartoes).forEach(([cartao, valor]) => {
+                html += `
+                    <div class="flex justify-between items-center mt-1 sm:mt-2 text-xs sm:text-sm pl-2 border-l-2 border-indigo-200">
+                        <span class="text-slate-600 dark:text-slate-400">💳 ${cartao}</span>
+                        <span class="font-medium">${(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                    </div>`;
+            });
+
+            html += `</div>`;
+        });
+    }
+
+    container.innerHTML = html;
+}
+
+function renderizarResumoCartoes() {
+    const container = document.getElementById("containerResumoCartoes");
+    if (!container) return;
+
+    const comprasCartao = todosOsDados.filter(item => 
+        (item.FormaPagamento === "Cartão de Crédito" || item.formaPagamento === "Cartão de Crédito") &&
+        (item.Status !== "Pago")
+    );
+
+    const resumo = {};
+
+    comprasCartao.forEach(item => {
+        const cartao = item.Cartao || "Principal";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        
+        resumo[cartao] = (resumo[cartao] || 0) + valor;
+    });
+
+    let html = "";
+
+    Object.entries(resumo).forEach(([cartao, total]) => {
+        html += `
+            <div class="flex justify-between items-center p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-xs sm:text-sm">
+                <div>
+                    <span class="font-bold">${cartao}</span>
+                </div>
+                <div>
+                    <span class="font-bold text-indigo-600">${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                </div>
+            </div>`;
+    });
+
+    if (Object.keys(resumo).length === 0) {
+        html = '<p class="text-slate-400 text-center py-3 sm:py-4 text-xs sm:text-sm">Nenhum débito no cartão</p>';
+    }
+
+    container.innerHTML = html;
+}
+
+function renderizarTabelaCartao() {
+    const corpo = document.getElementById("corpoTabelaCartao");
+    if (!corpo) return;
+
+    const comprasCartao = todosOsDados.filter(item => 
+        (item.FormaPagamento === "Cartão de Crédito" || item.formaPagamento === "Cartão de Crédito")
+    );
+
+    corpo.innerHTML = "";
+
+    if (comprasCartao.length === 0) {
+        corpo.innerHTML = `<tr><td colspan="6" class="p-4 sm:p-8 text-center text-slate-400">Nenhuma compra no cartão</td></tr>`;
+        return;
+    }
+
+    comprasCartao.forEach(item => {
+        const descricao = item.Descrição || item.Descricao || "Sem descrição";
+        const cartao = item.Cartao || "Principal";
+        const parcelaAtual = item.ParcelaAtual || "1";
+        const totalParcelas = item.TotalParcelas || "1";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const status = item.Status || "Pendente";
+        
+        const dataOriginal = item.Data || item.data || "";
+        let dataFormatada = "---";
+        if (dataOriginal) {
+            try {
+                const dataStr = dataOriginal.toString().split("T")[0];
+                if (dataStr.includes("-")) {
+                    const [ano, mes, dia] = dataStr.split("-");
+                    dataFormatada = `${dia}/${mes}/${ano}`;
+                }
+            } catch (e) {}
+        }
+
+        const valorFormatado = valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        corpo.innerHTML += `
+            <tr class="border-b dark:border-slate-700">
+                <td class="p-2 sm:p-4 text-xs sm:text-sm">${descricao.substring(0, 12)}${descricao.length > 12 ? '...' : ''}</td>
+                <td class="p-2 sm:p-4 hide-on-mobile text-xs sm:text-sm">${cartao}</td>
+                <td class="p-2 sm:p-4 text-xs sm:text-sm">${parcelaAtual}/${totalParcelas}</td>
+                <td class="p-2 sm:p-4 hide-on-mobile text-xs sm:text-sm">${dataFormatada}</td>
+                <td class="p-2 sm:p-4 text-right font-bold text-xs sm:text-sm">${valorFormatado}</td>
+                <td class="p-2 sm:p-4 text-center">
+                    <span class="px-1 sm:px-2 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold uppercase ${status === 'Pago' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                        ${status === 'Pago' ? 'Pago' : 'Pend'}
+                    </span>
+                </td>
+            </tr>`;
+    });
+}
+
+// ============================================
+// CONFIGURAÇÕES
+// ============================================
+function carregarConfiguracoes() {
+    const salvo = localStorage.getItem("configuracoesFinanWF");
+    if (salvo) {
+        try {
+            configuracoesGlobais = JSON.parse(salvo);
+        } catch (e) {}
+    }
+    
+    if (document.getElementById("inputSalario")) {
+        document.getElementById("inputSalario").value = configuracoesGlobais.salario || 5000;
+    }
+    
+    renderizarConfigCartoes();
+    atualizarSelectCartoes();
+}
+
+function renderizarConfigCartoes() {
+    const container = document.getElementById("containerCartoesConfig");
+    if (!container) return;
+
+    let html = "";
+
+    configuracoesGlobais.cartoes.forEach((cartao, index) => {
+        html += `
+            <div class="border rounded-xl p-2 sm:p-3 mb-2 sm:mb-3">
+                <div class="flex justify-between items-center">
+                    <input type="text" 
+                           id="cartaoNome_${index}" 
+                           value="${cartao.nome}"
+                           class="font-bold bg-transparent border-none focus:outline-none w-24 sm:w-32 text-xs sm:text-sm"
+                           placeholder="Nome">
+                    <button type="button" onclick="removerCartaoConfig(${index})" class="text-rose-500 text-[10px] sm:text-xs">
+                        Remover
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-1 sm:gap-2 mt-1 sm:mt-2">
+                    <div>
+                        <label class="text-[8px] sm:text-[10px] uppercase font-bold">Fechamento</label>
+                        <input type="number" 
+                               id="cartaoFechamento_${index}" 
+                               value="${cartao.fechamento}"
+                               class="w-full border p-1 sm:p-2 rounded-lg text-[10px] sm:text-xs"
+                               min="1" max="31">
+                    </div>
+                    <div>
+                        <label class="text-[8px] sm:text-[10px] uppercase font-bold">Vencimento</label>
+                        <input type="number" 
+                               id="cartaoVencimento_${index}" 
+                               value="${cartao.vencimento}"
+                               class="w-full border p-1 sm:p-2 rounded-lg text-[10px] sm:text-xs"
+                               min="1" max="31">
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+function adicionarCartaoConfig() {
+    configuracoesGlobais.cartoes.push({
+        nome: "Novo Cartão",
+        fechamento: 10,
+        vencimento: 15
+    });
+    renderizarConfigCartoes();
+}
+
+function removerCartaoConfig(index) {
+    if (configuracoesGlobais.cartoes.length > 1) {
+        configuracoesGlobais.cartoes.splice(index, 1);
+        renderizarConfigCartoes();
+    } else {
+        alert("É necessário manter pelo menos um cartão.");
+    }
+}
+
+function salvarConfiguracoes(event) {
+    event.preventDefault();
+    
+    if (document.getElementById("inputSalario")) {
+        configuracoesGlobais.salario = parseFloat(document.getElementById("inputSalario").value) || 5000;
+    }
+    
+    configuracoesGlobais.cartoes.forEach((cartao, index) => {
+        const nomeInput = document.getElementById(`cartaoNome_${index}`);
+        const fechamentoInput = document.getElementById(`cartaoFechamento_${index}`);
+        const vencimentoInput = document.getElementById(`cartaoVencimento_${index}`);
+        
+        if (nomeInput) cartao.nome = nomeInput.value;
+        if (fechamentoInput) cartao.fechamento = parseInt(fechamentoInput.value) || 10;
+        if (vencimentoInput) cartao.vencimento = parseInt(vencimentoInput.value) || 15;
+    });
+    
+    localStorage.setItem("configuracoesFinanWF", JSON.stringify(configuracoesGlobais));
+    
+    if (usuarioLogado) {
+        fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                acao: "salvarConfiguracoes",
+                usuario: usuarioLogado,
+                salario: configuracoesGlobais.salario,
+                cartoes: configuracoesGlobais.cartoes
+            })
+        });
+    }
+    
+    alert("Configurações salvas com sucesso!");
+    atualizarSelectCartoes();
+    atualizarTabela();
+}
+
+function atualizarSelectCartoes() {
+    const selectCartao = document.getElementById("cartaoSelecionado");
+    if (!selectCartao) return;
+    
+    selectCartao.innerHTML = "";
+    
+    configuracoesGlobais.cartoes.forEach(cartao => {
+        const option = document.createElement("option");
+        option.value = cartao.nome;
+        option.textContent = cartao.nome;
+        selectCartao.appendChild(option);
+    });
+}
+
+// ============================================
+// FUNÇÕES DO MODAL DE PAGAMENTO DE FATURA
+// ============================================
+function abrirModalPagamentoFatura() {
+    // Gerar lista de faturas disponíveis
+    const select = document.getElementById("selectFaturaModal");
+    select.innerHTML = "";
+    
+    const faturas = gerarListaFaturas();
+    
+    if (faturas.length === 0) {
+        alert("Nenhuma fatura pendente para pagamento.");
+        return;
+    }
+    
+    faturas.forEach((fatura, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${fatura.nomeMes}/${fatura.ano} - ${fatura.cartao} - ${fatura.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+        option.dataset.valor = fatura.valor;
+        option.dataset.mes = fatura.mes;
+        option.dataset.ano = fatura.ano;
+        option.dataset.cartao = fatura.cartao;
+        select.appendChild(option);
+    });
+    
+    // Atualizar valor ao selecionar
+    select.onchange = function() {
+        const selected = select.options[select.selectedIndex];
+        document.getElementById("valorFaturaModal").value = selected.dataset.valor ? 
+            parseFloat(selected.dataset.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "R$ 0,00";
+    };
+    
+    // Selecionar primeira opção e atualizar valor
+    if (faturas.length > 0) {
+        select.selectedIndex = 0;
+        select.onchange();
+    }
+    
+    document.getElementById("modalPagamentoFatura").classList.remove("hidden");
+    document.getElementById("modalPagamentoFatura").classList.add("flex");
+}
+
+function fecharModalPagamentoFatura() {
+    document.getElementById("modalPagamentoFatura").classList.add("hidden");
+    document.getElementById("modalPagamentoFatura").classList.remove("flex");
+}
+
+function gerarListaFaturas() {
+    const comprasCartao = todosOsDados.filter(item => 
+        (item.FormaPagamento === "Cartão de Crédito" || item.formaPagamento === "Cartão de Crédito") &&
+        (item.Status !== "Pago")
+    );
+    
+    const faturasMap = new Map(); // Chave: mes/ano/cartao
+    
+    comprasCartao.forEach(item => {
+        const dataCompra = item.Data || item.data || "";
+        const cartao = item.Cartao || "Principal";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const parcelaAtual = parseInt(item.ParcelaAtual || 1);
+        const totalParcelas = parseInt(item.TotalParcelas || 1);
+        
+        if (dataCompra && !isNaN(parcelaAtual) && !isNaN(totalParcelas)) {
+            try {
+                const faturas = calcularFaturasCartao(dataCompra, totalParcelas, cartao);
+                
+                if (faturas && faturas.length > 0 && parcelaAtual <= faturas.length) {
+                    const faturaAtual = faturas[parcelaAtual - 1];
+                    
+                    if (faturaAtual) {
+                        const mes = faturaAtual.mes;
+                        const ano = faturaAtual.ano;
+                        const chave = `${mes}/${ano}/${cartao}`;
+                        
+                        if (faturasMap.has(chave)) {
+                            const existente = faturasMap.get(chave);
+                            existente.valor += valor;
+                        } else {
+                            faturasMap.set(chave, {
+                                mes: mes,
+                                ano: ano,
+                                cartao: cartao,
+                                valor: valor,
+                                nomeMes: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][mes - 1]
+                            });
+                        }
+                    }
+                }
+            } catch (e) {}
+        }
+    });
+    
+    // Converter Map para array e ordenar
+    const faturas = Array.from(faturasMap.values());
+    faturas.sort((a, b) => {
+        if (a.ano !== b.ano) return a.ano - b.ano;
+        return a.mes - b.mes;
+    });
+    
+    return faturas;
+}
+
+async function confirmarPagamentoFatura() {
+    const select = document.getElementById("selectFaturaModal");
+    const dataPagamento = document.getElementById("modalDataPagamento").value;
+    
+    if (select.selectedIndex === -1) {
+        alert("Selecione uma fatura para pagar.");
+        return;
+    }
+    
+    const selectedOption = select.options[select.selectedIndex];
+    const mes = selectedOption.dataset.mes;
+    const ano = selectedOption.dataset.ano;
+    const cartao = selectedOption.dataset.cartao;
+    
+    if (!confirm(`Confirmar pagamento da fatura de ${selectedOption.textContent}?`)) {
+        return;
+    }
+    
+    // Encontrar todas as compras desta fatura
+    const comprasParaPagar = todosOsDados.filter(item => {
+        if (item.Status === "Pago") return false;
+        
+        const formaPagamento = item.FormaPagamento || item.formaPagamento || "";
+        if (formaPagamento !== "Cartão de Crédito") return false;
+        
+        if ((item.Cartao || "Principal") !== cartao) return false;
+        
+        const dataCompra = item.Data || item.data || "";
+        const parcelaAtual = parseInt(item.ParcelaAtual || 1);
+        const totalParcelas = parseInt(item.TotalParcelas || 1);
+        
+        if (!dataCompra || isNaN(parcelaAtual) || isNaN(totalParcelas)) return false;
+        
+        try {
+            const faturas = calcularFaturasCartao(dataCompra, totalParcelas, cartao);
+            if (faturas && faturas.length >= parcelaAtual) {
+                const faturaAtual = faturas[parcelaAtual - 1];
+                return faturaAtual.mes == mes && faturaAtual.ano == ano;
+            }
+        } catch (e) {}
+        
+        return false;
+    });
+    
+    if (comprasParaPagar.length === 0) {
+        alert("Nenhuma compra encontrada para esta fatura.");
+        return;
+    }
+    
+    const btn = document.querySelector("#modalPagamentoFatura button.bg-indigo-600");
+    if (btn) {
+        btn.innerText = "Processando...";
+        btn.disabled = true;
+    }
+    
+    try {
+        // Pagar cada compra individualmente
+        for (const compra of comprasParaPagar) {
+            const id = compra.ID || compra.id;
+            if (id) {
+                await fetch(API_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        acao: "pagar",
+                        id: id,
+                        usuario: usuarioLogado,
+                        dataPagamento: dataPagamento
+                    })
+                });
+            }
+        }
+        
+        alert(`✅ Fatura paga com sucesso! ${comprasParaPagar.length} parcela(s) quitada(s).`);
+        fecharModalPagamentoFatura();
+        await atualizarTabela();
+        
+    } catch (error) {
+        console.error("Erro ao pagar fatura:", error);
+        alert("❌ Erro ao processar pagamento da fatura.");
+    } finally {
+        if (btn) {
+            btn.innerText = "Confirmar";
+            btn.disabled = false;
+        }
+    }
+}
+
+// ============================================
+// FUNÇÕES DO MODAL PDF
+// ============================================
+function abrirModalPDF(tipo) {
+    tipoPDFAtual = tipo;
+    const modalContent = document.getElementById("conteudoModalPDF");
+    
+    let html = "";
+    
+    if (tipo === "vencimentos") {
+        html = `
+            <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">📊 Contas a Pagar</h4>
+            <div class="space-y-2">
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-2">
+                    <span>Todas as contas pendentes</span>
+                </label>
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-2">
+                    <span>Apenas mês atual</span>
+                </label>
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-2">
+                    <span>Selecionar mês específico</span>
+                </label>
+                <div id="campoMesEspecifico" class="hidden mt-2">
+                    <select id="selectMesPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
+                        <!-- Preenchido via JS -->
+                    </select>
+                </div>
+            </div>
+        `;
+    } else if (tipo === "historico") {
+        html = `
+            <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">📜 Histórico de Pagamentos</h4>
+            <div class="space-y-2">
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-2">
+                    <span>Todos os pagamentos</span>
+                </label>
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-2">
+                    <span>Apenas mês atual</span>
+                </label>
+                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-2">
+                    <span>Selecionar mês específico</span>
+                </label>
+                <div id="campoMesEspecifico" class="hidden mt-2">
+                    <select id="selectMesPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
+                        <!-- Preenchido via JS -->
+                    </select>
+                </div>
+            </div>
+        `;
+    } else if (tipo === "cartao") {
+        const faturas = gerarListaFaturas();
+        
+        if (faturas.length === 0) {
+            html = `<p class="text-center text-slate-400 py-3 sm:py-4 text-xs sm:text-sm">Nenhuma fatura disponível</p>`;
+        } else {
+            html = `
+                <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">💳 Faturas do Cartão</h4>
+                <div class="space-y-2">
+                    <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                        <input type="radio" name="pdfOpcao" value="todasFaturas" checked class="mr-2">
+                        <span>Todas as faturas</span>
+                    </label>
+                    <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
+                        <input type="radio" name="pdfOpcao" value="selecionarFatura" class="mr-2">
+                        <span>Selecionar fatura específica</span>
+                    </label>
+                    <div id="campoFaturaEspecifica" class="hidden mt-2">
+                        <select id="selectFaturaPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
+            `;
+            
+            faturas.forEach((fatura, index) => {
+                html += `<option value="${index}">${fatura.nomeMes}/${fatura.ano} - ${fatura.cartao} - ${fatura.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</option>`;
+            });
+            
+            html += `
+                        </select>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    modalContent.innerHTML = html;
+    
+    // Adicionar event listeners para os radio buttons
+    if (tipo === "vencimentos" || tipo === "historico") {
+        const radios = document.querySelectorAll('input[name="pdfOpcao"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const campoMes = document.getElementById("campoMesEspecifico");
+                if (this.value === "selecionarMes") {
+                    campoMes.classList.remove("hidden");
+                    preencherSelectMeses();
+                } else {
+                    campoMes.classList.add("hidden");
+                }
+            });
+        });
+    } else if (tipo === "cartao" && document.querySelector('input[name="pdfOpcao"]')) {
+        const radios = document.querySelectorAll('input[name="pdfOpcao"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const campoFatura = document.getElementById("campoFaturaEspecifica");
+                if (this.value === "selecionarFatura") {
+                    campoFatura.classList.remove("hidden");
+                } else {
+                    campoFatura.classList.add("hidden");
+                }
+            });
+        });
+    }
+    
+    document.getElementById("modalPDF").classList.remove("hidden");
+    document.getElementById("modalPDF").classList.add("flex");
+}
+
+function fecharModalPDF() {
+    document.getElementById("modalPDF").classList.add("hidden");
+    document.getElementById("modalPDF").classList.remove("flex");
+    tipoPDFAtual = "";
+}
+
+function preencherSelectMeses() {
+    const select = document.getElementById("selectMesPDF");
+    if (!select) return;
+    
+    select.innerHTML = "";
+    
+    // Obter todos os meses únicos dos dados
+    const mesesSet = new Set();
+    
+    todosOsDados.forEach(item => {
+        const dataStr = item.Data || item.data || item.Vencimento || "";
+        if (dataStr) {
+            try {
+                const data = new Date(dataStr + "T12:00:00");
+                const mes = data.getMonth() + 1;
+                const ano = data.getFullYear();
+                mesesSet.add(`${mes}/${ano}`);
+            } catch (e) {}
+        }
+    });
+    
+    const mesesArray = Array.from(mesesSet).sort((a, b) => {
+        const [mesA, anoA] = a.split("/").map(Number);
+        const [mesB, anoB] = b.split("/").map(Number);
+        return anoB - anoA || mesB - mesA; // Mais recentes primeiro
+    });
+    
+    const mesesNomes = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+    
+    mesesArray.forEach(mesAno => {
+        const [mes, ano] = mesAno.split("/").map(Number);
+        const option = document.createElement("option");
+        option.value = mesAno;
+        option.textContent = `${mesesNomes[mes - 1]}/${ano}`;
+        select.appendChild(option);
+    });
+}
+
+function confirmarGerarPDF() {
+    const { jsPDF } = window.jspdf;
+    
+    if (!jsPDF) {
+        alert("Biblioteca jsPDF não carregada. Recarregue a página.");
+        return;
+    }
+    
+    let dadosParaPDF = [];
+    let titulo = "";
+    
+    if (tipoPDFAtual === "vencimentos") {
+        const opcao = document.querySelector('input[name="pdfOpcao"]:checked')?.value;
+        
+        if (opcao === "todos") {
+            dadosParaPDF = todosOsDados.filter(item => item.Status !== "Pago");
+            titulo = "Todas as Contas Pendentes";
+        } else if (opcao === "mesAtual") {
+            const hoje = new Date();
+            const mesAtual = hoje.getMonth() + 1;
+            const anoAtual = hoje.getFullYear();
+            
+            dadosParaPDF = todosOsDados.filter(item => {
+                if (item.Status === "Pago") return false;
+                const dataStr = item.Data || item.data || item.Vencimento || "";
+                if (!dataStr) return false;
+                try {
+                    const data = new Date(dataStr + "T12:00:00");
+                    return data.getMonth() + 1 === mesAtual && data.getFullYear() === anoAtual;
+                } catch (e) {
+                    return false;
+                }
+            });
+            titulo = `Contas Pendentes - ${["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][mesAtual - 1]}/${anoAtual}`;
+        } else if (opcao === "selecionarMes") {
+            const select = document.getElementById("selectMesPDF");
+            if (!select) return;
+            
+            const [mes, ano] = select.value.split("/").map(Number);
+            
+            dadosParaPDF = todosOsDados.filter(item => {
+                if (item.Status === "Pago") return false;
+                const dataStr = item.Data || item.data || item.Vencimento || "";
+                if (!dataStr) return false;
+                try {
+                    const data = new Date(dataStr + "T12:00:00");
+                    return data.getMonth() + 1 === mes && data.getFullYear() === ano;
+                } catch (e) {
+                    return false;
+                }
+            });
+            titulo = `Contas Pendentes - ${["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][mes - 1]}/${ano}`;
+        }
+    } else if (tipoPDFAtual === "historico") {
+        const opcao = document.querySelector('input[name="pdfOpcao"]:checked')?.value;
+        
+        if (opcao === "todos") {
+            dadosParaPDF = todosOsPagos;
+            titulo = "Todos os Pagamentos Realizados";
+        } else if (opcao === "mesAtual") {
+            const hoje = new Date();
+            const mesAtual = hoje.getMonth() + 1;
+            const anoAtual = hoje.getFullYear();
+            
+            dadosParaPDF = todosOsPagos.filter(item => {
+                const dataStr = item.Data || item.data || item.Vencimento || "";
+                if (!dataStr) return false;
+                try {
+                    const data = new Date(dataStr + "T12:00:00");
+                    return data.getMonth() + 1 === mesAtual && data.getFullYear() === anoAtual;
+                } catch (e) {
+                    return false;
+                }
+            });
+            titulo = `Pagamentos Realizados - ${["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][mesAtual - 1]}/${anoAtual}`;
+        } else if (opcao === "selecionarMes") {
+            const select = document.getElementById("selectMesPDF");
+            if (!select) return;
+            
+            const [mes, ano] = select.value.split("/").map(Number);
+            
+            dadosParaPDF = todosOsPagos.filter(item => {
+                const dataStr = item.Data || item.data || item.Vencimento || "";
+                if (!dataStr) return false;
+                try {
+                    const data = new Date(dataStr + "T12:00:00");
+                    return data.getMonth() + 1 === mes && data.getFullYear() === ano;
+                } catch (e) {
+                    return false;
+                }
+            });
+            titulo = `Pagamentos Realizados - ${["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][mes - 1]}/${ano}`;
+        }
+    } else if (tipoPDFAtual === "cartao") {
+        const opcao = document.querySelector('input[name="pdfOpcao"]:checked')?.value;
+        
+        if (opcao === "todasFaturas") {
+            dadosParaPDF = todosOsDados.filter(item => 
+                (item.FormaPagamento === "Cartão de Crédito" || item.formaPagamento === "Cartão de Crédito")
+            );
+            titulo = "Todas as Compras no Cartão";
+        } else if (opcao === "selecionarFatura") {
+            const select = document.getElementById("selectFaturaPDF");
+            if (!select) return;
+            
+            const index = parseInt(select.value);
+            const faturas = gerarListaFaturas();
+            const faturaSelecionada = faturas[index];
+            
+            if (faturaSelecionada) {
+                dadosParaPDF = todosOsDados.filter(item => {
+                    if (item.Status === "Pago") return false;
+                    
+                    const formaPagamento = item.FormaPagamento || item.formaPagamento || "";
+                    if (formaPagamento !== "Cartão de Crédito") return false;
+                    
+                    if ((item.Cartao || "Principal") !== faturaSelecionada.cartao) return false;
+                    
+                    const dataCompra = item.Data || item.data || "";
+                    const parcelaAtual = parseInt(item.ParcelaAtual || 1);
+                    const totalParcelas = parseInt(item.TotalParcelas || 1);
+                    
+                    if (!dataCompra || isNaN(parcelaAtual) || isNaN(totalParcelas)) return false;
+                    
+                    try {
+                        const faturas = calcularFaturasCartao(dataCompra, totalParcelas, faturaSelecionada.cartao);
+                        if (faturas && faturas.length >= parcelaAtual) {
+                            const faturaAtual = faturas[parcelaAtual - 1];
+                            return faturaAtual.mes == faturaSelecionada.mes && faturaAtual.ano == faturaSelecionada.ano;
+                        }
+                    } catch (e) {}
+                    
+                    return false;
+                });
+                
+                titulo = `Fatura - ${faturaSelecionada.nomeMes}/${faturaSelecionada.ano} - ${faturaSelecionada.cartao}`;
+            }
+        }
+    }
+    
+    if (dadosParaPDF.length === 0) {
+        alert("Nenhum dado encontrado para o período selecionado.");
+        fecharModalPDF();
+        return;
+    }
+    
+    gerarPDFComDados(dadosParaPDF, titulo);
+    fecharModalPDF();
+}
+
+function gerarPDFComDados(dados, titulo) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Calcular totais
+    const totalGeral = dados.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
+    const totalPendente = dados.filter(item => item.Status !== "Pago").reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
+    const totalPago = dados.filter(item => item.Status === "Pago").reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
+    
+    // Título
+    doc.setFontSize(18);
+    doc.setTextColor(79, 70, 229); // Indigo
+    doc.text("FINANWF", 14, 20);
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text(titulo, 14, 30);
+    
+    doc.setFontSize(10);
+    doc.text(`Gerado em: ${new Date().toLocaleDateString("pt-BR")}`, 14, 38);
+    doc.text(`Usuário: ${usuarioLogado}`, 14, 44);
+    
+    // Resumo
+    doc.setFontSize(12);
+    doc.setTextColor(79, 70, 229);
+    doc.text("Resumo", 14, 55);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Total Geral: ${totalGeral.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`, 20, 63);
+    
+    if (totalPendente > 0) {
+        doc.text(`Total Pendente: ${totalPendente.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`, 20, 70);
+    }
+    
+    if (totalPago > 0) {
+        doc.text(`Total Pago: ${totalPago.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`, 20, 77);
+    }
+    
+    // Tabela
+    const tableColumn = ["Descrição", "Categoria", "Forma", "Vencimento", "Parcelas", "Valor", "Status"];
+    const tableRows = [];
+    
+    dados.forEach(item => {
+        const descricao = item.Descrição || item.Descricao || "Sem descrição";
+        const categoria = item.Categoria || item.categoria || "Outros";
+        const forma = item.FormaPagamento || item.formaPagamento || "N/A";
+        const data = item.Data || item.data || item.Vencimento || "";
+        const valor = parseFloat(item.Valor || item.valor || 0);
+        const status = item.Status || "Pendente";
+        
+        const parcelaAtual = item.ParcelaAtual || "1";
+        const totalParcelas = item.TotalParcelas || "1";
+        const parcelas = `${parcelaAtual}/${totalParcelas}`;
+        
+        let dataFormatada = data;
+        if (data.includes("-")) {
+            const [ano, mes, dia] = data.split("-");
+            dataFormatada = `${dia}/${mes}/${ano}`;
+        }
+        
+        tableRows.push([
+            descricao.substring(0, 15) + (descricao.length > 15 ? "..." : ""),
+            categoria,
+            forma,
+            dataFormatada,
+            parcelas,
+            valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
+            status
+        ]);
+    });
+    
+    doc.autoTable({
+        startY: 90,
+        head: [tableColumn],
+        body: tableRows,
+        theme: "striped",
+        headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255] },
+        styles: { fontSize: 8, cellPadding: 2 },
+        columnStyles: {
+            0: { cellWidth: 35 },
+            1: { cellWidth: 18 },
+            2: { cellWidth: 18 },
+            3: { cellWidth: 18 },
+            4: { cellWidth: 15 },
+            5: { cellWidth: 22, halign: "right" },
+            6: { cellWidth: 16, halign: "center" }
+        }
+    });
+    
+    // Salvar PDF
+    const nomeArquivo = `finanwf_${titulo.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
+    doc.save(nomeArquivo);
+}
+</script>
 
 </body>
 </html>
