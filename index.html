@@ -18,19 +18,20 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Fonte Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         body {
-            transition: background-color 0.3s, color 0.3s;
+            background-color: #f8fafc;
+            color: #1e293b;
         }
         
         .tab-content {
@@ -41,103 +42,54 @@
             display: block;
         }
         
-        .sidebar-item {
-            transition: all 0.2s;
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .gradient-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
         }
         
-        .pdf-option-btn {
-            transition: all 0.2s;
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
         
-        .pdf-option-btn:hover {
-            transform: translateY(-1px);
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
         }
         
-        /* Mobile Styles */
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1f2937;
+        }
+        
+        /* Botões principais */
+        .btn-primary {
+            background: linear-gradient(135deg, #4b5563 0%, #1f2937 100%);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(75, 85, 99, 0.5);
+        }
+        
+        /* ===== MOBILE STYLES - OTIMIZADO ===== */
         @media (max-width: 768px) {
             .container {
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
             }
             
-            .card-mobile {
-                border-radius: 1rem;
-                padding: 1rem;
-            }
-            
-            .table-mobile {
-                font-size: 0.7rem;
-            }
-            
-            .table-mobile td, .table-mobile th {
-                padding: 0.5rem 0.25rem;
-            }
-            
-            .hide-on-mobile {
-                display: none;
-            }
-            
-            .show-on-mobile {
-                display: block;
-            }
-            
-            .mobile-stack {
-                flex-direction: column;
-            }
-            
-            .mobile-full-width {
-                width: 100%;
-            }
-            
-            .mobile-text-sm {
-                font-size: 0.75rem;
-            }
-            
-            .mobile-p-2 {
-                padding: 0.5rem;
-            }
-            
-            .mobile-gap-2 {
-                gap: 0.5rem;
-            }
-            
-            .mobile-grid-cols-2 {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-            }
-            
-            .mobile-menu-btn {
-                display: block !important;
-            }
-            
-            .desktop-menu {
-                display: none;
-            }
-            
-            /* Ajuste para cards no mobile ficarem mais compactos */
-            .stat-card {
-                padding: 0.5rem;
-            }
-            
-            .stat-card .value {
-                font-size: 0.9rem;
-            }
-            
-            /* Botões touch-friendly com tamanho adequado */
-            .touch-button {
-                min-height: 44px;
-                min-width: 44px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            /* Barra de navegação inferior (mobile) */
+            /* Navegação inferior melhorada */
             .mobile-bottom-nav {
                 display: flex;
                 position: fixed;
@@ -148,12 +100,9 @@
                 border-top: 1px solid #e2e8f0;
                 padding: 0.5rem 0.25rem;
                 z-index: 50;
-                box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            }
-            
-            .dark .mobile-bottom-nav {
-                background: #1e293b;
-                border-top-color: #334155;
+                box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+                backdrop-filter: blur(10px);
+                background: rgba(255, 255, 255, 0.95);
             }
             
             .mobile-bottom-nav-item {
@@ -162,197 +111,411 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                padding: 0.35rem 0;
-                border-radius: 0.5rem;
-                font-size: 0.6rem;
+                padding: 0.4rem 0;
+                border-radius: 0.75rem;
+                font-size: 0.65rem;
                 color: #64748b;
                 transition: all 0.2s;
+                gap: 0.2rem;
             }
             
             .mobile-bottom-nav-item i {
-                font-size: 1.1rem;
-                margin-bottom: 0.15rem;
+                font-size: 1.3rem;
             }
             
             .mobile-bottom-nav-item.active {
-                color: #4f46e5;
-                background: #eef2ff;
+                color: #84cc16;
+                background: #f7fee7;
+                font-weight: 600;
             }
             
-            .dark .mobile-bottom-nav-item.active {
-                background: #312e81;
-                color: #c7d2fe;
+            .mobile-bottom-nav-item:active {
+                transform: scale(0.95);
             }
             
-            /* Ajuste de padding inferior para não sobrepor conteúdo com a nav fixa */
             main {
-                padding-bottom: 70px !important;
+                padding-bottom: 80px !important;
+            }
+            
+            /* Cards mais compactos */
+            .dashboard-card {
+                padding: 1rem !important;
+            }
+            
+            .dashboard-card .value {
+                font-size: 1.2rem;
+            }
+            
+            /* Botões com área de toque maior */
+            .touch-button {
+                min-height: 48px;
+                min-width: 48px;
+                padding: 0.75rem 1rem;
+            }
+            
+            /* Tabela responsiva */
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -0.75rem;
+                padding: 0 0.75rem;
+                border-radius: 0;
+            }
+            
+            table {
+                min-width: 650px;
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 0.5rem;
+                white-space: nowrap;
+            }
+            
+            td:first-child, th:first-child {
+                padding-left: 1rem;
+            }
+            
+            td:last-child, th:last-child {
+                padding-right: 1rem;
+            }
+            
+            /* Badges menores no mobile */
+            .badge {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+            
+            /* Esconder colunas menos importantes no mobile */
+            .hide-on-mobile {
+                display: none;
+            }
+            
+            /* Grid de cards mais compacto */
+            .grid {
+                gap: 0.75rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem !important;
+            }
+            
+            /* Ajustes no modal para mobile */
+            .fixed > div {
+                margin: 1rem;
+                max-height: 85vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Login card no mobile */
+            .login-card {
+                padding: 1.5rem !important;
+                margin: 1rem;
+            }
+            
+            /* Campo de senha com ícone */
+            .password-container {
+                position: relative;
+                width: 100%;
+            }
+            
+            .password-container input {
+                padding-right: 3rem !important;
+            }
+            
+            .password-toggle {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: #84cc16;
+                cursor: pointer;
+                padding: 0.5rem;
+                font-size: 1.2rem;
+                z-index: 10;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .password-toggle:active {
+                opacity: 0.7;
             }
         }
         
         @media (min-width: 769px) {
-            .mobile-menu-btn {
-                display: none;
-            }
-            
-            .desktop-menu {
-                display: block;
-            }
-            
-            .show-on-mobile {
-                display: none;
-            }
-            
             .mobile-bottom-nav {
                 display: none;
             }
+            
+            /* Campo de senha com ícone no desktop */
+            .password-container {
+                position: relative;
+                width: 100%;
+            }
+            
+            .password-container input {
+                padding-right: 3rem !important;
+            }
+            
+            .password-toggle {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: #84cc16;
+                cursor: pointer;
+                padding: 0.5rem;
+                font-size: 1.2rem;
+                z-index: 10;
+            }
+            
+            .password-toggle:hover {
+                color: #4d7c0f;
+            }
         }
         
-        /* Sidebar mobile (mantida como fallback) */
-        .mobile-sidebar {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 80%;
-            max-width: 300px;
-            height: 100vh;
-            background-color: white;
-            z-index: 1000;
-            transition: left 0.3s ease-in-out;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            overflow-y: auto;
+        /* Sidebar Desktop */
+        .sidebar-desktop {
+            position: sticky;
+            top: 1rem;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
         
-        .dark .mobile-sidebar {
-            background-color: #1e293b;
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            transition: all 0.2s;
+            color: #64748b;
+            font-weight: 500;
         }
         
-        .mobile-sidebar.open {
-            left: 0;
+        .sidebar-item:hover {
+            background: #f7fee7;
+            color: #84cc16;
         }
         
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 999;
-            display: none;
+        .sidebar-item.active {
+            background: #1f2937;
+            color: white !important;
         }
         
-        .sidebar-overlay.open {
-            display: block;
+        /* Login Card */
+        .login-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
         
-        /* Scroll horizontal para tabelas */
+        /* Animações */
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Badges */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+        
+        .badge-info {
+            background: #f7fee7;
+            color: #4d7c0f;
+        }
+        
+        /* Tabelas */
         .table-container {
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 0 -0.5rem;
-            padding: 0 0.5rem;
+            border-radius: 1rem;
+            background: white;
         }
         
-        .table-container table {
-            min-width: 600px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
         
-        /* Modal mobile */
-        @media (max-width: 640px) {
-            .modal-content {
-                width: 90%;
-                max-height: 80vh;
-                overflow-y: auto;
-                margin: 1rem auto;
-            }
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #4b5563;
+            border-bottom: 2px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f7fee7;
+        }
+        
+        /* Cards do dashboard */
+        .dashboard-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Cores específicas */
+        .text-primary {
+            color: #1f2937;
+        }
+        
+        .text-secondary {
+            color: #84cc16;
+        }
+        
+        .bg-primary {
+            background: #1f2937;
+        }
+        
+        .bg-secondary {
+            background: #84cc16;
+        }
+        
+        .bg-secondary-light {
+            background: #f7fee7;
+        }
+        
+        .border-secondary {
+            border-color: #84cc16;
+        }
+        
+        /* Ajustes para a tabela de vencimentos */
+        #corpoTabelaVencimentos .badge-info {
+            background: #f7fee7;
+            color: #4d7c0f;
+        }
+        
+        #corpoTabelaVencimentos button {
+            background: #1f2937;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        #corpoTabelaVencimentos button:hover {
+            background: #84cc16;
+        }
+        
+        #corpoTabelaVencimentos button:active {
+            transform: scale(0.95);
+        }
+        
+        /* Barra de progresso */
+        .progress-bar {
+            background: #84cc16;
+        }
+        
+        /* Ícones */
+        .icon-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-circle i {
+            font-size: 1.2rem;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+<body class="bg-slate-50">
 
 <!-- ============================================ -->
-<!-- MOBILE SIDEBAR OVERLAY -->
-<!-- ============================================ -->
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="fecharSidebar()"></div>
-
-<!-- ============================================ -->
-<!-- MOBILE SIDEBAR -->
-<!-- ============================================ -->
-<div id="mobileSidebar" class="mobile-sidebar p-4">
-    <div class="flex justify-between items-center mb-6">
-        <span class="text-xl font-black text-indigo-600">FINANWF</span>
-        <button onclick="fecharSidebar()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    
-    <div class="space-y-1">
-        <button onclick="mudarTabMobile('dash')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 bg-indigo-50 text-indigo-600">
-            <i class="fas fa-chart-pie w-5"></i>
-            <span class="font-bold">Dashboard</span>
-        </button>
-        
-        <button onclick="mudarTabMobile('lancar')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-            <i class="fas fa-plus-circle w-5"></i>
-            <span class="font-bold">Lançar Conta</span>
-        </button>
-        
-        <button onclick="mudarTabMobile('vencimentos')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-            <i class="fas fa-clock w-5"></i>
-            <span class="font-bold">Vencimentos</span>
-            <span id="qtdPendentesMobile" class="ml-auto text-xs bg-amber-100 text-amber-600 px-2 py-1 rounded-full">0</span>
-        </button>
-        
-        <button onclick="mudarTabMobile('historico')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-            <i class="fas fa-history w-5"></i>
-            <span class="font-bold">Histórico</span>
-        </button>
-        
-        <button onclick="mudarTabMobile('cartao')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-            <i class="fas fa-credit-card w-5"></i>
-            <span class="font-bold">Cartão</span>
-        </button>
-        
-        <button onclick="mudarTabMobile('configuracoes')" class="sidebar-item-mobile w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-            <i class="fas fa-cog w-5"></i>
-            <span class="font-bold">Configurações</span>
-        </button>
-    </div>
-</div>
-
-<!-- ============================================ -->
-<!-- TELA DE LOGIN -->
+<!-- TELA DE LOGIN COM OPÇÃO DE VER SENHA -->
 <!-- ============================================ -->
 <div id="telaLogin" class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-        <div class="gradient-card rounded-2xl p-1">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8">
-                <div class="text-center mb-6 sm:mb-8">
-                    <h1 class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">FINAN<span class="text-indigo-600">WF</span></h1>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-2">Sistema Financeiro Pessoal</p>
+    <div class="w-full max-w-md slide-in">
+        <div class="login-card">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-black mb-2">
+                    <span class="text-[#1f2937]">FINAN</span><span class="text-[#84cc16]">WF</span>
+                </h1>
+                <p class="text-sm text-slate-500">Sistema Financeiro</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-2 text-slate-600">
+                        <i class="fas fa-user mr-1 text-[#84cc16]"></i> USUÁRIO
+                    </label>
+                    <input type="text" id="inputUsuario" 
+                           class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
+                           placeholder="Digite seu usuário">
                 </div>
                 
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold mb-2">USUÁRIO</label>
-                        <input type="text" id="inputUsuario" 
-                               class="w-full border rounded-lg p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
-                               placeholder="Digite seu usuário">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-bold mb-2">SENHA</label>
+                <div>
+                    <label class="block text-xs font-bold mb-2 text-slate-600">
+                        <i class="fas fa-lock mr-1 text-[#84cc16]"></i> SENHA
+                    </label>
+                    <div class="password-container">
                         <input type="password" id="inputSenha" 
-                               class="w-full border rounded-lg p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
+                               class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
                                placeholder="Digite sua senha">
+                        <button type="button" onclick="toggleSenha()" class="password-toggle" id="toggleSenhaBtn">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
                     </div>
-                    
-                    <button onclick="verificarSenha()" 
-                            class="w-full gradient-card text-white font-bold py-3 rounded-lg hover:opacity-90 transition touch-button">
-                        Entrar no Sistema
-                    </button>
                 </div>
+                
+                <button onclick="verificarSenha()" 
+                        class="w-full btn-primary text-white font-bold py-3 rounded-xl hover:opacity-90 transition touch-button mt-6">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Entrar no Sistema
+                </button>
             </div>
         </div>
     </div>
@@ -364,389 +527,402 @@
 <div id="app" class="hidden min-h-screen pb-16 md:pb-0">
     
     <!-- Header -->
-    <header class="bg-white dark:bg-slate-800 shadow-sm border-b dark:border-slate-700 sticky top-0 z-10">
-        <div class="container mx-auto px-3 sm:px-4 py-2 sm:py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <button onclick="abrirSidebar()" class="mobile-menu-btn p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-                <span class="text-xl sm:text-2xl font-black text-indigo-600">FINAN<span class="text-slate-800 dark:text-white">WF</span></span>
-                <!-- <span class="text-[10px] sm:text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full">BETA</span> -->
+    <header class="bg-white/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl font-black">
+                    <span class="text-[#1f2937]">FINAN</span><span class="text-[#84cc16]">WF</span>
+                </span>
             </div>
             
-            <div class="flex items-center gap-2 sm:gap-4">
-                <span id="nomeUsuarioLogado" class="text-xs sm:text-sm font-bold truncate max-w-[100px] sm:max-w-none"></span>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-3 py-2 bg-[#f7fee7] rounded-xl">
+                    <i class="fas fa-user-circle text-[#84cc16]"></i>
+                    <span id="nomeUsuarioLogado" class="text-sm font-bold text-[#1f2937]"></span>
+                </div>
                 
-                <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 touch-button">
-                    <i class="fas fa-moon dark:hidden text-sm sm:text-base"></i>
-                    <i class="fas fa-sun hidden dark:inline text-sm sm:text-base"></i>
-                </button>
-                
-                <button onclick="fazerLogout()" class="text-rose-500 hover:text-rose-600 p-2 touch-button">
-                    <i class="fas fa-sign-out-alt text-sm sm:text-base"></i>
+                <button onclick="fazerLogout()" class="p-2 rounded-xl hover:bg-rose-50 text-rose-500 transition touch-button">
+                    <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
         </div>
     </header>
     
     <!-- Main Content -->
-    <div class="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
-        
-        <!-- Sidebar Desktop -->
-        <aside class="hidden md:block w-64 float-left mr-6">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm sticky top-20">
-                <div class="space-y-1">
-                    <button onclick="mudarTab('dash', this)" class="sidebar-item active w-full text-left p-3 rounded-xl flex items-center gap-3 bg-indigo-50 text-indigo-600">
-                        <i class="fas fa-chart-pie w-5"></i>
-                        <span class="font-bold">Dashboard</span>
-                    </button>
-                    
-                    <button onclick="mudarTab('lancar', this)" class="sidebar-item w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <i class="fas fa-plus-circle w-5"></i>
-                        <span class="font-bold">Lançar Conta</span>
-                    </button>
-                    
-                    <button onclick="mudarTab('vencimentos', this)" class="sidebar-item w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <i class="fas fa-clock w-5"></i>
-                        <span class="font-bold">Vencimentos</span>
-                        <span id="qtdPendentes" class="ml-auto text-xs bg-amber-100 text-amber-600 px-2 py-1 rounded-full">0</span>
-                    </button>
-                    
-                    <button onclick="mudarTab('historico', this)" class="sidebar-item w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <i class="fas fa-history w-5"></i>
-                        <span class="font-bold">Histórico</span>
-                    </button>
-                    
-                    <button onclick="mudarTab('cartao', this)" class="sidebar-item w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <i class="fas fa-credit-card w-5"></i>
-                        <span class="font-bold">Cartão</span>
-                    </button>
-                    
-                    <button onclick="mudarTab('configuracoes', this)" class="sidebar-item w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <i class="fas fa-cog w-5"></i>
-                        <span class="font-bold">Configurações</span>
-                    </button>
-                </div>
-            </div>
-        </aside>
-        
-        <!-- Content Area -->
-        <main class="md:ml-0">
-            
-            <!-- ===== DASHBOARD ===== -->
-            <div id="tab-dash" class="tab-content active">
-                <!-- Cards em grid responsivo -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-6">
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm stat-card">
-                        <div class="text-[10px] sm:text-xs text-slate-400 mb-1 truncate">💰 Saldo</div>
-                        <div id="cardSaldoRestante" class="text-sm sm:text-xl lg:text-2xl font-black text-indigo-600 truncate">R$ 0,00</div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm stat-card">
-                        <div class="text-[10px] sm:text-xs text-slate-400 mb-1 truncate">📊 Pendente</div>
-                        <div id="cardPendente" class="text-sm sm:text-xl lg:text-2xl font-black text-amber-600 truncate">R$ 0,00</div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm stat-card">
-                        <div class="text-[10px] sm:text-xs text-slate-400 mb-1 truncate">✅ Pago</div>
-                        <div id="cardPago" class="text-sm sm:text-xl lg:text-2xl font-black text-emerald-600 truncate">R$ 0,00</div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm stat-card">
-                        <div class="text-[10px] sm:text-xs text-slate-400 mb-1 truncate">💵 Receitas</div>
-                        <div id="cardReceitas" class="text-sm sm:text-xl lg:text-2xl font-black text-purple-600 truncate">R$ 5.000,00</div>
-                    </div>
-                </div>
-                
-                <!-- Barra de Progresso -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm mb-4 sm:mb-6">
-                    <div class="flex justify-between text-xs sm:text-sm mb-2">
-                        <span class="font-bold">Progresso do Mês</span>
-                        <span id="txtPorcentagem" class="text-indigo-600">0%</span>
-                    </div>
-                    <div class="w-full h-2 sm:h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div id="barraProgresso" class="h-full bg-indigo-600 rounded-full" style="width: 0%"></div>
-                    </div>
-                </div>
-                
-                <!-- Gráficos - Stack no mobile -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
-                        <h3 class="font-bold text-sm sm:text-base mb-3 sm:mb-4">📊 Gastos por Categoria</h3>
-                        <div style="height: 200px; sm:height: 250px;">
-                            <canvas id="graficoPizza"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
-                        <h3 class="font-bold text-sm sm:text-base mb-3 sm:mb-4">📈 Evolução Mensal</h3>
-                        <div style="height: 200px; sm:height: 250px;">
-                            <canvas id="graficoBarras"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm lg:col-span-2">
-                        <h3 class="font-bold text-sm sm:text-base mb-3 sm:mb-4">💳 Formas de Pagamento</h3>
-                        <div style="height: 200px; sm:height: 250px;">
-                            <canvas id="graficoFormasPagamento"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ===== LANÇAR CONTA ===== -->
-            <div id="tab-lancar" class="tab-content">
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                    <h2 class="text-xl sm:text-2xl font-black mb-4 sm:mb-6">📝 Lançar Nova Conta</h2>
-                    
-                    <form onsubmit="event.preventDefault(); lancar()" class="space-y-3 sm:space-y-4">
-                        <input type="hidden" id="editId" value="">
-                        
-                        <div>
-                            <label class="block text-xs font-bold mb-1 sm:mb-2">DESCRIÇÃO</label>
-                            <input type="text" id="desc" 
-                                   class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
-                                   placeholder="Ex: Compra no mercado" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-xs font-bold mb-1 sm:mb-2">VALOR (R$)</label>
-                            <input type="number" id="valor" step="0.01" min="0.01"
-                                   class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
-                                   placeholder="0,00" required>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 sm:gap-4">
-                            <div>
-                                <label class="block text-xs font-bold mb-1 sm:mb-2">CATEGORIA</label>
-                                <select id="categoria" class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
-                                    <option value="Aluguel/Fixo">Aluguel/Fixo</option>
-                                    <option value="Mercado">Mercado</option>
-                                    <option value="Lazer">Lazer</option>
-                                    <option value="Saúde">Saúde</option>
-                                    <option value="Educação">Educação</option>
-                                    <option value="Outros">Outros</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-xs font-bold mb-1 sm:mb-2">DATA</label>
-                                <input type="date" id="data" 
-                                       class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
-                                       required>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 sm:gap-4">
-                            <div>
-                                <label class="block text-xs font-bold mb-1 sm:mb-2">FORMA DE PAGAMENTO</label>
-                                <select id="formaPagamento" onchange="toggleCamposCartao()" 
-                                        class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
-                                    <option value="Cartão de Crédito">Cartão de Crédito</option>
-                                    <option value="Cartão de Débito">Cartão de Débito</option>
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="PIX">PIX</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-xs font-bold mb-1 sm:mb-2">PARCELAS</label>
-                                <input type="number" id="parcelas" min="1" max="48" value="1"
-                                       class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600"
-                                       onchange="atualizarInfoCartao()">
-                            </div>
-                        </div>
-                        
-                        <!-- Campos do Cartão (aparece só quando seleciona crédito) -->
-                        <div id="divCartaoInfo" style="display: none;" class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-bold mb-1 sm:mb-2">CARTÃO</label>
-                                <select id="cartaoSelecionado" onchange="atualizarInfoCartao()" 
-                                        class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
-                                    <!-- Preenchido via JavaScript -->
-                                </select>
-                            </div>
-                            
-                            <div id="infoFaturaAtual" class="mt-2 sm:mt-3 text-xs sm:text-sm"></div>
-                        </div>
-                        
-                        <button type="submit" id="btnLancar"
-                                class="w-full gradient-card text-white font-bold py-3 sm:py-3 rounded-lg hover:opacity-90 transition mt-3 sm:mt-4 touch-button text-sm sm:text-base">
-                            Confirmar Lançamento
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex gap-6">
+            <!-- Sidebar Desktop -->
+            <aside class="hidden md:block w-64 flex-shrink-0">
+                <div class="sidebar-desktop">
+                    <div class="space-y-1">
+                        <button onclick="mudarTab('dash', this)" class="sidebar-item active w-full">
+                            <i class="fas fa-chart-pie w-5"></i>
+                            <span>Dashboard</span>
                         </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- ===== VENCIMENTOS ===== -->
-            <div id="tab-vencimentos" class="tab-content">
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
-                        <h2 class="text-xl sm:text-2xl font-black">⏰ Contas a Pagar</h2>
-                        <div class="flex gap-2 w-full sm:w-auto">
-                            <button onclick="abrirModalPDF('vencimentos')" class="flex-1 sm:flex-none text-xs bg-indigo-100 text-indigo-600 px-3 py-2 rounded-lg hover:bg-indigo-200 touch-button">
-                                <i class="fas fa-file-pdf mr-1"></i> PDF
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Barra de Progresso do Mês -->
-                    <div class="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                        <div class="flex justify-between text-xs sm:text-sm mb-2">
-                            <span class="truncate">💰 <span id="totalPendenteMes">R$ 0,00</span></span>
-                            <span class="text-indigo-600 whitespace-nowrap ml-2"><span id="porcentagemPagaMes">0%</span></span>
-                        </div>
-                        <div class="w-full h-1.5 sm:h-2 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden">
-                            <div id="barraProgressoVencimentos" class="h-full bg-indigo-600 rounded-full" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tabela com scroll -->
-                    <div class="table-container">
-                        <table class="w-full text-xs sm:text-sm">
-                            <thead>
-                                <tr class="text-left text-[10px] sm:text-xs text-slate-400 border-b dark:border-slate-700">
-                                    <th class="pb-2 sm:pb-3">PARC</th>
-                                    <th class="pb-2 sm:pb-3">DESCRIÇÃO</th>
-                                    <th class="pb-2 sm:pb-3 hide-on-mobile">PAGAMENTO</th>
-                                    <th class="pb-2 sm:pb-3">CATEGORIA</th>
-                                    <th class="pb-2 sm:pb-3">VENC</th>
-                                    <th class="pb-2 sm:pb-3 text-right">VALOR</th>
-                                    <th class="pb-2 sm:pb-3 text-center">AÇÃO</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabelaVencimentos">
-                                <tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Carregando...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ===== HISTÓRICO ===== -->
-            <div id="tab-historico" class="tab-content">
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
-                        <h2 class="text-xl sm:text-2xl font-black">📜 Histórico</h2>
-                        <button onclick="abrirModalPDF('historico')" class="flex-1 sm:flex-none text-xs bg-indigo-100 text-indigo-600 px-3 py-2 rounded-lg hover:bg-indigo-200 touch-button">
-                            <i class="fas fa-file-pdf mr-1"></i> PDF
+                        
+                        <button onclick="mudarTab('lancar', this)" class="sidebar-item w-full">
+                            <i class="fas fa-plus-circle w-5"></i>
+                            <span>Lançar Conta</span>
+                        </button>
+                        
+                        <button onclick="mudarTab('vencimentos', this)" class="sidebar-item w-full">
+                            <i class="fas fa-clock w-5"></i>
+                            <span>Vencimentos</span>
+                            <span id="qtdPendentes" class="ml-auto text-xs bg-[#f7fee7] text-[#84cc16] px-2 py-1 rounded-full">0</span>
+                        </button>
+                        
+                        <button onclick="mudarTab('historico', this)" class="sidebar-item w-full">
+                            <i class="fas fa-history w-5"></i>
+                            <span>Histórico</span>
+                        </button>
+                        
+                        <button onclick="mudarTab('cartao', this)" class="sidebar-item w-full">
+                            <i class="fas fa-credit-card w-5"></i>
+                            <span>Cartão</span>
+                        </button>
+                        
+                        <button onclick="mudarTab('configuracoes', this)" class="sidebar-item w-full">
+                            <i class="fas fa-cog w-5"></i>
+                            <span>Configurações</span>
                         </button>
                     </div>
-                    
-                    <div class="table-container">
-                        <table class="w-full text-xs sm:text-sm">
-                            <thead>
-                                <tr class="text-left text-[10px] sm:text-xs text-slate-400 border-b dark:border-slate-700">
-                                    <th class="pb-2 sm:pb-3">PARC</th>
-                                    <th class="pb-2 sm:pb-3">DESCRIÇÃO</th>
-                                    <th class="pb-2 sm:pb-3 hide-on-mobile">PAGAMENTO</th>
-                                    <th class="pb-2 sm:pb-3">CATEGORIA</th>
-                                    <th class="pb-2 sm:pb-3">DATA</th>
-                                    <th class="pb-2 sm:pb-3 text-right">VALOR</th>
-                                    <th class="pb-2 sm:pb-3 text-center">AÇÃO</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabelaPagos">
-                                <tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Carregando...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-            </div>
+            </aside>
             
-            <!-- ===== CARTÃO ===== -->
-            <div id="tab-cartao" class="tab-content">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <!-- Resumo das Faturas -->
-                    <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
-                            <h2 class="text-xl sm:text-2xl font-black">💳 Faturas</h2>
-                            <button onclick="abrirModalPDF('cartao')" class="flex-1 sm:flex-none text-xs bg-indigo-100 text-indigo-600 px-3 py-2 rounded-lg hover:bg-indigo-200 touch-button">
-                                <i class="fas fa-file-pdf mr-1"></i> PDF
-                            </button>
-                        </div>
-                        <div id="containerFaturas" class="space-y-3">
-                            <p class="text-center text-slate-400 py-4 sm:py-8">Carregando faturas...</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Resumo por Cartão -->
-                    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                        <h2 class="text-lg sm:text-xl font-black mb-3 sm:mb-4">📊 Resumo</h2>
-                        <div id="containerResumoCartoes" class="space-y-2">
-                            <p class="text-center text-slate-400 py-3 sm:py-4">Carregando...</p>
+            <!-- Content Area -->
+            <main class="flex-1">
+                
+                <!-- ===== DASHBOARD ===== -->
+                <div id="tab-dash" class="tab-content active fade-in">
+                    <!-- Cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="dashboard-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-slate-400">Saldo</span>
+                                <div class="icon-circle bg-[#f7fee7]">
+                                    <i class="fas fa-wallet text-[#84cc16]"></i>
+                                </div>
+                            </div>
+                            <div id="cardSaldoRestante" class="text-2xl font-black text-[#1f2937]">R$ 0,00</div>
                         </div>
                         
-                        <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t dark:border-slate-700">
-                            <button onclick="abrirModalPagamentoFatura()" 
-                                    class="w-full bg-indigo-600 text-white py-2 sm:py-2 rounded-lg text-xs sm:text-sm font-bold hover:bg-indigo-700 touch-button">
-                                Pagar Fatura
-                            </button>
+                        <div class="dashboard-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-slate-400">Pendente</span>
+                                <div class="icon-circle bg-amber-100">
+                                    <i class="fas fa-clock text-amber-600"></i>
+                                </div>
+                            </div>
+                            <div id="cardPendente" class="text-2xl font-black text-amber-600">R$ 0,00</div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-slate-400">Pago</span>
+                                <div class="icon-circle bg-emerald-100">
+                                    <i class="fas fa-check-circle text-emerald-600"></i>
+                                </div>
+                            </div>
+                            <div id="cardPago" class="text-2xl font-black text-emerald-600">R$ 0,00</div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-slate-400">Receitas</span>
+                                <div class="icon-circle bg-[#f7fee7]">
+                                    <i class="fas fa-arrow-up text-[#84cc16]"></i>
+                                </div>
+                            </div>
+                            <div id="cardReceitas" class="text-2xl font-black text-[#84cc16]">R$ 0,00</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Barra de Progresso -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-[#1f2937]">Progresso do Mês</h3>
+                            <span id="txtPorcentagem" class="text-[#84cc16] font-bold">0%</span>
+                        </div>
+                        <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                            <div id="barraProgresso" class="h-full bg-gradient-to-r from-[#4b5563] to-[#84cc16] rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gráficos -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-[#1f2937] mb-4">📊 Gastos por Categoria</h3>
+                            <div style="height: 250px;">
+                                <canvas id="graficoPizza"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-[#1f2937] mb-4">📈 Evolução Mensal</h3>
+                            <div style="height: 250px;">
+                                <canvas id="graficoBarras"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-6 shadow-lg lg:col-span-2">
+                            <h3 class="font-bold text-[#1f2937] mb-4">💳 Formas de Pagamento</h3>
+                            <div style="height: 250px;">
+                                <canvas id="graficoFormasPagamento"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tabela de Compras no Cartão -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm mt-4 sm:mt-6">
-                    <h2 class="text-lg sm:text-xl font-black mb-3 sm:mb-4">📋 Compras no Cartão</h2>
-                    <div class="table-container">
-                        <table class="w-full text-xs sm:text-sm">
-                            <thead>
-                                <tr class="text-left text-[10px] sm:text-xs text-slate-400 border-b dark:border-slate-700">
-                                    <th class="pb-2 sm:pb-3">DESCRIÇÃO</th>
-                                    <th class="pb-2 sm:pb-3 hide-on-mobile">CARTÃO</th>
-                                    <th class="pb-2 sm:pb-3">PARC</th>
-                                    <th class="pb-2 sm:pb-3 hide-on-mobile">DATA</th>
-                                    <th class="pb-2 sm:pb-3 text-right">VALOR</th>
-                                    <th class="pb-2 sm:pb-3 text-center">STATUS</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabelaCartao">
-                                <tr><td colspan="6" class="p-4 sm:p-8 text-center text-slate-400">Carregando...</td></tr>
-                            </tbody>
-                        </table>
+                <!-- ===== LANÇAR CONTA ===== -->
+                <div id="tab-lancar" class="tab-content fade-in">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-2xl font-black text-[#1f2937] mb-6">📝 Lançar Nova Conta</h2>
+                        
+                        <form onsubmit="event.preventDefault(); lancar()" class="space-y-4">
+                            <input type="hidden" id="editId" value="">
+                            
+                            <div>
+                                <label class="block text-xs font-bold mb-2 text-slate-600">DESCRIÇÃO</label>
+                                <input type="text" id="desc" 
+                                       class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
+                                       placeholder="Ex: Compra no mercado" required>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">VALOR (R$)</label>
+                                    <input type="number" id="valor" step="0.01" min="0.01"
+                                           class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
+                                           placeholder="0,00" required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">CATEGORIA</label>
+                                    <select id="categoria" class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
+                                        <option value="Aluguel/Fixo">Aluguel/Fixo</option>
+                                        <option value="Mercado">Mercado</option>
+                                        <option value="Lazer">Lazer</option>
+                                        <option value="Saúde">Saúde</option>
+                                        <option value="Educação">Educação</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">DATA</label>
+                                    <input type="date" id="data" 
+                                           class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
+                                           required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">PAGAMENTO</label>
+                                    <select id="formaPagamento" onchange="toggleCamposCartao()" 
+                                            class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
+                                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                        <option value="Cartão de Débito">Cartão de Débito</option>
+                                        <option value="Dinheiro">Dinheiro</option>
+                                        <option value="PIX">PIX</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">PARCELAS</label>
+                                    <input type="number" id="parcelas" min="1" max="48" value="1"
+                                           class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button"
+                                           onchange="atualizarInfoCartao()">
+                                </div>
+                                
+                                <div id="divCartaoInfo" style="display: none;">
+                                    <label class="block text-xs font-bold mb-2 text-slate-600">CARTÃO</label>
+                                    <select id="cartaoSelecionado" onchange="atualizarInfoCartao()" 
+                                            class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="infoFaturaAtual" class="mt-4"></div>
+                            
+                            <button type="submit" id="btnLancar"
+                                    class="w-full btn-primary text-white font-bold py-4 rounded-xl hover:opacity-90 transition touch-button mt-6">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                Confirmar Lançamento
+                            </button>
+                        </form>
                     </div>
                 </div>
-            </div>
-            
-            <!-- ===== CONFIGURAÇÕES ===== -->
-            <div id="tab-configuracoes" class="tab-content">
-                <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                    <h2 class="text-xl sm:text-2xl font-black mb-4 sm:mb-6">⚙️ Configurações</h2>
-                    
-                    <form onsubmit="salvarConfiguracoes(event)" class="space-y-4 sm:space-y-6">
-                        <div>
-                            <label class="block text-xs font-bold mb-1 sm:mb-2">SALÁRIO / RENDA MENSAL</label>
-                            <input type="number" id="inputSalario" step="100" value="5000"
-                                   class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-xs font-bold mb-2 sm:mb-4">CARTÕES DE CRÉDITO</label>
-                            <div id="containerCartoesConfig"></div>
-                            
-                            <button type="button" onclick="adicionarCartaoConfig()"
-                                    class="mt-2 sm:mt-3 text-indigo-600 text-xs sm:text-sm font-bold hover:text-indigo-700 touch-button">
-                                + Adicionar Cartão
+                
+                <!-- ===== VENCIMENTOS ===== -->
+                <div id="tab-vencimentos" class="tab-content fade-in">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                            <h2 class="text-2xl font-black text-[#1f2937]">⏰ Contas a Pagar</h2>
+                            <button onclick="abrirModalPDF('vencimentos')" 
+                                    class="px-4 py-2 bg-[#f7fee7] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-white transition touch-button flex items-center gap-2 w-full sm:w-auto justify-center">
+                                <i class="fas fa-file-pdf"></i>
+                                Gerar PDF
                             </button>
                         </div>
                         
-                        <button type="submit"
-                                class="w-full bg-indigo-600 text-white font-bold py-2 sm:py-3 rounded-lg hover:bg-indigo-700 transition touch-button text-sm sm:text-base">
-                            Salvar Configurações
-                        </button>
-                    </form>
+                        <!-- Barra de Progresso -->
+                        <div class="mb-6 p-4 bg-slate-50 rounded-xl">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="font-medium">💰 <span id="totalPendenteMes">R$ 0,00</span></span>
+                                <span class="text-[#84cc16] font-bold"><span id="porcentagemPagaMes">0%</span> do orçamento</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div id="barraProgressoVencimentos" class="h-full bg-[#84cc16] rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabela -->
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>PARC</th>
+                                        <th>DESCRIÇÃO</th>
+                                        <th class="hide-on-mobile">PAGAMENTO</th>
+                                        <th>CATEGORIA</th>
+                                        <th>VENC</th>
+                                        <th class="text-right">VALOR</th>
+                                        <th class="text-center">AÇÃO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabelaVencimentos">
+                                    <tr><td colspan="7" class="text-center py-8 text-slate-400">Carregando...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-        </main>
+                
+                <!-- ===== HISTÓRICO ===== -->
+                <div id="tab-historico" class="tab-content fade-in">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                            <h2 class="text-2xl font-black text-[#1f2937]">📜 Histórico</h2>
+                            <button onclick="abrirModalPDF('historico')" 
+                                    class="px-4 py-2 bg-[#f7fee7] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-white transition touch-button flex items-center gap-2 w-full sm:w-auto justify-center">
+                                <i class="fas fa-file-pdf"></i>
+                                Gerar PDF
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>PARC</th>
+                                        <th>DESCRIÇÃO</th>
+                                        <th class="hide-on-mobile">PAGAMENTO</th>
+                                        <th>CATEGORIA</th>
+                                        <th>DATA</th>
+                                        <th class="text-right">VALOR</th>
+                                        <th class="text-center">AÇÃO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabelaPagos">
+                                    <tr><td colspan="7" class="text-center py-8 text-slate-400">Carregando...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ===== CARTÃO ===== -->
+                <div id="tab-cartao" class="tab-content fade-in">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-black text-[#1f2937]">💳 Faturas</h2>
+                                <button onclick="abrirModalPDF('cartao')" 
+                                        class="px-4 py-2 bg-[#f7fee7] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-white transition touch-button">
+                                    <i class="fas fa-file-pdf"></i>
+                                </button>
+                            </div>
+                            <div id="containerFaturas" class="space-y-3"></div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h2 class="text-xl font-black text-[#1f2937] mb-4">📊 Resumo</h2>
+                            <div id="containerResumoCartoes" class="space-y-2"></div>
+                            
+                            <div class="mt-6 pt-4 border-t border-slate-200">
+                                <button onclick="abrirModalPagamentoFatura()" 
+                                        class="w-full btn-primary text-white py-3 rounded-xl font-bold hover:opacity-90 transition touch-button">
+                                    <i class="fas fa-credit-card mr-2"></i>
+                                    Pagar Fatura
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-lg mt-6">
+                        <h2 class="text-xl font-black text-[#1f2937] mb-4">📋 Compras no Cartão</h2>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>DESCRIÇÃO</th>
+                                        <th class="hide-on-mobile">CARTÃO</th>
+                                        <th>PARC</th>
+                                        <th class="hide-on-mobile">DATA</th>
+                                        <th class="text-right">VALOR</th>
+                                        <th class="text-center">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabelaCartao"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ===== CONFIGURAÇÕES ===== -->
+                <div id="tab-configuracoes" class="tab-content fade-in">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-2xl font-black text-[#1f2937] mb-6">⚙️ Configurações</h2>
+                        
+                        <form onsubmit="salvarConfiguracoes(event)" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2 text-slate-600">SALÁRIO / RENDA</label>
+                                <input type="number" id="inputSalario" step="100" value="4000"
+                                       class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold mb-4 text-slate-600">CARTÕES</label>
+                                <div id="containerCartoesConfig" class="space-y-3"></div>
+                                
+                                <button type="button" onclick="adicionarCartaoConfig()"
+                                        class="mt-4 text-[#84cc16] text-sm font-bold hover:text-[#4d7c0f] transition touch-button flex items-center gap-2">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Adicionar Cartão
+                                </button>
+                            </div>
+                            
+                            <button type="submit"
+                                    class="w-full btn-primary text-white font-bold py-4 rounded-xl hover:opacity-90 transition touch-button">
+                                <i class="fas fa-save mr-2"></i>
+                                Salvar Configurações
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
     </div>
 </div>
 
 <!-- ============================================ -->
-<!-- BOTÕES DE NAVEGAÇÃO INFERIOR (MOBILE) -->
+<!-- NAVEGAÇÃO INFERIOR (MOBILE) -->
 <!-- ============================================ -->
-<div class="mobile-bottom-nav md:hidden">
+<div class="mobile-bottom-nav">
     <button onclick="mudarTabMobile('dash')" class="mobile-bottom-nav-item active" data-tab="dash">
         <i class="fas fa-chart-pie"></i>
         <span>Início</span>
@@ -758,7 +934,7 @@
     <button onclick="mudarTabMobile('vencimentos')" class="mobile-bottom-nav-item" data-tab="vencimentos">
         <i class="fas fa-clock"></i>
         <span>Contas</span>
-        <span id="qtdPendentesNav" class="absolute -mt-5 ml-5 text-xs bg-amber-100 text-amber-600 px-1 rounded-full">0</span>
+        <span id="qtdPendentesNav" class="absolute -mt-5 ml-5 text-xs bg-[#f7fee7] text-[#84cc16] px-1.5 py-0.5 rounded-full">0</span>
     </button>
     <button onclick="mudarTabMobile('historico')" class="mobile-bottom-nav-item" data-tab="historico">
         <i class="fas fa-history"></i>
@@ -778,35 +954,35 @@
 <!-- MODAL PAGAMENTO DE FATURA -->
 <!-- ============================================ -->
 <div id="modalPagamentoFatura" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 max-w-md w-full mx-4 modal-content">
-        <h3 class="text-lg sm:text-xl font-black mb-3 sm:mb-4">💳 Pagar Fatura</h3>
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full max-h-[85vh] overflow-y-auto">
+        <h3 class="text-xl font-black text-[#1f2937] mb-4">💳 Pagar Fatura</h3>
         
-        <div class="mb-3 sm:mb-4">
-            <label class="block text-xs font-bold mb-1 sm:mb-2">SELECIONE A FATURA</label>
-            <select id="selectFaturaModal" class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
+        <div class="mb-4">
+            <label class="block text-xs font-bold mb-2 text-slate-600">SELECIONE A FATURA</label>
+            <select id="selectFaturaModal" class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
                 <option>Carregando...</option>
             </select>
         </div>
         
-        <div class="mb-3 sm:mb-4">
-            <label class="block text-xs font-bold mb-1 sm:mb-2">VALOR A PAGAR</label>
+        <div class="mb-4">
+            <label class="block text-xs font-bold mb-2 text-slate-600">VALOR A PAGAR</label>
             <input type="text" id="valorFaturaModal" readonly
-                   class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600 bg-slate-50">
+                   class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm bg-slate-50">
         </div>
         
-        <div class="mb-3 sm:mb-4">
-            <label class="block text-xs font-bold mb-1 sm:mb-2">DATA DE PAGAMENTO</label>
+        <div class="mb-6">
+            <label class="block text-xs font-bold mb-2 text-slate-600">DATA DE PAGAMENTO</label>
             <input type="date" id="modalDataPagamento" 
-                   class="w-full border rounded-lg p-2 sm:p-3 text-sm dark:bg-slate-700 dark:border-slate-600">
+                   class="w-full border-2 border-slate-200 rounded-xl p-3 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] transition touch-button">
         </div>
         
-        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+        <div class="flex gap-3 flex-col sm:flex-row">
             <button onclick="fecharModalPagamentoFatura()" 
-                    class="flex-1 border border-slate-300 py-2 sm:py-3 rounded-lg font-bold text-sm touch-button">
+                    class="flex-1 border-2 border-slate-200 py-3 rounded-xl font-bold hover:bg-slate-50 transition touch-button">
                 Cancelar
             </button>
             <button onclick="confirmarPagamentoFatura()" 
-                    class="flex-1 bg-indigo-600 text-white py-2 sm:py-3 rounded-lg font-bold hover:bg-indigo-700 touch-button text-sm">
+                    class="flex-1 btn-primary text-white py-3 rounded-xl font-bold hover:opacity-90 transition touch-button">
                 Confirmar
             </button>
         </div>
@@ -817,20 +993,18 @@
 <!-- MODAL PDF -->
 <!-- ============================================ -->
 <div id="modalPDF" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 max-w-md w-full mx-4 modal-content">
-        <h3 class="text-lg sm:text-xl font-black mb-3 sm:mb-4">📄 Gerar Relatório PDF</h3>
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full max-h-[85vh] overflow-y-auto">
+        <h3 class="text-xl font-black text-[#1f2937] mb-4">📄 Gerar Relatório PDF</h3>
         
-        <div id="conteudoModalPDF" class="text-sm">
-            <!-- Conteúdo dinâmico será inserido aqui -->
-        </div>
+        <div id="conteudoModalPDF" class="mb-6"></div>
         
-        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
+        <div class="flex gap-3 flex-col sm:flex-row">
             <button onclick="fecharModalPDF()" 
-                    class="flex-1 border border-slate-300 py-2 sm:py-3 rounded-lg font-bold text-sm touch-button">
+                    class="flex-1 border-2 border-slate-200 py-3 rounded-xl font-bold hover:bg-slate-50 transition touch-button">
                 Cancelar
             </button>
             <button onclick="confirmarGerarPDF()" 
-                    class="flex-1 bg-indigo-600 text-white py-2 sm:py-3 rounded-lg font-bold hover:bg-indigo-700 touch-button text-sm">
+                    class="flex-1 btn-primary text-white py-3 rounded-xl font-bold hover:opacity-90 transition touch-button">
                 Gerar PDF
             </button>
         </div>
@@ -845,106 +1019,63 @@ let usuarioLogado = "";
 let todosOsDados = [];
 let todosOsPagos = [];
 let configuracoesGlobais = {
-    salario: 5000,
+    salario: 4000,
     cartoes: [
-        { nome: "Principal", fechamento: 10, vencimento: 15 },
-        { nome: "Secundário", fechamento: 5, vencimento: 10 },
-        { nome: "Outro", fechamento: 20, vencimento: 25 }
+        { nome: "Principal", fechamento: 28, vencimento: 5 },
+        { nome: "Secundário", fechamento: 28, vencimento: 5 }
     ]
 };
 
-// Variável para armazenar o tipo de PDF atual
 let tipoPDFAtual = "";
-let dadosPDFSelecionados = null;
 
 // Cores das Categorias
 const CORES_CAT = {
-    "Lazer": "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
-    "Saúde": "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
-    "Educação": "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    "Aluguel/Fixo": "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
-    "Mercado": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-    "Outros": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400"
+    "Lazer": "bg-amber-100 text-amber-700",
+    "Saúde": "bg-rose-100 text-rose-700",
+    "Educação": "bg-blue-100 text-blue-700",
+    "Aluguel/Fixo": "bg-[#f7fee7] text-[#4d7c0f]",
+    "Mercado": "bg-emerald-100 text-emerald-700",
+    "Outros": "bg-slate-100 text-slate-700"
 };
 
 // Cores dos Gráficos
 const CORES_GRAFICOS = {
-    categorias: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899"],
+    categorias: ["#1f2937", "#4b5563", "#84cc16", "#9ca3af", "#6b7280", "#4d7c0f", "#374151"],
     pagamentos: {
-        "Cartão de Crédito": "#8b5cf6",
-        "Cartão de Débito": "#10b981",
-        "Dinheiro": "#f59e0b",
-        "PIX": "#4f46e5"
+        "Cartão de Crédito": "#1f2937",
+        "Cartão de Débito": "#4b5563",
+        "Dinheiro": "#84cc16",
+        "PIX": "#4d7c0f"
     }
 };
 
-// Variáveis dos Gráficos
 let chartPizza = null;
 let chartBarras = null;
 let chartFormasPagamento = null;
 
 // ============================================
-// FUNÇÕES DO SIDEBAR MOBILE
+// FUNÇÃO PARA MOSTRAR/ESCONDER SENHA
 // ============================================
-function abrirSidebar() {
-    document.getElementById("mobileSidebar").classList.add("open");
-    document.getElementById("sidebarOverlay").classList.add("open");
-    document.body.style.overflow = "hidden";
-}
-
-function fecharSidebar() {
-    document.getElementById("mobileSidebar").classList.remove("open");
-    document.getElementById("sidebarOverlay").classList.remove("open");
-    document.body.style.overflow = "";
-}
-
-function mudarTabMobile(tabId) {
-    mudarTab(tabId, null);
-    fecharSidebar();
+function toggleSenha() {
+    const senhaInput = document.getElementById("inputSenha");
+    const toggleBtn = document.getElementById("toggleSenhaBtn");
+    const icon = toggleBtn.querySelector("i");
     
-    // Atualizar estilo dos botões do mobile
-    document.querySelectorAll(".sidebar-item-mobile").forEach(b => {
-        b.classList.remove("bg-indigo-50", "text-indigo-600");
-        b.classList.add("text-slate-500");
-    });
-    
-    const btnAtivo = Array.from(document.querySelectorAll(".sidebar-item-mobile")).find(
-        btn => btn.innerHTML.includes(tabId === "dash" ? "Dashboard" : 
-                                      tabId === "lancar" ? "Lançar" : 
-                                      tabId === "vencimentos" ? "Vencimentos" : 
-                                      tabId === "historico" ? "Histórico" : 
-                                      tabId === "cartao" ? "Cartão" : "Configurações")
-    );
-    
-    if (btnAtivo) {
-        btnAtivo.classList.add("bg-indigo-50", "text-indigo-600");
-        btnAtivo.classList.remove("text-slate-500");
+    if (senhaInput.type === "password") {
+        senhaInput.type = "text";
+        icon.classList.remove("fa-regular", "fa-eye");
+        icon.classList.add("fa-regular", "fa-eye-slash");
+    } else {
+        senhaInput.type = "password";
+        icon.classList.remove("fa-regular", "fa-eye-slash");
+        icon.classList.add("fa-regular", "fa-eye");
     }
-    
-    // Atualizar navegação inferior
-    document.querySelectorAll('.mobile-bottom-nav-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.tab === tabId || 
-            (tabId === 'dash' && item.dataset.tab === 'dash') ||
-            (tabId === 'lancar' && item.dataset.tab === 'lancar') ||
-            (tabId === 'vencimentos' && item.dataset.tab === 'vencimentos') ||
-            (tabId === 'historico' && item.dataset.tab === 'historico') ||
-            (tabId === 'cartao' && item.dataset.tab === 'cartao') ||
-            (tabId === 'configuracoes' && item.dataset.tab === 'configuracoes')) {
-            item.classList.add('active');
-        }
-    });
 }
 
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
 window.onload = function() {
-    // Verificar tema salvo
-    if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark");
-    }
-    
     // Preencher data atual
     const hoje = new Date().toISOString().split("T")[0];
     if (document.getElementById("data")) {
@@ -960,24 +1091,208 @@ window.onload = function() {
         mostrarApp();
     }
     
-    // Carregar configurações
-    carregarConfiguracoes();
-    
-    // Fechar sidebar ao redimensionar para desktop
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            fecharSidebar();
-        }
-    });
-    
-    // Configurar evento para os botões da navegação inferior
-    document.querySelectorAll('.mobile-bottom-nav-item').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const tabId = this.dataset.tab;
-            mudarTabMobile(tabId);
-        });
-    });
+    // Carregar configurações do localStorage como fallback
+    carregarConfiguracoesLocal();
 };
+
+// ============================================
+// CARREGAR CONFIGURAÇÕES DO LOCALSTORAGE (FALLBACK)
+// ============================================
+function carregarConfiguracoesLocal() {
+    const salvo = localStorage.getItem("configuracoesFinanWF");
+    if (salvo) {
+        try {
+            const configLocal = JSON.parse(salvo);
+            // Atualizar apenas se existir no localStorage
+            if (configLocal.salario) configuracoesGlobais.salario = configLocal.salario;
+            if (configLocal.cartoes && configLocal.cartoes.length > 0) {
+                configuracoesGlobais.cartoes = configLocal.cartoes;
+            }
+        } catch (e) {}
+    }
+    
+    if (document.getElementById("inputSalario")) {
+        document.getElementById("inputSalario").value = configuracoesGlobais.salario;
+    }
+    
+    renderizarConfigCartoes();
+    atualizarSelectCartoes();
+}
+
+// ============================================
+// CARREGAR CONFIGURAÇÕES DA PLANILHA
+// ============================================
+async function carregarConfiguracoesDaPlanilha() {
+    if (!usuarioLogado) return;
+    
+    try {
+        const url = `${API_URL}?usuario=${encodeURIComponent(usuarioLogado)}&acao=carregarConfiguracoes&_=${Date.now()}`;
+        const response = await fetch(url);
+        const dados = await response.json();
+        
+        if (dados && !dados.erro) {
+            // Atualizar configurações com dados da planilha
+            if (dados.salario) {
+                configuracoesGlobais.salario = parseFloat(dados.salario) || 4000;
+            }
+            
+            if (dados.cartoes && Array.isArray(dados.cartoes) && dados.cartoes.length > 0) {
+                configuracoesGlobais.cartoes = dados.cartoes;
+            }
+            
+            // Salvar no localStorage como backup
+            localStorage.setItem("configuracoesFinanWF", JSON.stringify(configuracoesGlobais));
+            
+            // Atualizar interface
+            if (document.getElementById("inputSalario")) {
+                document.getElementById("inputSalario").value = configuracoesGlobais.salario;
+            }
+            
+            renderizarConfigCartoes();
+            atualizarSelectCartoes();
+            atualizarTabela(); // Atualizar tabela com novo salário
+        }
+    } catch (error) {
+        console.error("Erro ao carregar configurações da planilha:", error);
+        // Fallback para localStorage já foi carregado
+    }
+}
+
+// ============================================
+// SALVAR CONFIGURAÇÕES NA PLANILHA
+// ============================================
+async function salvarConfiguracoes(event) {
+    event.preventDefault();
+    
+    const btn = event.target.querySelector('button[type="submit"]');
+    const textoOriginal = btn.innerText;
+    
+    // Coletar dados do formulário
+    configuracoesGlobais.salario = parseFloat(document.getElementById("inputSalario").value) || 4000;
+    
+    // Atualizar cartões com os valores dos inputs
+    configuracoesGlobais.cartoes.forEach((cartao, index) => {
+        const nomeInput = document.getElementById(`cartaoNome_${index}`);
+        const fechamentoInput = document.getElementById(`cartaoFechamento_${index}`);
+        const vencimentoInput = document.getElementById(`cartaoVencimento_${index}`);
+        
+        if (nomeInput) cartao.nome = nomeInput.value || "Cartão";
+        if (fechamentoInput) cartao.fechamento = parseInt(fechamentoInput.value) || 10;
+        if (vencimentoInput) cartao.vencimento = parseInt(vencimentoInput.value) || 15;
+    });
+    
+    // Salvar no localStorage como backup
+    localStorage.setItem("configuracoesFinanWF", JSON.stringify(configuracoesGlobais));
+    
+    btn.innerText = "Salvando...";
+    btn.disabled = true;
+    
+    try {
+        // Enviar para a planilha
+        await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                acao: "salvarConfiguracoes",
+                usuario: usuarioLogado,
+                salario: configuracoesGlobais.salario,
+                cartoes: configuracoesGlobais.cartoes
+            })
+        });
+        
+        alert("✅ Configurações salvas com sucesso na planilha!");
+        
+        // Atualizar interface
+        atualizarSelectCartoes();
+        atualizarTabela();
+        
+    } catch (error) {
+        console.error("Erro ao salvar configurações:", error);
+        alert("❌ Erro ao salvar na planilha. As configurações foram salvas localmente.");
+    } finally {
+        btn.innerText = textoOriginal;
+        btn.disabled = false;
+    }
+}
+
+// ============================================
+// FUNÇÕES AUXILIARES DE CONFIGURAÇÃO
+// ============================================
+function renderizarConfigCartoes() {
+    const container = document.getElementById("containerCartoesConfig");
+    if (!container) return;
+
+    let html = "";
+
+    configuracoesGlobais.cartoes.forEach((cartao, index) => {
+        html += `
+            <div class="border rounded-xl p-4">
+                <div class="flex justify-between items-center mb-3">
+                    <input type="text" 
+                           id="cartaoNome_${index}" 
+                           value="${cartao.nome || 'Cartão'}"
+                           class="font-bold bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-[#84cc16] rounded-lg p-1 w-32 touch-button"
+                           placeholder="Nome do Cartão">
+                    <button type="button" onclick="removerCartaoConfig(${index})" class="text-rose-500 text-sm hover:text-rose-600 p-2 touch-button">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold mb-1 block text-slate-600">Fechamento</label>
+                        <input type="number" 
+                               id="cartaoFechamento_${index}" 
+                               value="${cartao.fechamento || 10}"
+                               class="w-full border rounded-lg p-2 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] touch-button"
+                               min="1" max="31">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold mb-1 block text-slate-600">Vencimento</label>
+                        <input type="number" 
+                               id="cartaoVencimento_${index}" 
+                               value="${cartao.vencimento || 15}"
+                               class="w-full border rounded-lg p-2 text-sm focus:border-[#84cc16] focus:ring-2 focus:ring-[#f7fee7] touch-button"
+                               min="1" max="31">
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+function adicionarCartaoConfig() {
+    configuracoesGlobais.cartoes.push({
+        nome: "Novo Cartão",
+        fechamento: 10,
+        vencimento: 15
+    });
+    renderizarConfigCartoes();
+}
+
+function removerCartaoConfig(index) {
+    if (configuracoesGlobais.cartoes.length > 1) {
+        configuracoesGlobais.cartoes.splice(index, 1);
+        renderizarConfigCartoes();
+    } else {
+        alert("É necessário manter pelo menos um cartão.");
+    }
+}
+
+function atualizarSelectCartoes() {
+    const selectCartao = document.getElementById("cartaoSelecionado");
+    if (!selectCartao) return;
+    
+    selectCartao.innerHTML = "";
+    
+    configuracoesGlobais.cartoes.forEach(cartao => {
+        const option = document.createElement("option");
+        option.value = cartao.nome;
+        option.textContent = cartao.nome;
+        selectCartao.appendChild(option);
+    });
+}
 
 // ============================================
 // CONTROLE DE TABS
@@ -992,13 +1307,11 @@ function mudarTab(tabId, btn) {
     
     // Atualizar botões do desktop
     document.querySelectorAll(".sidebar-item").forEach(b => {
-        b.classList.remove("active", "bg-indigo-50", "text-indigo-600");
-        b.classList.add("text-slate-500");
+        b.classList.remove("active");
     });
     
     if (btn) {
-        btn.classList.add("active", "bg-indigo-50", "text-indigo-600");
-        btn.classList.remove("text-slate-500");
+        btn.classList.add("active");
     }
     
     // Atualizar navegação inferior
@@ -1014,16 +1327,8 @@ function mudarTab(tabId, btn) {
     }
 }
 
-// ============================================
-// DARK MODE
-// ============================================
-function toggleDarkMode() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    
-    if (todosOsDados && todosOsDados.length > 0) {
-        setTimeout(() => renderizarGraficosComDados(todosOsDados), 100);
-    }
+function mudarTabMobile(tabId) {
+    mudarTab(tabId, null);
 }
 
 // ============================================
@@ -1054,13 +1359,13 @@ async function verificarSenha() {
             mostrarApp();
         } else {
             alert("Usuário ou senha incorretos!");
-            btn.innerText = "Entrar";
+            btn.innerText = "Entrar no Sistema";
             btn.disabled = false;
         }
     } catch (error) {
         console.error("Erro no login:", error);
         alert("Erro de conexão. Verifique se o Script foi publicado como 'Qualquer pessoa'.");
-        btn.innerText = "Entrar";
+        btn.innerText = "Entrar no Sistema";
         btn.disabled = false;
     }
 }
@@ -1072,7 +1377,10 @@ async function mostrarApp() {
     document.getElementById("telaLogin").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     
-    await carregarConfiguracoes();
+    // Carregar configurações da planilha primeiro
+    await carregarConfiguracoesDaPlanilha();
+    
+    // Atualizar dados
     atualizarTabela();
 }
 
@@ -1120,17 +1428,11 @@ async function atualizarTabela() {
         
         atualizarBarraProgressoVencimentos();
         
-        // Atualizar contador mobile
-        const qtdMobile = document.getElementById("qtdPendentesMobile");
-        if (qtdMobile) {
-            qtdMobile.innerText = pendentes.length;
-        }
-        
-        // Atualizar contador da navegação inferior
+        // Atualizar contadores
         const qtdNav = document.getElementById("qtdPendentesNav");
-        if (qtdNav) {
-            qtdNav.innerText = pendentes.length;
-        }
+        const qtdSidebar = document.getElementById("qtdPendentes");
+        if (qtdNav) qtdNav.innerText = pendentes.length;
+        if (qtdSidebar) qtdSidebar.innerText = pendentes.length;
         
     } catch (err) {
         console.error("Erro ao carregar dados:", err);
@@ -1147,7 +1449,7 @@ function renderizarLinhas(lista, id) {
     corpo.innerHTML = "";
 
     if (!lista || lista.length === 0) {
-        corpo.innerHTML = `<tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Nenhuma conta pendente</td></tr>`;
+        corpo.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">Nenhuma conta pendente</td></tr>`;
         return;
     }
 
@@ -1198,26 +1500,20 @@ function renderizarLinhas(lista, id) {
         const corCategoria = CORES_CAT[categoria] || CORES_CAT["Outros"];
 
         corpo.innerHTML += `
-            <tr class="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-                <td class="p-2 sm:p-4 text-[10px] sm:text-xs font-mono text-slate-400">${parcela}/${totalParcelas}</td>
-                <td class="p-2 sm:p-4 font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200">${descricao.substring(0, 15)}${descricao.length > 15 ? '...' : ''}</td>
-                <td class="p-2 sm:p-4 hide-on-mobile">
-                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
-                        ${formaPagamento.substring(0, 8)}${formaPagamento.length > 8 ? '...' : ''}
-                    </span>
+            <tr>
+                <td class="font-mono text-slate-400">${parcela}/${totalParcelas}</td>
+                <td class="font-bold">${descricao.substring(0, 20)}${descricao.length > 20 ? '...' : ''}</td>
+                <td class="hide-on-mobile">
+                    <span class="badge badge-info">${formaPagamento}</span>
                 </td>
-                <td class="p-2 sm:p-4">
-                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase ${corCategoria}">
-                        ${categoria.substring(0, 8)}${categoria.length > 8 ? '...' : ''}
-                    </span>
+                <td>
+                    <span class="badge ${corCategoria}">${categoria}</span>
                 </td>
-                <td class="p-2 sm:p-4 text-center font-mono text-[10px] sm:text-xs text-slate-500">${dataFormatada}</td>
-                <td class="p-2 sm:p-4 text-right font-bold text-[11px] sm:text-sm ${valor >= 0 ? 'text-emerald-600' : 'text-rose-600'}">
-                    ${valorFormatado}
-                </td>
-                <td class="p-2 sm:p-4 text-center">
+                <td class="text-center font-mono">${dataFormatada}</td>
+                <td class="text-right font-bold text-[#84cc16]">${valorFormatado}</td>
+                <td class="text-center">
                     <button onclick="marcarComoPago('${idItem}', event)" 
-                            class="bg-indigo-600 text-white px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg text-[8px] sm:text-[10px] font-bold hover:bg-indigo-700 transition-all active:scale-95 shadow-sm touch-button">
+                            class="bg-[#1f2937] text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#84cc16] transition touch-button">
                         Pagar
                     </button>
                 </td>
@@ -1232,7 +1528,7 @@ function renderizarLinhasPagos(lista, id) {
     corpo.innerHTML = "";
 
     if (!lista || lista.length === 0) {
-        corpo.innerHTML = `<tr><td colspan="7" class="p-4 sm:p-8 text-center text-slate-400">Nenhum registro pago</td></tr>`;
+        corpo.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">Nenhum registro pago</td></tr>`;
         return;
     }
 
@@ -1283,26 +1579,20 @@ function renderizarLinhasPagos(lista, id) {
         const corCategoria = CORES_CAT[categoria] || CORES_CAT["Outros"];
 
         corpo.innerHTML += `
-            <tr class="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-                <td class="p-2 sm:p-4 text-[10px] sm:text-xs font-mono text-slate-400">${parcela}/${totalParcelas}</td>
-                <td class="p-2 sm:p-4 font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200">${descricao.substring(0, 15)}${descricao.length > 15 ? '...' : ''}</td>
-                <td class="p-2 sm:p-4 hide-on-mobile">
-                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
-                        ${formaPagamento.substring(0, 8)}${formaPagamento.length > 8 ? '...' : ''}
-                    </span>
+            <tr>
+                <td class="font-mono text-slate-400">${parcela}/${totalParcelas}</td>
+                <td class="font-bold">${descricao.substring(0, 20)}${descricao.length > 20 ? '...' : ''}</td>
+                <td class="hide-on-mobile">
+                    <span class="badge badge-info">${formaPagamento}</span>
                 </td>
-                <td class="p-2 sm:p-4">
-                    <span class="text-[8px] sm:text-[10px] px-1 sm:px-2 py-0.5 sm:py-1 rounded-md font-bold uppercase ${corCategoria}">
-                        ${categoria.substring(0, 8)}${categoria.length > 8 ? '...' : ''}
-                    </span>
+                <td>
+                    <span class="badge ${corCategoria}">${categoria}</span>
                 </td>
-                <td class="p-2 sm:p-4 text-center font-mono text-[10px] sm:text-xs text-slate-500">${dataFormatada}</td>
-                <td class="p-2 sm:p-4 text-right font-bold text-[11px] sm:text-sm text-emerald-600">
-                    ${valorFormatado}
-                </td>
-                <td class="p-2 sm:p-4 text-center">
+                <td class="text-center font-mono">${dataFormatada}</td>
+                <td class="text-right font-bold text-[#84cc16]">${valorFormatado}</td>
+                <td class="text-center">
                     <button onclick="estornarRegistro('${idItem}', event)" 
-                            class="text-amber-600 font-bold text-[8px] sm:text-[10px] hover:text-amber-700 transition-all hover:underline touch-button">
+                            class="text-amber-600 font-bold text-xs hover:text-amber-700 transition hover:underline touch-button">
                         Estornar
                     </button>
                 </td>
@@ -1316,53 +1606,34 @@ function renderizarLinhasPagos(lista, id) {
 function atualizarCardsFinanceiros(pendentes, pagos) {
     const totalPendente = pendentes.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
     const totalPago = pagos.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
-    const receitas = configuracoesGlobais.salario || 5000;
+    const receitas = configuracoesGlobais.salario || 4000;
     const saldoLivre = receitas - totalPendente - totalPago;
 
-    const cardPendente = document.getElementById("cardPendente");
-    if (cardPendente) {
-        cardPendente.innerText = totalPendente.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
-
-    const cardPago = document.getElementById("cardPago");
-    if (cardPago) {
-        cardPago.innerText = totalPago.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
-
-    const cardReceitas = document.getElementById("cardReceitas");
-    if (cardReceitas) {
-        cardReceitas.innerText = receitas.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
-
-    const cardSaldoRestante = document.getElementById("cardSaldoRestante");
-    if (cardSaldoRestante) {
-        cardSaldoRestante.innerText = saldoLivre.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
+    document.getElementById("cardPendente").innerText = totalPendente.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+    
+    document.getElementById("cardPago").innerText = totalPago.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+    
+    document.getElementById("cardReceitas").innerText = receitas.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+    
+    document.getElementById("cardSaldoRestante").innerText = saldoLivre.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
 
     const totalGasto = totalPendente + totalPago;
     const porcentagem = receitas > 0 ? (totalGasto / receitas) * 100 : 0;
     
-    const barraProgresso = document.getElementById("barraProgresso");
-    if (barraProgresso) {
-        barraProgresso.style.width = `${Math.min(porcentagem, 100)}%`;
-    }
-    
-    const txtPorcentagem = document.getElementById("txtPorcentagem");
-    if (txtPorcentagem) {
-        txtPorcentagem.innerText = `${porcentagem.toFixed(1)}%`;
-    }
+    document.getElementById("barraProgresso").style.width = `${Math.min(porcentagem, 100)}%`;
+    document.getElementById("txtPorcentagem").innerText = `${porcentagem.toFixed(1)}%`;
 }
 
 // ============================================
@@ -1403,9 +1674,6 @@ function renderizarPizza(dados) {
         valores.push(1);
     }
 
-    const isDark = document.documentElement.classList.contains("dark");
-    const textColor = isDark ? "#e2e8f0" : "#1e293b";
-
     chartPizza = new Chart(ctx, {
         type: "doughnut",
         data: {
@@ -1414,7 +1682,7 @@ function renderizarPizza(dados) {
                 data: valores,
                 backgroundColor: CORES_GRAFICOS.categorias,
                 borderWidth: 2,
-                borderColor: isDark ? "#1e293b" : "#ffffff"
+                borderColor: "#ffffff"
             }]
         },
         options: {
@@ -1424,8 +1692,8 @@ function renderizarPizza(dados) {
                 legend: {
                     position: "bottom",
                     labels: { 
-                        color: textColor, 
-                        font: { size: window.innerWidth < 640 ? 8 : 11, family: "'Plus Jakarta Sans', sans-serif" }
+                        color: "#1e293b", 
+                        font: { size: 11, family: "'Inter', sans-serif" }
                     }
                 },
                 tooltip: {
@@ -1449,10 +1717,6 @@ function renderizarBarras(dados) {
     const ctx = canvas.getContext("2d");
     if (chartBarras) chartBarras.destroy();
 
-    const isDark = document.documentElement.classList.contains("dark");
-    const textColor = isDark ? "#e2e8f0" : "#1e293b";
-    const gridColor = isDark ? "#334155" : "#e2e8f0";
-
     const dadosMensais = {};
     
     todosOsDados.forEach(item => {
@@ -1473,10 +1737,10 @@ function renderizarBarras(dados) {
         return anoA - anoB || mesA - mesB;
     });
 
+    const nomesMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
     const labels = mesesOrdenados.map(mes => {
-        const [mesNum, ano] = mes.split("/");
-        const nomesMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-        return window.innerWidth < 640 ? `${nomesMeses[parseInt(mesNum) - 1]}` : `${nomesMeses[parseInt(mesNum) - 1]}/${ano.toString().slice(-2)}`;
+        const [mesNum, ano] = mes.split("/").map(Number);
+        return window.innerWidth < 640 ? nomesMeses[mesNum - 1] : `${nomesMeses[mesNum - 1]}/${ano}`;
     });
 
     const valores = mesesOrdenados.map(mes => dadosMensais[mes]);
@@ -1488,10 +1752,8 @@ function renderizarBarras(dados) {
             datasets: [{
                 label: "Gastos Mensais",
                 data: valores,
-                backgroundColor: "#4f46e5",
-                borderRadius: 6,
-                borderWidth: 1,
-                borderColor: "#3730a3"
+                backgroundColor: "#84cc16",
+                borderRadius: 6
             }]
         },
         options: {
@@ -1514,19 +1776,18 @@ function renderizarBarras(dados) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: textColor,
-                        font: { size: window.innerWidth < 640 ? 8 : 10 },
-                        callback: (value) => window.innerWidth < 640 ? `R$ ${value}` : `R$ ${value.toLocaleString("pt-BR")}`
+                        color: "#1e293b",
+                        font: { size: 10 },
+                        callback: (value) => `R$ ${value}`
                     },
-                    grid: { color: gridColor, drawBorder: false }
+                    grid: { color: "#e2e8f0" }
                 },
                 x: {
                     ticks: { 
-                        color: textColor, 
-                        maxRotation: 45,
-                        font: { size: window.innerWidth < 640 ? 8 : 10 }
+                        color: "#1e293b", 
+                        font: { size: 10 }
                     },
-                    grid: { color: gridColor, drawBorder: false }
+                    grid: { color: "#e2e8f0" }
                 }
             }
         }
@@ -1548,11 +1809,8 @@ function renderizarGraficoPagamentos(dados) {
         valores.push(1);
     }
 
-    const isDark = document.documentElement.classList.contains("dark");
-    const textColor = isDark ? "#e2e8f0" : "#1e293b";
-
     const cores = labels.map(label => {
-        return CORES_GRAFICOS.pagamentos[label] || "#64748b";
+        return CORES_GRAFICOS.pagamentos[label] || "#4b5563";
     });
 
     chartFormasPagamento = new Chart(ctx, {
@@ -1562,8 +1820,8 @@ function renderizarGraficoPagamentos(dados) {
             datasets: [{
                 data: valores,
                 backgroundColor: cores,
-                borderWidth: isDark ? 2 : 1,
-                borderColor: isDark ? "#1e293b" : "#ffffff"
+                borderWidth: 1,
+                borderColor: "#ffffff"
             }]
         },
         options: {
@@ -1573,8 +1831,8 @@ function renderizarGraficoPagamentos(dados) {
                 legend: {
                     position: "bottom",
                     labels: { 
-                        color: textColor, 
-                        font: { size: window.innerWidth < 640 ? 8 : 11, family: "'Plus Jakarta Sans', sans-serif" }
+                        color: "#1e293b", 
+                        font: { size: 11, family: "'Inter', sans-serif" }
                     }
                 },
                 tooltip: {
@@ -1679,10 +1937,7 @@ function limparFormLancar() {
     const hoje = new Date().toISOString().split("T")[0];
     document.getElementById("data").value = hoje;
     
-    if (document.getElementById("parcelas")) {
-        document.getElementById("parcelas").value = "1";
-    }
-    
+    document.getElementById("parcelas").value = "1";
     toggleCamposCartao();
 }
 
@@ -1777,7 +2032,6 @@ async function estornarRegistro(id, event) {
 function toggleCamposCartao() {
     const formaPagamento = document.getElementById("formaPagamento")?.value;
     const divCartaoInfo = document.getElementById("divCartaoInfo");
-    const infoFaturaAtual = document.getElementById("infoFaturaAtual");
     
     if (!divCartaoInfo) return;
 
@@ -1786,7 +2040,7 @@ function toggleCamposCartao() {
         atualizarInfoCartao();
     } else {
         divCartaoInfo.style.display = "none";
-        if (infoFaturaAtual) infoFaturaAtual.innerHTML = "💰 Pagamento à vista";
+        document.getElementById("infoFaturaAtual").innerHTML = "💰 Pagamento à vista";
     }
 }
 
@@ -1810,28 +2064,27 @@ function atualizarInfoCartao() {
             ];
 
             if (faturas.length > 0) {
-                const prim = faturas[0];
                 const valorParcela = valor / parcelas;
                 
                 let html = `
-                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-2 sm:p-3 rounded-lg mt-2">
-                        <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm">
-                            <span>📅</span>
-                            <span>1ª parcela em <strong>${mesesNomes[prim.mes - 1]}</strong></span>
+                    <div class="bg-[#f7fee7] p-3 rounded-lg">
+                        <div class="flex items-center gap-2 text-[#84cc16] text-sm mb-2">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>1ª parcela em <strong>${mesesNomes[faturas[0].mes - 1]}</strong></span>
                         </div>`;
 
                 if (parcelas > 1) {
-                    html += `<div class="text-[10px] sm:text-xs text-slate-500 mt-2">`;
-                    for (let i = 0; i < Math.min(parcelas, 2); i++) {
+                    html += `<div class="text-xs space-y-1">`;
+                    for (let i = 0; i < Math.min(parcelas, 3); i++) {
                         const fat = faturas[i];
                         html += `<div class="flex justify-between">
                             <span>Parcela ${i+1}:</span>
-                            <span class="font-mono">${mesesNomes[fat.mes - 1]}</span>
+                            <span>${mesesNomes[fat.mes - 1]}</span>
                             <span class="font-bold">R$ ${valorParcela.toFixed(2)}</span>
                         </div>`;
                     }
-                    if (parcelas > 2) {
-                        html += `<div class="text-center text-indigo-400 mt-1">+${parcelas - 2} parcelas</div>`;
+                    if (parcelas > 3) {
+                        html += `<div class="text-center text-[#84cc16] mt-1">+${parcelas - 3} parcelas</div>`;
                     }
                     html += `</div>`;
                 }
@@ -1841,22 +2094,18 @@ function atualizarInfoCartao() {
             }
         }
     } else {
-        infoFaturaAtual.innerHTML = '<div class="text-slate-500 text-xs sm:text-sm mt-1">💰 Pagamento à vista</div>';
+        infoFaturaAtual.innerHTML = '<div class="text-slate-500 text-sm">💰 Pagamento à vista</div>';
     }
 }
 
 function calcularFaturasCartao(dataCompra, parcelas, nomeCartao) {
-    if (!dataCompra || dataCompra === "") {
-        return [];
-    }
+    if (!dataCompra) return [];
     
     try {
         const cartao = configuracoesGlobais.cartoes.find(c => c.nome === nomeCartao) || configuracoesGlobais.cartoes[0];
         const data = new Date(dataCompra + "T12:00:00");
         
-        if (isNaN(data.getTime())) {
-            return [];
-        }
+        if (isNaN(data.getTime())) return [];
         
         const parcelasNum = parseInt(parcelas) || 1;
         const resultados = [];
@@ -1946,39 +2195,24 @@ function atualizarBarraProgressoVencimentos() {
         sum + (parseFloat(item.Valor || item.valor || 0)), 0
     );
     
-    const receitaMensal = configuracoesGlobais.salario || 5000;
+    const receitaMensal = configuracoesGlobais.salario || 4000;
     const porcentagemGasto = receitaMensal > 0 ? (totalPagoMesAtual / receitaMensal) * 100 : 0;
     const porcentagemExibida = Math.min(porcentagemGasto, 100);
     
-    const elTotalPendente = document.getElementById("totalPendenteMes");
-    if (elTotalPendente) {
-        elTotalPendente.innerText = totalMesAtual.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
+    document.getElementById("totalPendenteMes").innerText = totalMesAtual.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
     
-    const elPorcentagem = document.getElementById("porcentagemPagaMes");
-    if (elPorcentagem) {
-        elPorcentagem.innerText = `${porcentagemExibida.toFixed(1)}%`;
-    }
+    document.getElementById("porcentagemPagaMes").innerText = `${porcentagemExibida.toFixed(1)}%`;
+    document.getElementById("barraProgressoVencimentos").style.width = `${porcentagemExibida}%`;
     
-    const elBarra = document.getElementById("barraProgressoVencimentos");
-    if (elBarra) {
-        elBarra.style.width = `${porcentagemExibida}%`;
-        
-        if (porcentagemGasto >= 90) {
-            elBarra.style.backgroundColor = "#ef4444";
-        } else if (porcentagemGasto >= 70) {
-            elBarra.style.backgroundColor = "#f59e0b";
-        } else {
-            elBarra.style.backgroundColor = "#4f46e5";
-        }
-    }
-    
-    const elQtd = document.getElementById("qtdPendentes");
-    if (elQtd) {
-        elQtd.innerText = pendentes.length;
+    if (porcentagemGasto >= 90) {
+        document.getElementById("barraProgressoVencimentos").style.backgroundColor = "#dc2626";
+    } else if (porcentagemGasto >= 70) {
+        document.getElementById("barraProgressoVencimentos").style.backgroundColor = "#84cc16";
+    } else {
+        document.getElementById("barraProgressoVencimentos").style.backgroundColor = "#1f2937";
     }
 }
 
@@ -2025,15 +2259,13 @@ function renderizarFaturasCartao() {
                         faturasPorMes[chave][cartao] += valor;
                     }
                 }
-            } catch (e) {
-                console.error("Erro ao processar fatura:", e);
-            }
+            } catch (e) {}
         }
     });
 
     const mesesNomes = [
-        "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-        "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
     ];
 
     const chavesOrdenadas = Object.keys(faturasPorMes).sort((a, b) => {
@@ -2045,7 +2277,7 @@ function renderizarFaturasCartao() {
     let html = "";
 
     if (chavesOrdenadas.length === 0) {
-        html = '<div class="p-4 sm:p-8 text-center text-slate-400">Nenhuma fatura pendente</div>';
+        html = '<div class="text-center py-8 text-slate-400">Nenhuma fatura pendente</div>';
     } else {
         chavesOrdenadas.forEach(chave => {
             const [mes, ano] = chave.split("/").map(Number);
@@ -2055,20 +2287,16 @@ function renderizarFaturasCartao() {
             const nomeMes = !isNaN(mes) && mes >= 1 && mes <= 12 ? mesesNomes[mes - 1] : "Mês";
             
             html += `
-                <div class="border rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 hover:shadow-md transition">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <span class="font-bold text-indigo-600 text-sm sm:text-base">${nomeMes}/${ano}</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-indigo-600 text-sm sm:text-base">${totalFatura.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
-                        </div>
+                <div class="border rounded-xl p-4 hover:shadow-md transition">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-[#1f2937]">${nomeMes}/${ano}</span>
+                        <span class="font-bold text-[#84cc16]">${totalFatura.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
                     </div>`;
 
             Object.entries(cartoes).forEach(([cartao, valor]) => {
                 html += `
-                    <div class="flex justify-between items-center mt-1 sm:mt-2 text-xs sm:text-sm pl-2 border-l-2 border-indigo-200">
-                        <span class="text-slate-600 dark:text-slate-400">💳 ${cartao}</span>
+                    <div class="flex justify-between items-center mt-1 text-sm pl-2 border-l-2 border-[#84cc16]">
+                        <span class="text-slate-600">💳 ${cartao}</span>
                         <span class="font-medium">${(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
                     </div>`;
             });
@@ -2102,18 +2330,14 @@ function renderizarResumoCartoes() {
 
     Object.entries(resumo).forEach(([cartao, total]) => {
         html += `
-            <div class="flex justify-between items-center p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-xs sm:text-sm">
-                <div>
-                    <span class="font-bold">${cartao}</span>
-                </div>
-                <div>
-                    <span class="font-bold text-indigo-600">${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
-                </div>
+            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg text-sm">
+                <span class="font-bold">${cartao}</span>
+                <span class="font-bold text-[#84cc16]">${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
             </div>`;
     });
 
     if (Object.keys(resumo).length === 0) {
-        html = '<p class="text-slate-400 text-center py-3 sm:py-4 text-xs sm:text-sm">Nenhum débito no cartão</p>';
+        html = '<p class="text-slate-400 text-center py-4">Nenhum débito no cartão</p>';
     }
 
     container.innerHTML = html;
@@ -2130,7 +2354,7 @@ function renderizarTabelaCartao() {
     corpo.innerHTML = "";
 
     if (comprasCartao.length === 0) {
-        corpo.innerHTML = `<tr><td colspan="6" class="p-4 sm:p-8 text-center text-slate-400">Nenhuma compra no cartão</td></tr>`;
+        corpo.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400">Nenhuma compra no cartão</td></tr>`;
         return;
     }
 
@@ -2160,15 +2384,15 @@ function renderizarTabelaCartao() {
         });
 
         corpo.innerHTML += `
-            <tr class="border-b dark:border-slate-700">
-                <td class="p-2 sm:p-4 text-xs sm:text-sm">${descricao.substring(0, 12)}${descricao.length > 12 ? '...' : ''}</td>
-                <td class="p-2 sm:p-4 hide-on-mobile text-xs sm:text-sm">${cartao}</td>
-                <td class="p-2 sm:p-4 text-xs sm:text-sm">${parcelaAtual}/${totalParcelas}</td>
-                <td class="p-2 sm:p-4 hide-on-mobile text-xs sm:text-sm">${dataFormatada}</td>
-                <td class="p-2 sm:p-4 text-right font-bold text-xs sm:text-sm">${valorFormatado}</td>
-                <td class="p-2 sm:p-4 text-center">
-                    <span class="px-1 sm:px-2 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold uppercase ${status === 'Pago' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
-                        ${status === 'Pago' ? 'Pago' : 'Pend'}
+            <tr>
+                <td class="font-medium">${descricao.substring(0, 20)}${descricao.length > 20 ? '...' : ''}</td>
+                <td class="hide-on-mobile">${cartao}</td>
+                <td>${parcelaAtual}/${totalParcelas}</td>
+                <td class="hide-on-mobile">${dataFormatada}</td>
+                <td class="text-right font-bold text-[#84cc16]">${valorFormatado}</td>
+                <td class="text-center">
+                    <span class="badge ${status === 'Pago' ? 'badge-success' : 'badge-warning'}">
+                        ${status === 'Pago' ? 'Pago' : 'Pendente'}
                     </span>
                 </td>
             </tr>`;
@@ -2176,142 +2400,9 @@ function renderizarTabelaCartao() {
 }
 
 // ============================================
-// CONFIGURAÇÕES
-// ============================================
-function carregarConfiguracoes() {
-    const salvo = localStorage.getItem("configuracoesFinanWF");
-    if (salvo) {
-        try {
-            configuracoesGlobais = JSON.parse(salvo);
-        } catch (e) {}
-    }
-    
-    if (document.getElementById("inputSalario")) {
-        document.getElementById("inputSalario").value = configuracoesGlobais.salario || 5000;
-    }
-    
-    renderizarConfigCartoes();
-    atualizarSelectCartoes();
-}
-
-function renderizarConfigCartoes() {
-    const container = document.getElementById("containerCartoesConfig");
-    if (!container) return;
-
-    let html = "";
-
-    configuracoesGlobais.cartoes.forEach((cartao, index) => {
-        html += `
-            <div class="border rounded-xl p-2 sm:p-3 mb-2 sm:mb-3">
-                <div class="flex justify-between items-center">
-                    <input type="text" 
-                           id="cartaoNome_${index}" 
-                           value="${cartao.nome}"
-                           class="font-bold bg-transparent border-none focus:outline-none w-24 sm:w-32 text-xs sm:text-sm"
-                           placeholder="Nome">
-                    <button type="button" onclick="removerCartaoConfig(${index})" class="text-rose-500 text-[10px] sm:text-xs">
-                        Remover
-                    </button>
-                </div>
-                <div class="grid grid-cols-2 gap-1 sm:gap-2 mt-1 sm:mt-2">
-                    <div>
-                        <label class="text-[8px] sm:text-[10px] uppercase font-bold">Fechamento</label>
-                        <input type="number" 
-                               id="cartaoFechamento_${index}" 
-                               value="${cartao.fechamento}"
-                               class="w-full border p-1 sm:p-2 rounded-lg text-[10px] sm:text-xs"
-                               min="1" max="31">
-                    </div>
-                    <div>
-                        <label class="text-[8px] sm:text-[10px] uppercase font-bold">Vencimento</label>
-                        <input type="number" 
-                               id="cartaoVencimento_${index}" 
-                               value="${cartao.vencimento}"
-                               class="w-full border p-1 sm:p-2 rounded-lg text-[10px] sm:text-xs"
-                               min="1" max="31">
-                    </div>
-                </div>
-            </div>`;
-    });
-
-    container.innerHTML = html;
-}
-
-function adicionarCartaoConfig() {
-    configuracoesGlobais.cartoes.push({
-        nome: "Novo Cartão",
-        fechamento: 10,
-        vencimento: 15
-    });
-    renderizarConfigCartoes();
-}
-
-function removerCartaoConfig(index) {
-    if (configuracoesGlobais.cartoes.length > 1) {
-        configuracoesGlobais.cartoes.splice(index, 1);
-        renderizarConfigCartoes();
-    } else {
-        alert("É necessário manter pelo menos um cartão.");
-    }
-}
-
-function salvarConfiguracoes(event) {
-    event.preventDefault();
-    
-    if (document.getElementById("inputSalario")) {
-        configuracoesGlobais.salario = parseFloat(document.getElementById("inputSalario").value) || 5000;
-    }
-    
-    configuracoesGlobais.cartoes.forEach((cartao, index) => {
-        const nomeInput = document.getElementById(`cartaoNome_${index}`);
-        const fechamentoInput = document.getElementById(`cartaoFechamento_${index}`);
-        const vencimentoInput = document.getElementById(`cartaoVencimento_${index}`);
-        
-        if (nomeInput) cartao.nome = nomeInput.value;
-        if (fechamentoInput) cartao.fechamento = parseInt(fechamentoInput.value) || 10;
-        if (vencimentoInput) cartao.vencimento = parseInt(vencimentoInput.value) || 15;
-    });
-    
-    localStorage.setItem("configuracoesFinanWF", JSON.stringify(configuracoesGlobais));
-    
-    if (usuarioLogado) {
-        fetch(API_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                acao: "salvarConfiguracoes",
-                usuario: usuarioLogado,
-                salario: configuracoesGlobais.salario,
-                cartoes: configuracoesGlobais.cartoes
-            })
-        });
-    }
-    
-    alert("Configurações salvas com sucesso!");
-    atualizarSelectCartoes();
-    atualizarTabela();
-}
-
-function atualizarSelectCartoes() {
-    const selectCartao = document.getElementById("cartaoSelecionado");
-    if (!selectCartao) return;
-    
-    selectCartao.innerHTML = "";
-    
-    configuracoesGlobais.cartoes.forEach(cartao => {
-        const option = document.createElement("option");
-        option.value = cartao.nome;
-        option.textContent = cartao.nome;
-        selectCartao.appendChild(option);
-    });
-}
-
-// ============================================
 // FUNÇÕES DO MODAL DE PAGAMENTO DE FATURA
 // ============================================
 function abrirModalPagamentoFatura() {
-    // Gerar lista de faturas disponíveis
     const select = document.getElementById("selectFaturaModal");
     select.innerHTML = "";
     
@@ -2333,14 +2424,12 @@ function abrirModalPagamentoFatura() {
         select.appendChild(option);
     });
     
-    // Atualizar valor ao selecionar
     select.onchange = function() {
         const selected = select.options[select.selectedIndex];
         document.getElementById("valorFaturaModal").value = selected.dataset.valor ? 
             parseFloat(selected.dataset.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "R$ 0,00";
     };
     
-    // Selecionar primeira opção e atualizar valor
     if (faturas.length > 0) {
         select.selectedIndex = 0;
         select.onchange();
@@ -2361,7 +2450,7 @@ function gerarListaFaturas() {
         (item.Status !== "Pago")
     );
     
-    const faturasMap = new Map(); // Chave: mes/ano/cartao
+    const faturasMap = new Map();
     
     comprasCartao.forEach(item => {
         const dataCompra = item.Data || item.data || "";
@@ -2400,7 +2489,6 @@ function gerarListaFaturas() {
         }
     });
     
-    // Converter Map para array e ordenar
     const faturas = Array.from(faturasMap.values());
     faturas.sort((a, b) => {
         if (a.ano !== b.ano) return a.ano - b.ano;
@@ -2424,11 +2512,8 @@ async function confirmarPagamentoFatura() {
     const ano = selectedOption.dataset.ano;
     const cartao = selectedOption.dataset.cartao;
     
-    if (!confirm(`Confirmar pagamento da fatura de ${selectedOption.textContent}?`)) {
-        return;
-    }
+    if (!confirm(`Confirmar pagamento da fatura de ${selectedOption.textContent}?`)) return;
     
-    // Encontrar todas as compras desta fatura
     const comprasParaPagar = todosOsDados.filter(item => {
         if (item.Status === "Pago") return false;
         
@@ -2459,14 +2544,13 @@ async function confirmarPagamentoFatura() {
         return;
     }
     
-    const btn = document.querySelector("#modalPagamentoFatura button.bg-indigo-600");
+    const btn = document.querySelector("#modalPagamentoFatura button.bg-[#1f2937]");
     if (btn) {
         btn.innerText = "Processando...";
         btn.disabled = true;
     }
     
     try {
-        // Pagar cada compra individualmente
         for (const compra of comprasParaPagar) {
             const id = compra.ID || compra.id;
             if (id) {
@@ -2510,47 +2594,43 @@ function abrirModalPDF(tipo) {
     
     if (tipo === "vencimentos") {
         html = `
-            <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">📊 Contas a Pagar</h4>
-            <div class="space-y-2">
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-2">
+            <h4 class="font-bold mb-4">📊 Contas a Pagar</h4>
+            <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-3">
                     <span>Todas as contas pendentes</span>
                 </label>
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-2">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-3">
                     <span>Apenas mês atual</span>
                 </label>
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-2">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-3">
                     <span>Selecionar mês específico</span>
                 </label>
                 <div id="campoMesEspecifico" class="hidden mt-2">
-                    <select id="selectMesPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
-                        <!-- Preenchido via JS -->
-                    </select>
+                    <select id="selectMesPDF" class="w-full border rounded-lg p-3"></select>
                 </div>
             </div>
         `;
     } else if (tipo === "historico") {
         html = `
-            <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">📜 Histórico de Pagamentos</h4>
-            <div class="space-y-2">
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-2">
+            <h4 class="font-bold mb-4">📜 Histórico de Pagamentos</h4>
+            <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="todos" checked class="mr-3">
                     <span>Todos os pagamentos</span>
                 </label>
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-2">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="mesAtual" class="mr-3">
                     <span>Apenas mês atual</span>
                 </label>
-                <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-2">
+                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                    <input type="radio" name="pdfOpcao" value="selecionarMes" class="mr-3">
                     <span>Selecionar mês específico</span>
                 </label>
                 <div id="campoMesEspecifico" class="hidden mt-2">
-                    <select id="selectMesPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
-                        <!-- Preenchido via JS -->
-                    </select>
+                    <select id="selectMesPDF" class="w-full border rounded-lg p-3"></select>
                 </div>
             </div>
         `;
@@ -2558,21 +2638,21 @@ function abrirModalPDF(tipo) {
         const faturas = gerarListaFaturas();
         
         if (faturas.length === 0) {
-            html = `<p class="text-center text-slate-400 py-3 sm:py-4 text-xs sm:text-sm">Nenhuma fatura disponível</p>`;
+            html = `<p class="text-center text-slate-400 py-4">Nenhuma fatura disponível</p>`;
         } else {
             html = `
-                <h4 class="font-bold text-sm sm:text-base mb-2 sm:mb-3">💳 Faturas do Cartão</h4>
-                <div class="space-y-2">
-                    <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                        <input type="radio" name="pdfOpcao" value="todasFaturas" checked class="mr-2">
+                <h4 class="font-bold mb-4">💳 Faturas do Cartão</h4>
+                <div class="space-y-3">
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="pdfOpcao" value="todasFaturas" checked class="mr-3">
                         <span>Todas as faturas</span>
                     </label>
-                    <label class="flex items-center p-2 border rounded-lg text-xs sm:text-sm">
-                        <input type="radio" name="pdfOpcao" value="selecionarFatura" class="mr-2">
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="pdfOpcao" value="selecionarFatura" class="mr-3">
                         <span>Selecionar fatura específica</span>
                     </label>
                     <div id="campoFaturaEspecifica" class="hidden mt-2">
-                        <select id="selectFaturaPDF" class="w-full border rounded-lg p-2 text-xs sm:text-sm">
+                        <select id="selectFaturaPDF" class="w-full border rounded-lg p-3">
             `;
             
             faturas.forEach((fatura, index) => {
@@ -2589,7 +2669,6 @@ function abrirModalPDF(tipo) {
     
     modalContent.innerHTML = html;
     
-    // Adicionar event listeners para os radio buttons
     if (tipo === "vencimentos" || tipo === "historico") {
         const radios = document.querySelectorAll('input[name="pdfOpcao"]');
         radios.forEach(radio => {
@@ -2633,7 +2712,6 @@ function preencherSelectMeses() {
     
     select.innerHTML = "";
     
-    // Obter todos os meses únicos dos dados
     const mesesSet = new Set();
     
     todosOsDados.forEach(item => {
@@ -2651,7 +2729,7 @@ function preencherSelectMeses() {
     const mesesArray = Array.from(mesesSet).sort((a, b) => {
         const [mesA, anoA] = a.split("/").map(Number);
         const [mesB, anoB] = b.split("/").map(Number);
-        return anoB - anoA || mesB - mesA; // Mais recentes primeiro
+        return anoB - anoA || mesB - mesA;
     });
     
     const mesesNomes = [
@@ -2822,14 +2900,13 @@ function gerarPDFComDados(dados, titulo) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
-    // Calcular totais
     const totalGeral = dados.reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
     const totalPendente = dados.filter(item => item.Status !== "Pago").reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
     const totalPago = dados.filter(item => item.Status === "Pago").reduce((sum, item) => sum + (parseFloat(item.Valor || item.valor || 0)), 0);
     
     // Título
-    doc.setFontSize(18);
-    doc.setTextColor(79, 70, 229); // Indigo
+    doc.setFontSize(20);
+    doc.setTextColor(31, 41, 55);
     doc.text("FINANWF", 14, 20);
     
     doc.setFontSize(14);
@@ -2842,7 +2919,7 @@ function gerarPDFComDados(dados, titulo) {
     
     // Resumo
     doc.setFontSize(12);
-    doc.setTextColor(79, 70, 229);
+    doc.setTextColor(132, 204, 22);
     doc.text("Resumo", 14, 55);
     
     doc.setFontSize(10);
@@ -2857,7 +2934,6 @@ function gerarPDFComDados(dados, titulo) {
         doc.text(`Total Pago: ${totalPago.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`, 20, 77);
     }
     
-    // Tabela
     const tableColumn = ["Descrição", "Categoria", "Forma", "Vencimento", "Parcelas", "Valor", "Status"];
     const tableRows = [];
     
@@ -2880,7 +2956,7 @@ function gerarPDFComDados(dados, titulo) {
         }
         
         tableRows.push([
-            descricao.substring(0, 15) + (descricao.length > 15 ? "..." : ""),
+            descricao.substring(0, 20) + (descricao.length > 20 ? "..." : ""),
             categoria,
             forma,
             dataFormatada,
@@ -2895,7 +2971,7 @@ function gerarPDFComDados(dados, titulo) {
         head: [tableColumn],
         body: tableRows,
         theme: "striped",
-        headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255] },
+        headStyles: { fillColor: [31, 41, 55], textColor: [255, 255, 255] },
         styles: { fontSize: 8, cellPadding: 2 },
         columnStyles: {
             0: { cellWidth: 35 },
@@ -2908,7 +2984,6 @@ function gerarPDFComDados(dados, titulo) {
         }
     });
     
-    // Salvar PDF
     const nomeArquivo = `finanwf_${titulo.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
     doc.save(nomeArquivo);
 }
