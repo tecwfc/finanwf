@@ -288,39 +288,32 @@
     <!-- ============================================ -->
     <div id="app" class="hidden min-h-screen md:pb-0">
         <!-- Header -->
-        <header class="bg-[#1a1e26]/80 backdrop-blur-lg border-b border-slate-800 sticky top-0 z-10">
-            <div class="container mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div class="flex items-center gap-2">
-                        <img src="assets/logo_finaceiro.png" alt="FinanWF Logo" onerror="this.style.display='none'"
-                            class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain">
-                        <span class="text-xl sm:text-2xl md:text-3xl font-black">
-                            <span class="text-white">FINAN</span><span class="text-[#84cc16]">WF</span>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-[#2a2f3a] rounded-xl">
-                        <i class="fas fa-user-circle text-[#84cc16] text-sm sm:text-base"></i>
-                        <span id="nomeUsuarioLogado" class="text-xs sm:text-sm font-bold text-white"></span>
-                    </div>
-
-                    <button onclick="fazerLogout()" 
-                            class="p-2 sm:p-2.5 rounded-xl hover:bg-rose-500/10 text-rose-400 transition touch-button"
-                            title="Sair do sistema">
-                        <i class="fas fa-sign-out-alt text-sm sm:text-base"></i>
-                    </button>
-                    
-                    <button onclick="logoutEmergencia()" 
-                            class="p-2 sm:p-2.5 rounded-xl hover:bg-amber-500/10 text-amber-400 transition touch-button md:hidden"
-                            title="Logout forçado">
-                        <i class="fas fa-exclamation-triangle text-sm sm:text-base"></i>
-                    </button>
-                </div>
+   <header class="bg-[#1a1e26]/80 backdrop-blur-lg border-b border-slate-800 sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-2">
+                <img src="assets/logo_finaceiro.png" alt="FinanWF Logo" onerror="this.style.display='none'"
+                    class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain">
+                <span class="text-xl sm:text-2xl md:text-3xl font-black">
+                    <span class="text-white">FINAN</span><span class="text-[#84cc16]">WF</span>
+                </span>
             </div>
-           
-        </header>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-[#2a2f3a] rounded-xl">
+                <i class="fas fa-user-circle text-[#84cc16] text-sm sm:text-base"></i>
+                <span id="nomeUsuarioLogado" class="text-xs sm:text-sm font-bold text-white"></span>
+            </div>
+
+            <button onclick="fazerLogout()" 
+                    class="p-2 sm:p-2.5 rounded-xl hover:bg-rose-500/10 text-rose-400 transition touch-button"
+                    title="Sair do sistema">
+                <i class="fas fa-sign-out-alt text-sm sm:text-base"></i>
+            </button>
+        </div>
+    </div>
+</header>
 
          <!-- NAVEGAÇÃO MOBILE -->
     <div class="mobile-bottom-nav">
@@ -552,57 +545,67 @@
                     </div>
 
                     <!-- VENCIMENTOS -->
-                    <div id="tab-vencimentos" class="tab-content fade-in">
-                        <div class="bg-[#1a1e26] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                <h2 class="text-xl sm:text-2xl font-black text-white">⏰ Contas a Pagar</h2>
-                                <button onclick="abrirModalPDF('vencimentos')"
-                                    class="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 bg-[#2a2f3a] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-[#0f1217] transition touch-button flex items-center gap-2 justify-center text-sm sm:text-base">
-                                    <i class="fas fa-file-pdf"></i>
-                                    Gerar PDF
-                                </button>
-                            </div>
-                            <div class="mb-4 sm:mb-6 p-3 sm:p-4 bg-[#2a2f3a] rounded-xl">
-                                <div class="flex justify-between text-xs sm:text-sm mb-2">
-                                    <span class="font-medium text-white">💰 <span id="totalPendenteMes">R$ 0,00</span></span>
-                                    <span class="text-[#84cc16] font-bold"><span id="porcentagemPagaMes">0%</span> do orçamento</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div id="barraProgressoVencimentos" class="progress-bar-fill" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-xs">PARC</th>
-                                            <th class="text-xs">DESCRIÇÃO</th>
-                                            <th class="text-xs hide-mobile">PAGAMENTO</th>
-                                            <th class="text-xs">CATEGORIA</th>
-                                            <th class="text-xs">VENC</th>
-                                            <th class="text-xs text-right">VALOR</th>
-                                            <th class="text-xs text-center">AÇÃO</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="corpoTabelaVencimentos">
-                                        <tr><td colspan="7" class="text-center py-8 text-slate-400 text-sm">Carregando...</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+
+<div id="tab-vencimentos" class="tab-content fade-in">
+    <div class="bg-[#1a1e26] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-black text-white">⏰ Contas a Pagar</h2>
+            <button onclick="abrirModalPDF('vencimentos')"
+                class="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 bg-[#2a2f3a] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-[#0f1217] transition touch-button flex items-center gap-2 justify-center text-sm sm:text-base">
+                <i class="fas fa-file-pdf"></i>
+                Gerar PDF
+            </button>
+        </div>
+        <div class="mb-4 sm:mb-6 p-3 sm:p-4 bg-[#2a2f3a] rounded-xl">
+            <div class="flex justify-between text-xs sm:text-sm mb-2">
+                <span class="font-medium text-white">💰 <span id="totalPendenteMes">R$ 0,00</span></span>
+                <span class="text-[#84cc16] font-bold"><span id="porcentagemPagaMes">0%</span> do orçamento</span>
+            </div>
+            <div class="progress-bar">
+                <div id="barraProgressoVencimentos" class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-xs">PARC</th>
+                        <th class="text-xs">DESCRIÇÃO</th>
+                        <th class="text-xs hide-mobile">PAGAMENTO</th>
+                        <th class="text-xs">CATEGORIA</th>
+                        <th class="text-xs">VENC</th>
+                        <th class="text-xs text-right">VALOR</th>
+                        <th class="text-xs text-center" colspan="2">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaVencimentos">
+                    <tr><td colspan="8" class="text-center py-8 text-slate-400 text-sm">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
                     <!-- HISTÓRICO -->
-                    <div id="tab-historico" class="tab-content fade-in">
-                        <div class="bg-[#1a1e26] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                <h2 class="text-xl sm:text-2xl font-black text-white">📜 Histórico</h2>
-                                <button onclick="abrirModalPDF('historico')"
-                                    class="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 bg-[#2a2f3a] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-[#0f1217] transition touch-button flex items-center gap-2 justify-center text-sm sm:text-base">
-                                    <i class="fas fa-file-pdf"></i>
-                                    Gerar PDF
-                                </button>
-                            </div>
+                    <!-- HISTÓRICO -->
+<div id="tab-historico" class="tab-content fade-in">
+    <div class="bg-[#1a1e26] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-black text-white">📜 Histórico</h2>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <button onclick="abrirModalPDF('historico')"
+                    class="flex-1 sm:flex-none px-4 py-2 sm:px-6 sm:py-3 bg-[#2a2f3a] text-[#84cc16] rounded-xl hover:bg-[#84cc16] hover:text-[#0f1217] transition touch-button flex items-center gap-2 justify-center text-sm sm:text-base">
+                    <i class="fas fa-file-pdf"></i>
+                    PDF
+                </button>
+                <button onclick="confirmarLimparHistorico()"
+                    class="flex-1 sm:flex-none px-4 py-2 sm:px-6 sm:py-3 bg-rose-500/20 text-rose-400 rounded-xl hover:bg-rose-500 hover:text-white transition touch-button flex items-center gap-2 justify-center text-sm sm:text-base">
+                    <i class="fas fa-trash-alt"></i>
+                    Limpar Meu Histórico
+                </button>
+            </div>
+        </div>
+       
                             <div class="table-container">
                                 <table>
                                     <thead>
@@ -775,6 +778,74 @@
                     class="flex-1 bg-gradient-to-r from-[#84cc16] to-[#4d7c0f] text-[#0f1217] py-3 rounded-xl font-bold hover:opacity-90 transition touch-button text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[#84cc16]/30">
                     <i class="fas fa-file-pdf"></i>
                     Gerar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL CONFIRMAR EXCLUSÃO COM SENHA -->
+<div id="modalConfirmarExclusao" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[99999] p-4">
+    <div class="modal-content w-full max-w-md bg-[#1a1e26] rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-gradient-to-r from-rose-500 to-rose-700 p-5">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/20 rounded-xl p-3">
+                    <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-white">⚠️ ATENÇÃO!</h3>
+                    <p class="text-xs text-white/80">Confirme sua senha para excluir</p>
+                </div>
+            </div>
+            <button onclick="fecharModalExclusao()" class="absolute top-4 right-4 text-white/80 hover:text-white">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Corpo -->
+        <div class="p-5">
+            <div class="mb-4">
+                <p class="text-white text-sm mb-4">
+                    Esta ação irá <span class="text-rose-400 font-bold">PERMANENTEMENTE EXCLUIR</span> todos os seus registros do histórico.
+                </p>
+                
+                <div class="bg-[#0f1217] p-4 rounded-xl border border-slate-700 mb-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-slate-400">Usuário:</span>
+                        <span class="text-white font-bold" id="modalExclusaoUsuario"></span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">Registros a excluir:</span>
+                        <span class="text-white font-bold" id="modalExclusaoTotal">0</span>
+                    </div>
+                </div>
+                
+                <label class="block text-xs sm:text-sm font-bold mb-2 text-slate-400">
+                    <i class="fas fa-lock mr-1 text-rose-400"></i> DIGITE SUA SENHA PARA CONFIRMAR
+                </label>
+                <div class="password-container">
+                    <input type="password" id="inputSenhaExclusao"
+                        class="w-full border-2 border-slate-700 rounded-xl p-3 sm:p-4 text-sm sm:text-base focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition touch-button"
+                        placeholder="••••••">
+                    <button type="button" onclick="toggleSenha('inputSenhaExclusao', this)" class="password-toggle">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Botões -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="fecharModalExclusao()"
+                    class="flex-1 border-2 border-slate-600 py-3 rounded-xl font-bold hover:bg-[#2a2f3a] transition touch-button text-white text-sm sm:text-base">
+                    Cancelar
+                </button>
+                <button onclick="executarLimpezaComSenha()"
+                    class="flex-1 bg-gradient-to-r from-rose-500 to-rose-700 text-white py-3 rounded-xl font-bold hover:opacity-90 transition touch-button text-sm sm:text-base">
+                    <i class="fas fa-trash-alt mr-2"></i>
+                    Confirmar Exclusão
                 </button>
             </div>
         </div>
