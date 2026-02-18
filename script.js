@@ -257,16 +257,6 @@ function fazerLogout() {
     mostrarAba("login");
   }
 }
-
-// ============================================
-// FUNÇÃO DE EMERGÊNCIA
-// ============================================
-function logoutEmergencia() {
-  console.log("Logout de emergência");
-  localStorage.clear();
-  window.location.reload();
-}
-
 // ============================================
 // FUNÇÃO JSONP
 // ============================================
@@ -823,7 +813,7 @@ function renderizarLinhas(lista, id) {
   corpo.innerHTML = "";
 
   if (!lista || lista.length === 0) {
-    corpo.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 text-sm">Nenhuma conta pendente</td></tr>`;
+    corpo.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-400 text-sm">Nenhuma conta pendente</td></tr>`;
     return;
   }
 
@@ -893,7 +883,16 @@ function renderizarLinhas(lista, id) {
         <td class="text-center font-mono text-white text-xs sm:text-sm">${dataFormatada}</td>
         <td class="text-right font-bold text-[#84cc16] text-xs sm:text-sm">${valorFormatado}</td>
         <td class="text-center">
-          <button onclick="marcarComoPago('${idItem}', event)" class="action-button">Pagar</button>
+          <button onclick="marcarComoPago('${idItem}', event)" class="action-button" title="Pagar">
+            <i class="fas fa-check"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button onclick="confirmarExcluirLancamento('${idItem}', '${descricao.replace(/'/g, "\\'")}', event)" 
+                  class="action-button bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white" 
+                  title="Excluir lançamento">
+            <i class="fas fa-trash"></i>
+          </button>
         </td>
       </tr>`;
   });
@@ -2575,32 +2574,76 @@ function formatarMoedaSemSimbolo(valor) {
 }
 
 // ============================================
-// FUNÇÕES DO MENU FIXO
+// CONFIRMAR EXCLUSÃO DE LANÇAMENTO
 // ============================================
-// function garantirMenuFixo() {
-//   const menu = document.querySelector(".mobile-bottom-nav");
-//   if (menu) {
-//     menu.style.position = "fixed";
-//     menu.style.bottom = "0";
-//     menu.style.left = "0";
-//     menu.style.right = "0";
-//     menu.style.zIndex = "999999";
-//     menu.style.display = window.innerWidth <= 768 ? "flex" : "none";
-//   }
+function confirmarExcluirLancamento(id, descricao, event) {
+  if (!id) {
+    alert("ID do registro não encontrado");
+    return;
+  }
 
-//   if (window.innerWidth <= 768) {
-//     document.body.style.paddingBottom = "70px";
-//   } else {
-//     document.body.style.paddingBottom = "0";
-//   }
-// }
+  const confirmacao = confirm(
+    `⚠️ EXCLUIR LANÇAMENTO?\n\n` +
+    `Descrição: ${descricao}\n` +
+    `ID: ${id}\n\n` +
+    `Esta ação irá REMOVER PERMANENTEMENTE este lançamento.\n` +
+    `📌 Esta ação NÃO pode ser desfeita.\n\n` +
+    `Deseja realmente excluir?`
+  );
 
-// window.addEventListener("load", garantirMenuFixo);
-// window.addEventListener("resize", garantirMenuFixo);
-// window.addEventListener("scroll", garantirMenuFixo);
-// document.addEventListener("DOMContentLoaded", garantirMenuFixo);
-// setInterval(garantirMenuFixo, 1000);
+  if (confirmacao) {
+    excluirLancamento(id, event);
+  }
+}
 
+// ============================================
+// EXCLUIR LANÇAMENTO (APENAS PENDENTES)
+// ============================================
+async function excluirLancamento(id, event) {
+  if (!id) {
+    alert("ID do registro não encontrado");
+    return;
+  }
+
+  if (!usuarioLogado) {
+    alert("❌ Usuário não identificado. Faça login novamente.");
+    return;
+  }
+
+  const btn = event?.target?.closest('button') || event?.target;
+  if (btn) {
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+  }
+
+  try {
+    console.log("🗑️ Excluindo lançamento:", id, "do usuário:", usuarioLogado);
+    
+    const url = `${API_URL}?acao=excluirLancamento&id=${encodeURIComponent(id)}&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+    
+    const response = await fetch(url);
+    const resultado = await response.json();
+
+    if (resultado.sucesso) {
+      alert("✅ Lançamento excluído com sucesso!");
+      
+      // Recarrega os dados
+      await atualizarTabela();
+      
+    } else {
+      alert("❌ Erro ao excluir: " + (resultado.erro || "Erro desconhecido"));
+    }
+  } catch (error) {
+    console.error("❌ Erro na requisição:", error);
+    alert("❌ Erro de conexão. Tente novamente.");
+  } finally {
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-trash"></i>';
+      btn.disabled = false;
+    }
+  }
+}
 // ============================================
 // FUNÇÕES DO MENU FIXO - VERSÃO CORRIGIDA
 // ============================================
@@ -2914,8 +2957,239 @@ function abrirModalPDF(tipo) {
     document.getElementById("modalPDF").classList.add("flex");
 }
 
+// ============================================
+// FUNÇÃO PARA LIMPAR HISTÓRICO DO USUÁRIO
+// ============================================
+// Variável global para armazenar dados da exclusão
+let exclusaoPendente = {
+    totalRegistros: 0
+};
 
+// ============================================
+// FUNÇÃO PARA ABRIR MODAL DE CONFIRMAÇÃO
+// ============================================
+function confirmarLimparHistorico() {
+    // Verificação reforçada
+    verificarUsuarioLogado();
+    
+    if (!usuarioLogado) {
+        alert("❌ Usuário não identificado. Tente fazer login novamente.");
+        return;
+    }
 
+    const totalRegistros = todosOsPagos.length;
+    
+    if (totalRegistros === 0) {
+        alert("📭 Seu histórico já está vazio. Nenhum registro para limpar.");
+        return;
+    }
+
+    // Salva os dados para uso posterior
+    exclusaoPendente = {
+        totalRegistros: totalRegistros,
+        usuario: usuarioLogado
+    };
+
+    // Atualiza o modal
+    document.getElementById("modalExclusaoUsuario").innerText = usuarioLogado;
+    document.getElementById("modalExclusaoTotal").innerText = totalRegistros;
+    
+    // Limpa o campo de senha
+    document.getElementById("inputSenhaExclusao").value = "";
+    
+    // Abre o modal
+    document.getElementById("modalConfirmarExclusao").classList.remove("hidden");
+    document.getElementById("modalConfirmarExclusao").classList.add("flex");
+}
+
+// ============================================
+// FECHAR MODAL
+// ============================================
+function fecharModalExclusao() {
+    document.getElementById("modalConfirmarExclusao").classList.add("hidden");
+    document.getElementById("modalConfirmarExclusao").classList.remove("flex");
+    document.getElementById("inputSenhaExclusao").value = "";
+}
+
+// ============================================
+// EXECUTAR LIMPEZA COM VERIFICAÇÃO DE SENHA
+// ============================================
+async function executarLimpezaComSenha() {
+    const senha = document.getElementById("inputSenhaExclusao").value.trim();
+    
+    if (!senha) {
+        alert("❌ Digite sua senha para confirmar a exclusão.");
+        return;
+    }
+
+    if (!usuarioLogado) {
+        alert("❌ Usuário não identificado. Faça login novamente.");
+        fecharModalExclusao();
+        return;
+    }
+
+    // Fecha o modal
+    fecharModalExclusao();
+
+    // Desabilita o botão original
+    const btn = document.querySelector('#tab-historico button.bg-rose-500\\/20');
+    if (btn) {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verificando...';
+        btn.disabled = true;
+    }
+
+    try {
+        // PRIMEIRO: Verifica se a senha está correta
+        console.log("🔐 Verificando senha para:", usuarioLogado);
+        
+        const urlVerificar = `${API_URL}?acao=verificarSenha&email=${encodeURIComponent(usuarioLogado)}&senha=${encodeURIComponent(senha)}&_=${Date.now()}`;
+        
+        const responseVerificar = await fetch(urlVerificar);
+        const resultadoVerificar = await responseVerificar.json();
+
+        if (!resultadoVerificar.valido) {
+            alert("❌ Senha incorreta! Operação cancelada.");
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-trash-alt mr-2"></i> Limpar Meu Histórico';
+                btn.disabled = false;
+            }
+            return;
+        }
+
+        console.log("✅ Senha verificada, prosseguindo com exclusão...");
+
+        // SEGUNDO: Executa a limpeza
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Excluindo...';
+        }
+
+        const urlLimpar = `${API_URL}?acao=limparHistorico&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+        
+        const responseLimpar = await fetch(urlLimpar);
+        const resultadoLimpar = await responseLimpar.json();
+
+        if (resultadoLimpar.sucesso) {
+            alert(`✅ Histórico limpo com sucesso!\n\n📊 Total de registros removidos: ${resultadoLimpar.totalRemovido || 0}`);
+            
+            // Atualiza a lista local
+            todosOsPagos = [];
+            
+            // Atualiza a tabela
+            renderizarLinhasPagos([], "corpoTabelaPagos");
+            
+            // Atualiza os cards
+            const pendentes = todosOsDados.filter(item => item.Status !== "Pago");
+            atualizarCardsFinanceiros(pendentes, []);
+            
+            // Recarrega os dados completos para garantir consistência
+            await atualizarTabela();
+            
+        } else {
+            alert("❌ Erro ao limpar histórico: " + (resultadoLimpar.erro || "Erro desconhecido"));
+        }
+    } catch (error) {
+        console.error("❌ Erro na requisição:", error);
+        alert("❌ Erro de conexão. Verifique sua internet e tente novamente.");
+    } finally {
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-trash-alt mr-2"></i> Limpar Meu Histórico';
+            btn.disabled = false;
+        }
+    }
+}
+
+async function limparHistoricoUsuario() {
+    if (!usuarioLogado) {
+        alert("❌ Usuário não identificado. Faça login novamente.");
+        return;
+    }
+
+    console.log("🔄 Usuário logado:", usuarioLogado); // Debug
+
+    const btn = document.querySelector('#tab-historico button.bg-rose-500\\/20');
+    if (btn) {
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Limpando...';
+        btn.disabled = true;
+    }
+
+    try {
+        // CORREÇÃO: Passar o usuário como parâmetro na URL corretamente
+        const url = `${API_URL}?acao=limparHistorico&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+        
+        console.log("📤 Enviando requisição:", url);
+        
+        const response = await fetch(url);
+        const resultado = await response.json();
+
+        console.log("📥 Resposta:", resultado);
+
+        if (resultado.sucesso) {
+            alert(`✅ Histórico limpo com sucesso!\n\n📊 Total de registros removidos: ${resultado.totalRemovido || 0}`);
+            
+            // Atualiza a lista local
+            todosOsPagos = [];
+            
+            // Atualiza a tabela
+            renderizarLinhasPagos([], "corpoTabelaPagos");
+            
+            // Atualiza os cards
+            const pendentes = todosOsDados.filter(item => item.Status !== "Pago");
+            atualizarCardsFinanceiros(pendentes, []);
+            
+            // Recarrega os dados completos para garantir consistência
+            await atualizarTabela();
+            
+        } else {
+            alert("❌ Erro ao limpar histórico: " + (resultado.erro || "Erro desconhecido"));
+        }
+    } catch (error) {
+        console.error("❌ Erro na requisição:", error);
+        alert("❌ Erro de conexão. Verifique sua internet e tente novamente.");
+    } finally {
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-trash-alt mr-2"></i> Limpar Meu Histórico';
+            btn.disabled = false;
+        }
+    }
+}
+
+// Função de emergência para limpar histórico local (caso a API falhe)
+function limparHistoricoLocal() {
+    if (!usuarioLogado) return;
+    
+    const confirmacao = confirm(
+        "⚠️ Limpeza LOCAL apenas?\n\n" +
+        "Isso limpará apenas a visualização, mas os dados permanecerão na planilha.\n\n" +
+        "Deseja continuar?"
+    );
+    
+    if (confirmacao) {
+        todosOsPagos = [];
+        renderizarLinhasPagos([], "corpoTabelaPagos");
+        atualizarCardsFinanceiros(
+            todosOsDados.filter(item => item.Status !== "Pago"), 
+            []
+        );
+        alert("✅ Histórico limpo localmente. Os dados ainda estão na planilha.");
+    }
+}
+
+// Função para debug - verificar usuário logado
+function verificarUsuarioLogado() {
+    console.log("🔍 Verificando usuário logado:");
+    console.log("usuarioLogado:", usuarioLogado);
+    console.log("localStorage userFinan:", localStorage.getItem("userFinan"));
+    console.log("localStorage logadoFinan:", localStorage.getItem("logadoFinan"));
+    
+    if (!usuarioLogado && localStorage.getItem("logadoFinan") === "true") {
+        // Tenta recuperar do localStorage
+        usuarioLogado = localStorage.getItem("userFinan");
+        console.log("🔄 Usuário recuperado do localStorage:", usuarioLogado);
+    }
+    
+    return usuarioLogado;
+}
 
 
 window.addEventListener("appinstalled", (evt) => {
