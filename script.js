@@ -4,7 +4,9 @@
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxkf7CiS7Gah22rQypyIvkuJIqa8na_flRc4HpZKL6XPocevUv0EFTlqNmuZvOHzQp5mw/exec";
+ 
   
+let origemExclusaoAtual = 'historico'; 
 let usuarioLogado = "";
 let todosOsDados = [];
 let todosOsPagos = [];
@@ -888,7 +890,7 @@ function renderizarLinhas(lista, id) {
           </button>
         </td>
         <td class="text-center">
-          <button onclick="confirmarExcluirLancamento('${idItem}', '${descricao.replace(/'/g, "\\'")}', event)" 
+          <button onclick="abrirModalExclusaoOpcoesVencimentos('${idItem}', '${descricao.replace(/'/g, "\\'")}', '${categoria.replace(/'/g, "\\'")}', ${valor})" 
                   class="action-button bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white" 
                   title="Excluir lançamento">
             <i class="fas fa-trash"></i>
@@ -905,7 +907,7 @@ function renderizarLinhasPagos(lista, id) {
   corpo.innerHTML = "";
 
   if (!lista || lista.length === 0) {
-    corpo.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 text-sm">Nenhum registro pago</td></tr>`;
+    corpo.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-400 text-sm">Nenhum registro pago</td></tr>`;
     return;
   }
 
@@ -955,6 +957,7 @@ function renderizarLinhasPagos(lista, id) {
 
     const corCategoria = CORES_CAT[categoria] || CORES_CAT["Outros"];
 
+    // CORREÇÃO: Ajuste na estrutura das células
     corpo.innerHTML += `
       <tr>
         <td class="font-mono text-slate-400 text-xs sm:text-sm">${parcela}/${totalParcelas}</td>
@@ -969,8 +972,13 @@ function renderizarLinhasPagos(lista, id) {
         <td class="text-right font-bold text-[#84cc16] text-xs sm:text-sm">${valorFormatado}</td>
         <td class="text-center">
           <button onclick="estornarRegistro('${idItem}', event)" 
-                  class="text-[#84cc16] font-bold text-xs sm:text-sm hover:text-[#4d7c0f] transition hover:underline touch-button">
+                  class="text-[#84cc16] font-bold text-xs sm:text-sm hover:text-[#4d7c0f] transition hover:underline touch-button mr-1">
             Estornar
+          </button>
+          <button onclick="abrirModalExclusaoOpcoes('${idItem}', '${descricao.replace(/'/g, "\\'")}', '${categoria.replace(/'/g, "\\'")}', ${valor})" 
+                  class="action-button bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white" 
+                  title="Excluir lançamento">
+            <i class="fas fa-trash"></i>
           </button>
         </td>
       </tr>`;
@@ -3197,3 +3205,655 @@ window.addEventListener("appinstalled", (evt) => {
   const btn = document.getElementById("btnInstalarPWA");
   if (btn) btn.remove();
 });
+// ============================================
+// VARIÁVEIS GLOBAIS PARA EXCLUSÃO
+// ============================================
+let exclusaoSelecionada = {
+    id: null,
+    descricao: '',
+    categoria: '',
+    valor: 0
+};
+
+let exclusaoSelecionadaVencimentos = {
+    id: null,
+    descricao: '',
+    categoria: '',
+    valor: 0
+};
+
+
+// ============================================
+// ABRIR MODAL DE EXCLUSÃO PARA HISTÓRICO
+// ============================================
+function abrirModalExclusaoOpcoes(id, descricao, categoria, valor) {
+    if (!id) {
+        alert("ID do registro não encontrado");
+        return;
+    }
+
+    origemExclusaoAtual = 'historico';
+
+    exclusaoSelecionada = {
+        id: id,
+        descricao: descricao,
+        categoria: categoria,
+        valor: valor
+    };
+
+    const itensMesmaCategoria = todosOsPagos.filter(item => {
+        const catItem = item.Categoria || item.categoria || "Outros";
+        return catItem === categoria;
+    });
+
+    document.getElementById("infoExclusaoOpcoes").innerHTML = `
+        <div class="bg-[#0f1217] p-4 rounded-xl border border-slate-700">
+            <div class="flex justify-between text-sm mb-2">
+                <span class="text-slate-400">Item selecionado:</span>
+                <span class="text-white font-bold">${descricao}</span>
+            </div>
+            <div class="flex justify-between text-sm mb-2">
+                <span class="text-slate-400">Categoria:</span>
+                <span class="text-white font-bold">${categoria}</span>
+            </div>
+            <div class="flex justify-between text-sm mb-2">
+                <span class="text-slate-400">Valor:</span>
+                <span class="text-[#84cc16] font-bold">R$ ${valor.toFixed(2)}</span>
+            </div>
+            <div class="flex justify-between text-sm pt-2 border-t border-slate-700">
+                <span class="text-slate-400">Total na categoria:</span>
+                <span class="text-white font-bold">${itensMesmaCategoria.length} item(s)</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById("infoCategoriaExclusao").innerHTML = 
+        `Remove TODOS os ${itensMesmaCategoria.length} lançamentos da categoria "${categoria}"`;
+
+    document.getElementById("inputSenhaExclusaoOpcoes").value = "";
+    
+    const modal = document.getElementById("modalExcluirOpcoes");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+}
+
+// ============================================
+// ABRIR MODAL DE EXCLUSÃO PARA VENCIMENTOS
+// ============================================
+
+// ============================================
+// ABRIR MODAL DE EXCLUSÃO PARA VENCIMENTOS - CORRIGIDO
+// ============================================
+function abrirModalExclusaoOpcoesVencimentos(id, descricao, categoria, valor) {
+    console.log("🔍 Abrindo modal VENCIMENTOS com:", { id, descricao, categoria, valor });
+    
+    if (!id) {
+        alert("ID do registro não encontrado");
+        return;
+    }
+
+    // Garantir que o ID seja string
+    const idStr = id.toString(); // <-- DEFINE A VARIÁVEL AQUI!
+    
+    origemExclusaoAtual = 'vencimentos';
+
+    exclusaoSelecionadaVencimentos = {
+        id: idStr,
+        descricao: descricao,
+        categoria: categoria,
+        valor: valor
+    };
+
+    // Buscar o item específico para confirmar
+    const itemExato = todosOsDados.find(item => {
+        const itemId = item.ID || item.id;
+        return itemId && itemId.toString() === idStr;
+    });
+
+    console.log("📦 Item encontrado para exclusão:", itemExato);
+
+    // Filtrar APENAS itens PENDENTES da mesma categoria
+    const itensMesmaCategoria = todosOsDados.filter(item => {
+        // Verifica se é pendente
+        const isPendente = item.Status === "Pendente" || !item.Status || item.Status === "";
+        if (!isPendente) return false;
+        
+        // Verifica a categoria
+        const catItem = item.Categoria || item.categoria || "Outros";
+        return catItem === categoria;
+    });
+
+    console.log(`📊 Encontrados ${itensMesmaCategoria.length} itens pendentes na categoria ${categoria}`);
+
+    const valorTotal = itensMesmaCategoria.reduce((sum, item) => 
+        sum + parseFloat(item.Valor || item.valor || 0), 0);
+
+    const infoDiv = document.getElementById("infoExclusaoOpcoes");
+    if (infoDiv) {
+        infoDiv.innerHTML = `
+            <div class="bg-[#0f1217] p-4 rounded-xl border border-slate-700">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-400">ID do item:</span>
+                    <span class="text-white font-mono text-xs">${idStr}</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-400">Item selecionado:</span>
+                    <span class="text-white font-bold">${descricao}</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-400">Categoria:</span>
+                    <span class="text-white font-bold">${categoria}</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-400">Valor:</span>
+                    <span class="text-[#84cc16] font-bold">R$ ${valor.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between text-sm pt-2 border-t border-slate-700">
+                    <span class="text-slate-400">Total pendente:</span>
+                    <span class="text-white font-bold">${itensMesmaCategoria.length} item(s)</span>
+                </div>
+                ${itensMesmaCategoria.length > 0 ? `
+                <div class="flex justify-between text-sm mt-2 text-amber-400">
+                    <span>💰 Valor total:</span>
+                    <span class="font-bold">R$ ${valorTotal.toFixed(2)}</span>
+                </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    const infoCategoria = document.getElementById("infoCategoriaExclusao");
+    if (infoCategoria) {
+        infoCategoria.innerHTML = 
+            `Remove TODOS os ${itensMesmaCategoria.length} lançamentos PENDENTES da categoria "${categoria}"`;
+    }
+
+    document.getElementById("inputSenhaExclusaoOpcoes").value = "";
+    
+    // Resetar radio buttons
+    const radioUnico = document.getElementById("radioUnico");
+    const radioCategoria = document.getElementById("radioCategoria");
+    if (radioUnico) radioUnico.checked = true;
+    if (radioCategoria) radioCategoria.checked = false;
+    
+    const modal = document.getElementById("modalExcluirOpcoes");
+    if (modal) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        modal.style.display = "flex";
+    }
+}
+
+// ============================================
+// EXECUTAR EXCLUSÃO COM A OPÇÃO ESCOLHIDA
+// ============================================
+
+async function executarExclusaoComOpcao() {
+    const senha = document.getElementById("inputSenhaExclusaoOpcoes").value.trim();
+    const opcao = document.querySelector('input[name="opcaoExclusao"]:checked')?.value;
+    
+    if (!senha) {
+        alert("❌ Digite sua senha para confirmar a exclusão.");
+        return;
+    }
+
+    if (!usuarioLogado) {
+        alert("❌ Usuário não identificado. Faça login novamente.");
+        fecharModalExcluirOpcoes();
+        return;
+    }
+
+    const dadosSelecionados = origemExclusaoAtual === 'vencimentos' 
+        ? exclusaoSelecionadaVencimentos 
+        : exclusaoSelecionada;
+
+    if (!dadosSelecionados || !dadosSelecionados.id) {
+        alert("❌ Nenhum item selecionado para exclusão.");
+        fecharModalExcluirOpcoes();
+        return;
+    }
+
+    // Fecha o modal imediatamente para feedback visual
+    fecharModalExcluirOpcoes();
+
+    try {
+        // PRIMEIRO: Verifica se a senha está correta
+        const urlVerificar = `${API_URL}?acao=verificarSenha&email=${encodeURIComponent(usuarioLogado)}&senha=${encodeURIComponent(senha)}&_=${Date.now()}`;
+        
+        const responseVerificar = await fetch(urlVerificar);
+        const resultadoVerificar = await responseVerificar.json();
+
+        if (!resultadoVerificar.valido) {
+            alert("❌ Senha incorreta! Operação cancelada.");
+            return;
+        }
+
+        // SEGUNDO: Executa a exclusão baseada na opção
+        if (opcao === 'unico') {
+            await excluirUnicoItem(dadosSelecionados.id);
+        } else if (opcao === 'categoria') {
+            await excluirTodosDaCategoria(dadosSelecionados.categoria);
+        }
+
+    } catch (error) {
+        console.error("❌ Erro:", error);
+        alert("❌ Erro de conexão. Tente novamente.");
+    }
+}
+// ============================================
+// EXCLUIR APENAS UM ITEM
+// ============================================
+// ============================================
+// EXCLUIR APENAS UM ITEM (JAVASCRIPT - VERSÃO CORRIGIDA)
+// ============================================
+async function excluirUnicoItem(id) {
+    if (!id || !usuarioLogado) {
+        alert("❌ Dados inválidos para exclusão.");
+        return;
+    }
+
+    console.log("🔍 JavaScript - Excluindo ID:", id);
+    
+    // Mostrar loading
+    const btn = event?.target;
+    const textoOriginal = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Excluindo...';
+        btn.disabled = true;
+    }
+
+    try {
+        // ENVIAR PARA O APPS SCRIPT VIA GET
+        const url = `${API_URL}?acao=excluirLancamento&id=${encodeURIComponent(id)}&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+        
+        console.log("📤 Enviando requisição para Apps Script:", url);
+        
+        const response = await fetch(url);
+        const resultado = await response.json();
+        
+        console.log("📥 Resposta do Apps Script:", resultado);
+
+        if (resultado.sucesso) {
+            // Remover localmente
+            const indexDados = todosOsDados.findIndex(item => {
+                const itemId = item.ID || item.id;
+                return itemId && itemId.toString() === id.toString();
+            });
+            
+            if (indexDados !== -1) {
+                todosOsDados.splice(indexDados, 1);
+            }
+            
+            const indexPagos = todosOsPagos.findIndex(item => {
+                const itemId = item.ID || item.id;
+                return itemId && itemId.toString() === id.toString();
+            });
+            
+            if (indexPagos !== -1) {
+                todosOsPagos.splice(indexPagos, 1);
+            }
+            
+            await atualizarTabela();
+            alert("✅ Item excluído com sucesso!");
+            
+        } else {
+            alert("❌ Erro ao excluir: " + (resultado.erro || "Erro desconhecido"));
+        }
+        
+    } catch (error) {
+        console.error("❌ Erro no JavaScript:", error);
+        alert("❌ Erro de conexão. Tente novamente.");
+    } finally {
+        if (btn) {
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
+        }
+    }
+}
+
+// ============================================
+// CORREÇÃO 4: Função de emergência se não excluir
+// ============================================
+async function excluirDiretoAPI(id) {
+    if (!id || !usuarioLogado) return false;
+    
+    try {
+        // Tentar GET primeiro
+        const url = `${API_URL}?acao=excluirLancamento&id=${encodeURIComponent(id)}&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+        
+        // Usar imagem/iframe como fallback
+        const img = new Image();
+        img.src = url;
+        
+        // Aguardar um pouco
+        await new Promise(r => setTimeout(r, 1000));
+        
+        return true;
+    } catch (e) {
+        console.error("Fallback falhou:", e);
+        return false;
+    }
+}
+// ============================================
+// EXCLUIR TODOS DA MESMA CATEGORIA
+// ============================================
+
+// ============================================
+// EXCLUIR TODOS DA MESMA CATEGORIA - VERSÃO CORRIGIDA
+// ============================================
+async function excluirTodosDaCategoria(categoria) {
+    if (!categoria || !usuarioLogado) {
+        alert("❌ Dados inválidos para exclusão.");
+        return;
+    }
+
+    try {
+        // FILTRAR CORRETAMENTE os itens com base na origem
+        let itensParaExcluir = [];
+        
+        if (origemExclusaoAtual === 'historico') {
+            // Para histórico, pega TODOS os pagos da categoria
+            itensParaExcluir = todosOsPagos.filter(item => {
+                const catItem = item.Categoria || item.categoria || "Outros";
+                return catItem === categoria;
+            });
+            console.log("📊 Excluindo do HISTÓRICO:", itensParaExcluir.length, "itens");
+        } else {
+            // Para vencimentos, pega APENAS os PENDENTES da categoria
+            itensParaExcluir = todosOsDados.filter(item => {
+                // Verifica se é pendente
+                const isPendente = item.Status === "Pendente" || !item.Status || item.Status === "";
+                if (!isPendente) return false;
+                
+                // Verifica a categoria
+                const catItem = item.Categoria || item.categoria || "Outros";
+                return catItem === categoria;
+            });
+            console.log("📊 Excluindo de VENCIMENTOS (PENDENTES):", itensParaExcluir.length, "itens");
+        }
+
+        if (itensParaExcluir.length === 0) {
+            alert(`Nenhum item encontrado na categoria "${categoria}"`);
+            return;
+        }
+
+        const valorTotal = itensParaExcluir.reduce((sum, item) => 
+            sum + parseFloat(item.Valor || item.valor || 0), 0);
+
+        // CONFIRMAÇÃO com detalhes específicos
+        const tipoExclusao = origemExclusaoAtual === 'historico' ? 'HISTÓRICO' : 'CONTAS PENDENTES';
+        
+        if (!confirm(
+            `⚠️ CONFIRMAR EXCLUSÃO EM MASSA\n\n` +
+            `📍 Origem: ${tipoExclusao}\n` +
+            `📁 Categoria: ${categoria}\n` +
+            `📊 Total de itens: ${itensParaExcluir.length}\n` +
+            `💰 Valor total: R$ ${valorTotal.toFixed(2)}\n\n` +
+            `📋 Primeiros itens:\n` +
+            itensParaExcluir.slice(0, 3).map(item => 
+                `  • ${item.Descrição || item.Descricao}: R$ ${parseFloat(item.Valor || item.valor || 0).toFixed(2)}`
+            ).join('\n') +
+            (itensParaExcluir.length > 3 ? `\n  • ... e mais ${itensParaExcluir.length - 3} itens` : '') +
+            `\n\n🚨 Esta ação é PERMANENTE e NÃO pode ser desfeita!`
+        )) return;
+
+        // Mostrar progresso
+        const progressMsg = document.createElement('div');
+        progressMsg.className = 'fixed top-4 right-4 bg-[#1a1e26] border border-[#84cc16] rounded-lg p-4 z-50 shadow-xl';
+        progressMsg.innerHTML = `
+            <div class="flex items-center gap-3">
+                <i class="fas fa-spinner fa-spin text-[#84cc16] text-xl"></i>
+                <div>
+                    <span class="text-white font-bold">Excluindo itens...</span>
+                    <span class="text-[#84cc16] block text-sm" id="progressoContador">0/${itensParaExcluir.length}</span>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(progressMsg);
+
+        let sucessos = 0;
+        let erros = 0;
+
+        // Excluir um por um
+        for (let i = 0; i < itensParaExcluir.length; i++) {
+            const item = itensParaExcluir[i];
+            const id = item.ID || item.id;
+            
+            if (id) {
+                try {
+                    console.log(`📤 Excluindo item ${i+1}/${itensParaExcluir.length}: ID ${id}`);
+                    
+                    // Usar GET em vez de POST para garantir resposta
+                    const url = `${API_URL}?acao=excluirLancamento&id=${encodeURIComponent(id)}&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+                    
+                    const response = await fetch(url);
+                    const resultado = await response.json();
+                    
+                    if (resultado.sucesso) {
+                        sucessos++;
+                        
+                        // Remover localmente
+                        const indexDados = todosOsDados.findIndex(d => {
+                            const did = d.ID || d.id;
+                            return did && did.toString() === id.toString();
+                        });
+                        if (indexDados !== -1) {
+                            todosOsDados.splice(indexDados, 1);
+                        }
+                        
+                        const indexPagos = todosOsPagos.findIndex(p => {
+                            const pid = p.ID || p.id;
+                            return pid && pid.toString() === id.toString();
+                        });
+                        if (indexPagos !== -1) {
+                            todosOsPagos.splice(indexPagos, 1);
+                        }
+                        
+                    } else {
+                        console.error("❌ Erro na API:", resultado);
+                        erros++;
+                    }
+                } catch (e) {
+                    console.error("❌ Erro no item:", id, e);
+                    erros++;
+                }
+            }
+            
+            // Atualizar progresso
+            const contador = document.getElementById('progressoContador');
+            if (contador) {
+                contador.innerText = `${i+1}/${itensParaExcluir.length}`;
+            }
+            
+            // Pequeno delay entre requisições
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+
+        // Remover mensagem de progresso
+        progressMsg.remove();
+
+        // Recarregar dados
+        await atualizarTabela();
+
+        // Mostrar resultado
+        if (erros === 0) {
+            alert(`✅ EXCLUSÃO EM MASSA CONCLUÍDA!\n\n` +
+                  `📍 Origem: ${tipoExclusao}\n` +
+                  `📁 Categoria: ${categoria}\n` +
+                  `✅ Itens excluídos: ${sucessos}\n` +
+                  `💰 Valor total: R$ ${valorTotal.toFixed(2)}`);
+        } else {
+            alert(`⚠️ EXCLUSÃO PARCIAL\n\n` +
+                  `📍 Origem: ${tipoExclusao}\n` +
+                  `📁 Categoria: ${categoria}\n` +
+                  `✅ Excluídos: ${sucessos}\n` +
+                  `❌ Falhas: ${erros}\n` +
+                  `💰 Valor: R$ ${valorTotal.toFixed(2)}\n\n` +
+                  `Alguns itens podem precisar ser excluídos manualmente.`);
+        }
+
+    } catch (error) {
+        console.error("❌ Erro na exclusão em massa:", error);
+        alert("❌ Erro ao processar exclusão em massa.");
+    }
+}
+/// ============================================
+// FECHAR MODAL DE EXCLUSÃO (COM VERIFICAÇÃO)
+// ============================================
+function fecharModalExcluirOpcoes() {
+    console.log("🔍 Fechando modal");
+    const modal = document.getElementById("modalExcluirOpcoes");
+    if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        modal.style.display = "none";
+    }
+    
+    const senhaInput = document.getElementById("inputSenhaExclusaoOpcoes");
+    if (senhaInput) {
+        senhaInput.value = "";
+    }
+    
+    // Resetar as opções para o padrão
+    const radioUnico = document.getElementById("radioUnico");
+    if (radioUnico) radioUnico.checked = true;
+}
+
+
+// ============================================
+// EXCLUIR LANÇAMENTO DA PLANILHA - VERSÃO CORRIGIDA
+// ============================================
+async function excluirLancamentoDaPlanilha(id) {
+    if (!id || !usuarioLogado) {
+        console.error("❌ Dados inválidos:", { id, usuarioLogado });
+        return false;
+    }
+
+    console.log("🗑️ Tentando excluir lançamento:", id);
+
+    try {
+        // Tenta primeiro com POST (mais confiável para no-cors)
+        const formData = new FormData();
+        formData.append('acao', 'excluirLancamento');
+        formData.append('id', id);
+        formData.append('usuario', usuarioLogado);
+        formData.append('timestamp', Date.now());
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        });
+
+        console.log("✅ Requisição de exclusão enviada");
+        
+        // Como é no-cors, não podemos verificar a resposta
+        // Mas vamos considerar como sucesso e recarregar
+        return true;
+
+    } catch (error) {
+        console.error("❌ Erro na exclusão:", error);
+        
+        // Fallback: tentar com GET
+        try {
+            console.log("🔄 Tentando fallback com GET...");
+            const url = `${API_URL}?acao=excluirLancamento&id=${encodeURIComponent(id)}&usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`;
+            
+            await fetch(url, {
+                method: 'GET',
+                mode: 'no-cors'
+            });
+            
+            return true;
+        } catch (fallbackError) {
+            console.error("❌ Fallback também falhou:", fallbackError);
+            return false;
+        }
+    }
+}
+
+
+
+
+// ============================================
+// FUNÇÃO PARA DEBUG - VERIFICAR IDs
+// ============================================
+function debugarIds() {
+    console.log("🔍 DEBUG - Verificando IDs nos dados:");
+    
+    console.log("\n📊 TODOS OS DADOS:");
+    todosOsDados.forEach((item, index) => {
+        console.log(`${index}:`, {
+            id: item.ID || item.id,
+            descricao: item.Descrição || item.Descricao,
+            categoria: item.Categoria || item.categoria,
+            status: item.Status
+        });
+    });
+    
+    console.log("\n📜 HISTÓRICO (PAGOS):");
+    todosOsPagos.forEach((item, index) => {
+        console.log(`${index}:`, {
+            id: item.ID || item.id,
+            descricao: item.Descrição || item.Descricao,
+            categoria: item.Categoria || item.categoria
+        });
+    });
+}
+
+
+// ============================================
+// RECARREGAR DADOS APÓS EXCLUSÃO
+// ============================================
+async function recarregarDadosAposExclusao() {
+    console.log("🔄 Recarregando todos os dados da planilha...");
+    
+    try {
+        const response = await fetch(`${API_URL}?usuario=${encodeURIComponent(usuarioLogado)}&_=${Date.now()}`);
+        const dados = await response.json();
+
+        if (dados.erro) {
+            console.error("❌ Erro ao recarregar:", dados.erro);
+            return false;
+        }
+
+        // Atualizar dados globais
+        todosOsDados = Array.isArray(dados) ? dados : [];
+        todosOsPagos = todosOsDados.filter(item => item.Status === "Pago");
+        
+        console.log("✅ Dados recarregados:", {
+            total: todosOsDados.length,
+            pagos: todosOsPagos.length,
+            pendentes: todosOsDados.length - todosOsPagos.length
+        });
+        
+        return true;
+    } catch (error) {
+        console.error("❌ Erro ao recarregar:", error);
+        return false;
+    }
+}
+
+// Garantir que todas as funções estejam disponíveis globalmente
+window.excluirUnicoItem = excluirUnicoItem;
+window.excluirTodosDaCategoria = excluirTodosDaCategoria;
+window.fecharModalExcluirOpcoes = fecharModalExcluirOpcoes;
+window.executarExclusaoComOpcao = executarExclusaoComOpcao;
+window.abrirModalExclusaoOpcoes = abrirModalExclusaoOpcoes;
+window.abrirModalExclusaoOpcoesVencimentos = abrirModalExclusaoOpcoesVencimentos;
+
+
+async function debugExclusao(id) {
+    console.log("🔍 DEBUG EXCLUSÃO");
+    console.log("ID:", id);
+    console.log("Usuário:", usuarioLogado);
+    console.log("URL:", `${API_URL}?acao=excluirLancamento&id=${id}&usuario=${usuarioLogado}`);
+    
+    try {
+        const response = await fetch(`${API_URL}?acao=excluirLancamento&id=${id}&usuario=${usuarioLogado}&_=${Date.now()}`);
+        const data = await response.json();
+        console.log("Resposta da API:", data);
+    } catch (e) {
+        console.error("Erro:", e);
+    }
+}
